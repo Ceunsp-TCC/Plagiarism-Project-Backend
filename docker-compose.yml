@@ -1,24 +1,20 @@
 version: "3.5"
 services:
-  default-project-adonis:
-    container_name: default-project-adonis
+  plagiarism-platform-backend:
+    container_name: plagiarism-platform-backend
     build: .
     restart: always
     ports:
-    - "3333:3333"
+    - "3335:3335"
     volumes:
-     - .:/app/default-project-adonis
-     - node-modules-default-project-adonis:/app/default-project-adonis/node_modules
+     - .:/app/plagiarism-platform-backend
+     - node-modules-plagiarism-platform-backend:/app/plagiarism-platform-backend/node_modules
     networks:
-      - default-project-adonis-network
-      - mysql-network
+      - plagiarism-platform-network
 volumes:
-  node-modules-default-project-adonis:
-   name: node-modules-default-project-adonis
+  node-modules-plagiarism-platform-backend:
+   name: node-modules-plagiarism-platform-backend
 networks:
-  default-project-adonis-network:
-   name: default-project-adonis-network
-   driver: bridge
-  mysql-network:
-   name: mysql-network
-   external: true
+   plagiarism-platform-network:
+    name: plagiarism-platform-network
+    driver: bridge

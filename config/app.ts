@@ -48,6 +48,8 @@ export const http: ServerConfig = {
   | so on.
   |
   */
+
+  useAsyncLocalStorage: true,
   allowMethodSpoofing: false,
 
   /*
@@ -87,7 +89,7 @@ export const http: ServerConfig = {
   | Whether or not to generate an etag for every response.
   |
   */
-  etag: false,
+  etag: true,
 
   /*
   |--------------------------------------------------------------------------

@@ -1,4 +1,4 @@
-cd /app/default-project-adonis/build
+cd /app/plagiarism-platform-backend/build
 
 node ace migration:run --force
 node ace swagger:generate

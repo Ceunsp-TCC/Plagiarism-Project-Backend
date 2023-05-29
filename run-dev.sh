@@ -1,4 +1,4 @@
-cd /app/default-project-adonis
+cd /app/plagiarism-platform-backend
 
 node ace serve --watch
 

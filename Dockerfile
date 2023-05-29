@@ -1,7 +1,7 @@
 FROM node:16.19-alpine
 
 
-WORKDIR /app/default-project-adonis
+WORKDIR /app/plagiarism-platform-backend
 
 
 COPY package*.json .

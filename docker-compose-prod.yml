@@ -1,28 +1,21 @@
 version: "3.5"
 
 services:
- default-project-adonis:
-  container_name: default-project-adonis
-  image: gabrielsoaresdev/projectdefaultadonis:latest
+ plagiarism-platform-backend:
+  container_name: plagiarism-platform-backend
+  # image: gabrielsoaresdev/projectdefaultadonis:latest
   restart: always
   ports:
-   - "3333:3333"
+   - "3335:3335"
   networks:
-   - mysql-network
    - proxy-reverse-network
-   - default-project-adonis-network
+   - plagiarism-platform-network
   env_file:
-    - stack.env
-
-
+     - stack.env
 networks:
-  default-project-adonis-network:
-   name: default-project-adonis-network
-   driver: bridge
-  mysql-network:
-   name: mysql-network
+  plagiarism-platform-network:
+   name: plagiarism-platform-network
    external: true
-
   proxy-reverse-network:
    name: proxy-reverse-network
    external: true
