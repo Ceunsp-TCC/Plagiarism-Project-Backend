@@ -14,8 +14,6 @@ jobs:
         with:
           username: ${{secrets.DOCKER_HUB_USERNAME}}
           password: ${{secrets.DOCKER_HUB_ACCESS_TOKEN}}
-      - name: Criando env
-        run: cat env-production >> .env
       - name: Build and push Docker images
         uses: docker/build-push-action@v2.3.0
         with:
