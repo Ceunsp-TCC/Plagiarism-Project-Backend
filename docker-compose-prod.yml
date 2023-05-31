@@ -11,8 +11,6 @@ services:
    - proxy-reverse-network
    - plagiarism-platform-network
    - postgres-network
-  env_file:
-     - env-production
 networks:
   plagiarism-platform-network:
    name: plagiarism-platform-network
