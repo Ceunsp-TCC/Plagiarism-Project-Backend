@@ -5,6 +5,8 @@ services:
   container_name: plagiarism-platform-backend
   image: gabrielsoaresdev/plagiarism-back:latest
   restart: always
+  env:
+  - stack.env
   ports:
    - "3335:3335"
   networks:
