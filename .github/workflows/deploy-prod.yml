@@ -1,9 +1,8 @@
 name: DEPLOY - PROD
 on:
-  workflow_dispatch:
   push:
     branches:
-      - main
+      - production
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -18,11 +17,9 @@ jobs:
       - name: Build and push Docker images
         uses: docker/build-push-action@v2.3.0
         with:
-          # Contexto onde está o arquivo Dockerfile, normalmente é .
           context: .
           file: Dockerfile.prod
-          # Qual a tag
-          tags: gabrielsoaresdev/projectdefaultadonis:latest
+          tags: gabrielsoaresdev/plagiarism-back:latest
           no-cache: true
           push: true
           github-token: ${{ secrets.GITHUB_TOKEN }}

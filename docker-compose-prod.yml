@@ -3,15 +3,16 @@ version: "3.5"
 services:
  plagiarism-platform-backend:
   container_name: plagiarism-platform-backend
-  # image: gabrielsoaresdev/projectdefaultadonis:latest
+  image: gabrielsoaresdev/plagiarism-back:latest
   restart: always
   ports:
    - "3335:3335"
   networks:
    - proxy-reverse-network
    - plagiarism-platform-network
+   - postgres-network
   env_file:
-     - stack.env
+     - env-production
 networks:
   plagiarism-platform-network:
    name: plagiarism-platform-network
@@ -19,5 +20,9 @@ networks:
   proxy-reverse-network:
    name: proxy-reverse-network
    external: true
+  postgres-network:
+    name: postgres-network
+    external: true
+
 
 
