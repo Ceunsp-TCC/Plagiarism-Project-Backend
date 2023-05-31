@@ -11,6 +11,7 @@ services:
      - node-modules-plagiarism-platform-backend:/app/plagiarism-platform-backend/node_modules
     networks:
       - plagiarism-platform-network
+      - postgres-network
 volumes:
   node-modules-plagiarism-platform-backend:
    name: node-modules-plagiarism-platform-backend
@@ -18,3 +19,6 @@ networks:
    plagiarism-platform-network:
     name: plagiarism-platform-network
     driver: bridge
+   postgres-network:
+    name: postgres-network
+    external: true
