@@ -9,7 +9,6 @@ jobs:
     steps:
        - name: Checkout do repositorio
          uses: actions/checkout@v1
-         if: github.event_name == 'pull_request'
        - name: Setup Node
          uses: actions/setup-node@v1
          with:
