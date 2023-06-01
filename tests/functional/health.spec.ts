@@ -4,6 +4,6 @@ test.group('Healths', () => {
   test('Endpoint working', async ({ client }) => {
     const response = await client.get('/health')
 
-    response.assertStatus(200)
+    response.assertStatus(2000)
   })
 })
