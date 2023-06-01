@@ -11,6 +11,6 @@ export default class HealthController {
   public async health() {
     const report = await HealthCheck.getReport()
 
-    return await this.defaultResponse.successWithContent('Servidor is running', 200, report)
+    return await this.defaultResponse.successWithContent('Server is running', 200, report)
   }
 }
