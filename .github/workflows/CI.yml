@@ -9,6 +9,10 @@ jobs:
     steps:
        - name: Checkout do repositorio
          uses: actions/checkout@v1
+       - name: Criando env
+         run: |
+          touch .env
+          cat .env.example >> .env
        - name: Setup Node
          uses: actions/setup-node@v1
          with:
