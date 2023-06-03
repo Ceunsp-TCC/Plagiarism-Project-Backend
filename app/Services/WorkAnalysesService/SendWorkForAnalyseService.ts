@@ -1,7 +1,7 @@
 import DefaultResponse from 'App/Utils/DefaultResponse'
 import type { MultipartFileContract } from '@ioc:Adonis/Core/BodyParser'
-import Application from '@ioc:Adonis/Core/Application'
-import { cuid } from '@ioc:Adonis/Core/Helpers'
+// import Application from '@ioc:Adonis/Core/Application'
+// import { cuid } from '@ioc:Adonis/Core/Helpers'
 import {} from '@ioc:Adonis/Core/Helpers'
 
 class SendWorkForAnalyseService {
@@ -11,12 +11,12 @@ class SendWorkForAnalyseService {
     this.defaultResponse = DefaultResponse
   }
 
-  public async sendWorkForAnalyseService(work: MultipartFileContract) {
-    const nameImage = `${work.clientName}${cuid()}.${work.extname}`
+  public async sendWorkForAnalyseService(_work: MultipartFileContract) {
+    // const nameImage = `${work.clientName}${cuid()}.${work.extname}`
 
-    const workFile = await work.move(Application.tmpPath('uploads'), {
-      name: nameImage,
-    })
+    // const workFile = await work.move(Application.tmpPath('uploads'), {
+    //   name: nameImage,
+    // })
     // console.log(Env.get('APP_URL') + (await Drive.getUrl(nameImage)))
 
     return await this.defaultResponse.success('Work successfully sent for analysis', 200)
