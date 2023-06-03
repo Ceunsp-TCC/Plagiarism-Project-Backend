@@ -3,6 +3,7 @@ on:
   pull_request:
     branches:
       - production
+      - development
 jobs:
   CI:
     runs-on: ubuntu-latest
