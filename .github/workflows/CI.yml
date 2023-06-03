@@ -19,6 +19,8 @@ jobs:
         with:
           node-version: '16.x'
       - run: npm ci
-      - run: node ace test
       - run: node ace type-check
+      - run: npm run format
+      - run: npm run lint
+      - run: node ace test
 
