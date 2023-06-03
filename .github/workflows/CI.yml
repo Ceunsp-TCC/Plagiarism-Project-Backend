@@ -13,7 +13,7 @@ jobs:
       - name: Criando env
         run: |
           touch .env
-          cat .env.example >> .env
+          cat .env.test >> .env
       - name: Setup Node
         uses: actions/setup-node@v1
         with:
