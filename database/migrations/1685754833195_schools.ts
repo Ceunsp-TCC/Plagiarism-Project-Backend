@@ -10,7 +10,7 @@ export default class extends BaseSchema {
       table.string('CNPJ', 16).notNullable().unique()
       table.string('phoneNumber', 15).notNullable()
       table.string('email', 150).notNullable().unique()
-      table.string('password', 100).notNullable()
+      table.string('password').notNullable()
       table.timestamp('createdAt', { useTz: true }).defaultTo(this.now())
       table.timestamp('updatedAt', { useTz: true }).defaultTo(this.now())
       table.timestamp('deletedAt', { useTz: true }).nullable()
@@ -21,3 +21,4 @@ export default class extends BaseSchema {
     this.schema.dropTable(this.tableName)
   }
 }
+// SET TIME ZONE 'America/Sao_Paulo'; comando para alterar timezone

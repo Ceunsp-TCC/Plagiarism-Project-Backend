@@ -3,10 +3,15 @@ import { BaseModel, column, belongsTo } from '@ioc:Adonis/Lucid/Orm'
 import Schools from 'App/Models/Schools'
 
 export default class SchoolAddress extends BaseModel {
+  public static table = 'schoolAddress'
+  public static primaryKey = ''
+
   @column({ columnName: 'idSchool' })
   public idSchool: number
 
-  @column()
+  @column({
+    columnName: 'CEP',
+  })
   public CEP: string
 
   @column()

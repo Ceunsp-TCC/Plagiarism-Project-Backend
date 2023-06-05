@@ -24,7 +24,9 @@ export default class Schools extends BaseModel {
   })
   public corporateName: string
 
-  @column()
+  @column({
+    columnName: 'CNPJ',
+  })
   public CNPJ: string
 
   @column({
@@ -62,7 +64,7 @@ export default class Schools extends BaseModel {
     localKey: 'id',
     foreignKey: 'idSchool',
   })
-  public adress: HasOne<typeof SchoolAddress>
+  public address: HasOne<typeof SchoolAddress>
 
   @beforeSave()
   public static async encryptPassword(school: Schools) {
