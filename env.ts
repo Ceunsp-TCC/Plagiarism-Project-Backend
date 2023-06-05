@@ -11,4 +11,5 @@ export default Env.rules({
   PLAGIARISM_SEARCH_API_URL: Env.schema.string(),
   PLAGIARISM_SEARCH_API_USER: Env.schema.string(),
   PLAGIARISM_SEARCH_API_KEY: Env.schema.string(),
+  TZ: Env.schema.string(),
 })
