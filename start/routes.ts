@@ -6,4 +6,7 @@ Route.group(() => {
   Route.group(() => {
     Route.post('/send-work-analyse', 'WorkAnalysesController.analyseWork')
   }).prefix('works')
+  Route.group(() => {
+    Route.post('/create', 'SchoolsController.store')
+  }).prefix('schools')
 }).prefix('v1')

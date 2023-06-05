@@ -7,13 +7,24 @@ on:
 jobs:
   CI:
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:latest
+        env:
+          POSTGRES_DB: PlagiarismPlatform-test
+          POSTGRES_PASSWORD: XWkIaeExxDmRwdm
+          POSTGRES_PORT: 5432
+          POSTGRES_USER: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
     steps:
       - name: Checkout do repositorio
         uses: actions/checkout@v1
-      - name: Criando env
-        run: |
-          touch .env
-          cat .env.example >> .env
       - name: Setup Node
         uses: actions/setup-node@v1
         with:
