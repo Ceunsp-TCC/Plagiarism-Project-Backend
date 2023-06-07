@@ -1,11 +1,10 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import SchoolAddress from 'App/Models/SchoolAddress'
 import Schools from 'App/Models/Schools'
 import CreateSchoolService from 'App/Services/Schools/CreateSchoolService'
 import CreateSchoolValidator from 'App/Validators/CreateSchoolValidator'
 import DefaultResponse from 'App/Utils/DefaultResponse'
 import SchoolLucidRepository from 'App/Repositories/SchoolRepository/SchoolLucidRepository'
-
+import type { SchoolDto, SchoolAddressDto } from 'App/Dtos/Schools/SchoolDto'
 export default class SchoolsController {
   private createSchoolService: CreateSchoolService
   constructor() {
@@ -26,8 +25,8 @@ export default class SchoolsController {
       password: payload.password,
     }
     return await this.createSchoolService.create(
-      company as Schools,
-      payload.address as SchoolAddress
+      company as SchoolDto,
+      payload.address as SchoolAddressDto
     )
   }
 }

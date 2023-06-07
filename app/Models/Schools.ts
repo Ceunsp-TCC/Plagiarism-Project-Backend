@@ -14,6 +14,8 @@ import Hash from '@ioc:Adonis/Core/Hash'
 import SchoolAddress from 'App/Models/SchoolAddress'
 
 export default class Schools extends BaseModel {
+
+
   public static table = 'schools'
   @column({ isPrimary: true })
   public id: number
