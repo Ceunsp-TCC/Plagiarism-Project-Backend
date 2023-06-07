@@ -1,4 +1,4 @@
-import type { DefaultResponseWithPaginationPlagiarismSearch } from './DefaultResponse'
+import type {DefaultResponseWithPaginationPlagiarismSearch} from './DefaultResponse'
 
 export interface Data {
   id: number

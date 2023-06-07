@@ -1,5 +1,5 @@
 import DefaultResponse from 'App/Utils/DefaultResponse'
-import type { MultipartFileContract } from '@ioc:Adonis/Core/BodyParser'
+import type {MultipartFileContract} from '@ioc:Adonis/Core/BodyParser'
 // import Application from '@ioc:Adonis/Core/Application'
 // import { cuid } from '@ioc:Adonis/Core/Helpers'
 import {} from '@ioc:Adonis/Core/Helpers'

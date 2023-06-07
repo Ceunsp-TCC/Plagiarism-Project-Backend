@@ -1,6 +1,6 @@
-import type { Config } from '@japa/runner'
+import type {Config} from '@japa/runner'
 import TestUtils from '@ioc:Adonis/Core/TestUtils'
-import { assert, runFailedTests, specReporter, apiClient } from '@japa/preset-adonis'
+import {assert, runFailedTests, specReporter, apiClient} from '@japa/preset-adonis'
 
 export const plugins: Required<Config>['plugins'] = [assert(), runFailedTests(), apiClient()]
 
