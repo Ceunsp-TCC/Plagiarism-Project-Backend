@@ -1,4 +1,4 @@
-import type { DefaultResponsePlagiarismSearch } from './DefaultResponse'
+import type {DefaultResponsePlagiarismSearch} from './DefaultResponse'
 
 export interface Data {
   id: number

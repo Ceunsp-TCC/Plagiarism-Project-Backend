@@ -2,10 +2,10 @@ import HealthCheck from '@ioc:Adonis/Core/HealthCheck'
 import DefaultResponse from 'App/Utils/DefaultResponse'
 
 export default class HealthController {
-  private defaultResponse: typeof DefaultResponse
+  private defaultResponse: DefaultResponse
 
   constructor() {
-    this.defaultResponse = DefaultResponse
+    this.defaultResponse = new DefaultResponse()
   }
 
   public async health() {

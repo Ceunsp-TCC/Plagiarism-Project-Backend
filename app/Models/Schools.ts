@@ -38,7 +38,9 @@ export default class Schools extends BaseModel {
   @column()
   public email: string
 
-  @column()
+  @column({
+    serializeAs: null,
+  })
   public password: string
 
   @column.dateTime({

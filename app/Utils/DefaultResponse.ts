@@ -1,6 +1,6 @@
 import HttpContext from '@ioc:Adonis/Core/HttpContext'
 
-class DefaultResponse {
+export default class DefaultResponse {
   private http: typeof HttpContext
 
   constructor() {
@@ -28,5 +28,3 @@ class DefaultResponse {
     return await ctx?.response.status(statusCode).json(response)
   }
 }
-
-export default new DefaultResponse()

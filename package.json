@@ -32,7 +32,7 @@
     "singleQuote": true,
     "useTabs": false,
     "quoteProps": "consistent",
-    "bracketSpacing": false,
+    "bracketSpacing": true,
     "arrowParens": "always",
     "printWidth": 100
   },
@@ -56,12 +56,14 @@
     "youch-terminal": "^2.1.5"
   },
   "dependencies": {
+    "@adonisjs/auth": "^8.2.3",
     "@adonisjs/core": "^5.9.0",
     "@adonisjs/lucid": "^18.4.0",
     "axios": "^1.4.0",
     "form-data": "^4.0.0",
     "luxon": "^3.3.0",
     "pg": "^8.11.0",
+    "phc-bcrypt": "^1.0.8",
     "proxy-addr": "^2.0.7",
     "reflect-metadata": "^0.1.13",
     "sinon": "^15.1.0",
