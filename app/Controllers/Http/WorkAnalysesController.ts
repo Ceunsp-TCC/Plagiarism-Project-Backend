@@ -1,5 +1,5 @@
 import SendWorkForAnalyseService from 'App/Services/WorkAnalysesService/SendWorkForAnalyseService'
-import {HttpContextContract} from '@ioc:Adonis/Core/HttpContext'
+import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import SendWorkForAnalyseValidator from 'App/Validators/SendWorkForAnalyseValidator'
 
 export default class WorkAnalysesController {
@@ -8,7 +8,7 @@ export default class WorkAnalysesController {
     this.sendWorkForAnalyseService = SendWorkForAnalyseService
   }
 
-  public async analyseWork({request}: HttpContextContract) {
+  public async analyseWork({ request }: HttpContextContract) {
     const payload = await request.validate(SendWorkForAnalyseValidator)
 
     const work = await payload.work
