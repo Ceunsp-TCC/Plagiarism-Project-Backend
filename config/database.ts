@@ -6,7 +6,7 @@
  */
 
 import Env from '@ioc:Adonis/Core/Env'
-import type { DatabaseConfig } from '@ioc:Adonis/Lucid/Database'
+import type {DatabaseConfig} from '@ioc:Adonis/Lucid/Database'
 
 const databaseConfig: DatabaseConfig = {
   connection: Env.get('DB_CONNECTION'),
@@ -24,7 +24,6 @@ const databaseConfig: DatabaseConfig = {
         naturalSort: true,
       },
       healthCheck: true,
-
       debug: true,
     },
   },

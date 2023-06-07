@@ -3,10 +3,16 @@ import SchoolAddress from 'App/Models/SchoolAddress'
 import Schools from 'App/Models/Schools'
 import CreateSchoolService from 'App/Services/Schools/CreateSchoolService'
 import CreateSchoolValidator from 'App/Validators/CreateSchoolValidator'
+import DefaultResponse from 'App/Utils/DefaultResponse'
+import SchoolLucidRepository from 'App/Repositories/SchoolRepository/SchoolLucidRepository'
+
 export default class SchoolsController {
-  private createSchoolService: typeof CreateSchoolService
+  private createSchoolService: CreateSchoolService
   constructor() {
-    this.createSchoolService = CreateSchoolService
+    this.createSchoolService = new CreateSchoolService(
+      new DefaultResponse(),
+      new SchoolLucidRepository(Schools)
+    )
   }
 
   public async store({ request }: HttpContextContract) {

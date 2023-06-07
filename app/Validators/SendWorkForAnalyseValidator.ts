@@ -1,5 +1,5 @@
-import { schema, CustomMessages } from '@ioc:Adonis/Core/Validator'
-import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import {schema, CustomMessages} from '@ioc:Adonis/Core/Validator'
+import type {HttpContextContract} from '@ioc:Adonis/Core/HttpContext'
 
 export default class SendWorkForAnalyseValidator {
   constructor(protected ctx: HttpContextContract) {}

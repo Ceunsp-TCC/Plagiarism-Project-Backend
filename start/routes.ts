@@ -4,6 +4,9 @@ Route.get('/health', 'HealthController.health')
 
 Route.group(() => {
   Route.group(() => {
+    Route.post('/login', 'AuthController.login')
+  }).prefix('auth')
+  Route.group(() => {
     Route.post('/send-work-analyse', 'WorkAnalysesController.analyseWork')
   }).prefix('works')
   Route.group(() => {
