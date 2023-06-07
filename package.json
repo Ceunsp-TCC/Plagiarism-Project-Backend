@@ -24,7 +24,7 @@
     }
   },
   "eslintIgnore": [
-    "build"
+    "build", "tests"
   ],
   "prettier": {
     "trailingComma": "es5",
