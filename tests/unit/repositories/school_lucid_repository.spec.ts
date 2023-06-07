@@ -13,7 +13,7 @@ test.group('School lucid repository', (group) => {
 
   test('Should be create a scholl', async ({ assert }) => {
     const mockModel = sinon.createStubInstance(Schools) as unknown as typeof Schools
-    const stub = sinon.stub(SchoolLucidRepository.prototype, 'create').resolves(true)
+    sinon.stub(SchoolLucidRepository.prototype, 'create').resolves(true)
     const schoolRepository = new SchoolLucidRepository(mockModel)
 
     const school = {
@@ -51,9 +51,7 @@ test.group('School lucid repository', (group) => {
       CNPJ: faker.string.numeric(14),
       phoneNumber: faker.phone.number('119########'),
     }
-    const stub = sinon
-      .stub(SchoolLucidRepository.prototype, 'findByEmail')
-      .resolves(school as Schools)
+    sinon.stub(SchoolLucidRepository.prototype, 'findByEmail').resolves(school as Schools)
 
     const schoolRepository = new SchoolLucidRepository(mockModel)
 
