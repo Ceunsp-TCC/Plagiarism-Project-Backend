@@ -1,8 +1,6 @@
 import DefaultResponse from 'App/Utils/DefaultResponse'
 import SchoolLucidRepository from 'App/Repositories/SchoolRepository/SchoolLucidRepository'
-import SchoolAddress from 'App/Models/SchoolAddress'
-import Schools from 'App/Models/Schools'
-
+import type { SchoolDto, SchoolAddressDto } from 'App/Dtos/Schools/SchoolDto'
 export default class CreateSchoolService {
   constructor(
     private readonly defaultResponse: DefaultResponse,
@@ -12,7 +10,7 @@ export default class CreateSchoolService {
     this.defaultResponse = defaultResponse
   }
 
-  public async create(school: Schools, schoolAddress: SchoolAddress) {
+  public async create(school: SchoolDto, schoolAddress: SchoolAddressDto) {
     await this.schoolRepository.create(school, schoolAddress)
     return await this.defaultResponse.success('School created successfully', 201)
   }
