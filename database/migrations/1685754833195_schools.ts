@@ -11,9 +11,10 @@ export default class extends BaseSchema {
       table.string('phoneNumber', 15).notNullable()
       table.string('email', 150).notNullable().unique()
       table.string('password').notNullable()
-      table.timestamp('createdAt', {useTz: true}).defaultTo(this.now())
-      table.timestamp('updatedAt', {useTz: true}).defaultTo(this.now())
-      table.timestamp('deletedAt', {useTz: true}).nullable()
+      table.enum('status', ['INREVIEW', 'CANCELED', 'COMPLETED']).defaultTo('INREVIEW')
+      table.timestamp('createdAt', { useTz: true }).defaultTo(this.now())
+      table.timestamp('updatedAt', { useTz: true }).defaultTo(this.now())
+      table.timestamp('deletedAt', { useTz: true }).nullable()
     })
   }
 

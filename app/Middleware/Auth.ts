@@ -14,6 +14,15 @@ export default class AuthMiddleware {
 
       if (await auth.use(guard).check()) {
         auth.defaultGuard = guard
+        const userInReviewOrCanceled =
+          (await auth.user!.status) === 'INREVIEW' || (await auth.user!.status) === 'CANCELED'
+
+        if (userInReviewOrCanceled) {
+          throw new CustomException(
+            'Access denied. The user account is currently under review or has been canceled',
+            403
+          )
+        }
         return true
       }
     }

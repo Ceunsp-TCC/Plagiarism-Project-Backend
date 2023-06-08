@@ -1,7 +1,7 @@
 import Env from '@ioc:Adonis/Core/Env'
 
 export default Env.rules({
-  HOST: Env.schema.string({format: 'host'}),
+  HOST: Env.schema.string({ format: 'host' }),
   PORT: Env.schema.number(),
   APP_KEY: Env.schema.string(),
   APP_NAME: Env.schema.string(),
@@ -12,4 +12,6 @@ export default Env.rules({
   PLAGIARISM_SEARCH_API_USER: Env.schema.string(),
   PLAGIARISM_SEARCH_API_KEY: Env.schema.string(),
   TZ: Env.schema.string(),
+  PLAGIARISM_PLATFORM_AUTHENTICATOR_USERNAME: Env.schema.string(),
+  PLAGIARISM_PLATFORM_AUTHENTICATOR_PASSWORD: Env.schema.string(),
 })
