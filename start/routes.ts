@@ -12,4 +12,11 @@ Route.group(() => {
   Route.group(() => {
     Route.post('/create', 'SchoolsController.store')
   }).prefix('schools')
+  Route.group(() => {
+    //Logged routes
+    Route.group(() => {
+      Route.get('/me', 'AuthController.me')
+      Route.post('/logout', 'AuthController.logout')
+    }).prefix('auth')
+  }).middleware('auth')
 }).prefix('v1')
