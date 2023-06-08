@@ -25,6 +25,15 @@ export default class LoginService {
       throw new CustomException('Invalid Credentials', 401)
     }
 
+    const userInReviewOrCanceled = school.status === 'INREVIEW' || school.status === 'CANCELED'
+
+    if (userInReviewOrCanceled) {
+      throw new CustomException(
+        'Access denied. The user account is currently under review or has been canceled',
+        403
+      )
+    }
+
     const token = await ctx?.auth.use('api').generate(school)
 
     const data = {

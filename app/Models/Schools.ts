@@ -14,8 +14,6 @@ import Hash from '@ioc:Adonis/Core/Hash'
 import SchoolAddress from 'App/Models/SchoolAddress'
 
 export default class Schools extends BaseModel {
-
-
   public static table = 'schools'
   @column({ isPrimary: true })
   public id: number
@@ -44,6 +42,9 @@ export default class Schools extends BaseModel {
     serializeAs: null,
   })
   public password: string
+
+  @column()
+  public status: 'INREVIEW' | 'CANCELED' | 'COMPLETED'
 
   @column.dateTime({
     autoCreate: true,
