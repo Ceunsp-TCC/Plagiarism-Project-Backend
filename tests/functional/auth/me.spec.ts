@@ -1,7 +1,8 @@
 import { test } from '@japa/runner'
 import Database from '@ioc:Adonis/Lucid/Database'
-import SchoolFactory from 'Database/factories/SchoolFactory'
+import UserFactory from 'Database/factories/UserFactory'
 import Env from '@ioc:Adonis/Core/Env'
+
 const url = '/v1/auth/me'
 const urlLogin = '/v1/auth/login'
 
@@ -11,9 +12,11 @@ test.group('Me', (group) => {
     return () => Database.rollbackGlobalTransaction()
   })
 
-  test('Should be is returned user informations', async ({ client }) => {
-    const school = await SchoolFactory.create()
-    await school.merge({ password: 'Alpha@12', status: 'COMPLETED' }).save()
+  test('Should be is returned user school informations', async ({ client }) => {
+    const user = await UserFactory.with('school', 1, (school) => school.apply('schoolCompleted'))
+      .apply('school')
+      .apply('defaultPassword')
+      .create()
 
     const login = await client
       .post(urlLogin)
@@ -22,7 +25,7 @@ test.group('Me', (group) => {
         Env.get('PLAGIARISM_PLATFORM_AUTHENTICATOR_PASSWORD')
       )
       .json({
-        email: school.email,
+        email: user.email,
         password: 'Alpha@12',
         deviceName: 'browser',
       })

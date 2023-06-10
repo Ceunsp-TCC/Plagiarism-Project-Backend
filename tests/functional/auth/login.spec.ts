@@ -1,7 +1,8 @@
 import { test } from '@japa/runner'
 import Database from '@ioc:Adonis/Lucid/Database'
-import SchoolFactory from 'Database/factories/SchoolFactory'
+import UserFactory from 'Database/factories/UserFactory'
 import Env from '@ioc:Adonis/Core/Env'
+import { faker } from '@faker-js/faker'
 
 const url = '/v1/auth/login'
 test.group('Login', (group) => {
@@ -9,9 +10,11 @@ test.group('Login', (group) => {
     await Database.beginGlobalTransaction()
     return () => Database.rollbackGlobalTransaction()
   })
-  test('Should login successfully', async ({ client }) => {
-    const school = await SchoolFactory.create()
-    await school.merge({ password: 'Alpha@12', status: 'COMPLETED' }).save()
+  test('Should be school login successfully', async ({ client }) => {
+    const user = await UserFactory.with('school', 1, (school) => school.apply('schoolCompleted'))
+      .apply('school')
+      .apply('defaultPassword')
+      .create()
 
     const sut = await client
       .post(url)
@@ -20,7 +23,7 @@ test.group('Login', (group) => {
         Env.get('PLAGIARISM_PLATFORM_AUTHENTICATOR_PASSWORD')
       )
       .json({
-        email: school.email,
+        email: user.email,
         password: 'Alpha@12',
         deviceName: 'browser',
       })
@@ -30,6 +33,13 @@ test.group('Login', (group) => {
       content: {
         accessToken: {
           token: sut.response.body.content.accessToken.token,
+        },
+      },
+    })
+    sut.assertBodyContains({
+      content: {
+        user: {
+          roleName: 'SCHOOL',
         },
       },
     })
@@ -52,7 +62,12 @@ test.group('Login', (group) => {
   })
 
   test('Should is invalid credentials if password is incorrect', async ({ client }) => {
-    const school = await SchoolFactory.create()
+    const user = await UserFactory.apply('school')
+      .apply('defaultPassword')
+
+      .with('school')
+      .create()
+
     const sut = await client
       .post(url)
       .basicAuth(
@@ -60,7 +75,7 @@ test.group('Login', (group) => {
         Env.get('PLAGIARISM_PLATFORM_AUTHENTICATOR_PASSWORD')
       )
       .json({
-        email: school.email,
+        email: user.email,
         password: '12345',
         deviceName: 'browser',
       })
@@ -68,8 +83,7 @@ test.group('Login', (group) => {
     sut.assertStatus(401)
     sut.assertBody({ statusCode: 401, message: 'Invalid Credentials' })
   })
-  test('Should email is empty', async ({ client }) => {
-    const school = await SchoolFactory.create()
+  test('Should be email is empty', async ({ client }) => {
     const sut = await client
       .post(url)
       .basicAuth(
@@ -78,7 +92,7 @@ test.group('Login', (group) => {
       )
       .json({
         email: null,
-        password: school.password,
+        password: faker.internet.password({ length: 10 }),
         deviceName: 'browser',
       })
 
@@ -86,7 +100,6 @@ test.group('Login', (group) => {
     sut.assertBody({ email: ['required validation failed'] })
   })
   test('Should password is empty', async ({ client }) => {
-    const school = await SchoolFactory.create()
     const sut = await client
       .post(url)
       .basicAuth(
@@ -94,7 +107,7 @@ test.group('Login', (group) => {
         Env.get('PLAGIARISM_PLATFORM_AUTHENTICATOR_PASSWORD')
       )
       .json({
-        email: school.email,
+        email: faker.internet.email(),
         password: null,
         deviceName: 'browser',
       })
@@ -103,7 +116,6 @@ test.group('Login', (group) => {
     sut.assertBody({ password: ['required validation failed'] })
   })
   test('Should device name is empty', async ({ client }) => {
-    const school = await SchoolFactory.create()
     const sut = await client
       .post(url)
       .basicAuth(
@@ -111,8 +123,8 @@ test.group('Login', (group) => {
         Env.get('PLAGIARISM_PLATFORM_AUTHENTICATOR_PASSWORD')
       )
       .json({
-        email: school.email,
-        password: school.password,
+        email: faker.internet.email(),
+        password: faker.internet.password({ length: 10 }),
         deviceName: null,
       })
 
@@ -120,9 +132,8 @@ test.group('Login', (group) => {
     sut.assertBody({ deviceName: ['required validation failed'] })
   })
 
-  test('Should be user in review', async ({ client }) => {
-    const school = await SchoolFactory.create()
-    await school.merge({ password: 'Alpha@12' }).save()
+  test('Should be user school in review', async ({ client }) => {
+    const user = await UserFactory.apply('school').apply('defaultPassword').with('school').create()
 
     const sut = await client
       .post(url)
@@ -131,7 +142,7 @@ test.group('Login', (group) => {
         Env.get('PLAGIARISM_PLATFORM_AUTHENTICATOR_PASSWORD')
       )
       .json({
-        email: school.email,
+        email: user.email,
         password: 'Alpha@12',
         deviceName: 'browser',
       })
@@ -149,6 +160,7 @@ test.group('Login', (group) => {
       message: 'Please give me basic',
     })
   })
+
   test('Should be invalid basic credentials', async ({ client }) => {
     const sut = await client.post(url).basicAuth('gtest@gmail.com', '123445')
 

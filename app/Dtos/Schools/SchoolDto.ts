@@ -1,16 +1,10 @@
 export interface SchoolDto {
-  corporateName: string
-  email: string
-  password: string
   CNPJ: string
-  phoneNumber: string
-}
-export interface SchoolAddressDto {
+  CEP: string
+  district: string
   street: string
   city: string
   state: string
-  CEP: string
-  district: string
-  number: number
-  complement: string
+  complement?: string
+  number?: number
 }
