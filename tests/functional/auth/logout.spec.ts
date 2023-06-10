@@ -1,6 +1,6 @@
 import { test } from '@japa/runner'
 import Database from '@ioc:Adonis/Lucid/Database'
-import SchoolFactory from 'Database/factories/SchoolFactory'
+import UserFactory from 'Database/factories/UserFactory'
 import Env from '@ioc:Adonis/Core/Env'
 
 const url = '/v1/auth/logout'
@@ -14,8 +14,10 @@ test.group('Logout', (group) => {
   })
 
   test('Should be is logout user', async ({ client }) => {
-    const school = await SchoolFactory.create()
-    await school.merge({ password: 'Alpha@12', status: 'COMPLETED' }).save()
+    const user = await UserFactory.with('school', 1, (school) => school.apply('schoolCompleted'))
+      .apply('school')
+      .apply('defaultPassword')
+      .create()
 
     const login = await client
       .post(urlLogin)
@@ -24,7 +26,7 @@ test.group('Logout', (group) => {
         Env.get('PLAGIARISM_PLATFORM_AUTHENTICATOR_PASSWORD')
       )
       .json({
-        email: school.email,
+        email: user.email,
         password: 'Alpha@12',
         deviceName: 'browser',
       })
@@ -34,8 +36,10 @@ test.group('Logout', (group) => {
     sut.assertBodyContains({ message: 'User successfully logged out' })
   })
   test('Should be verify is token turn invalid', async ({ client }) => {
-    const school = await SchoolFactory.create()
-    await school.merge({ password: 'Alpha@12', status: 'COMPLETED' }).save()
+    const user = await UserFactory.with('school', 1, (school) => school.apply('schoolCompleted'))
+      .apply('school')
+      .apply('defaultPassword')
+      .create()
 
     const login = await client
       .post(urlLogin)
@@ -44,7 +48,7 @@ test.group('Logout', (group) => {
         Env.get('PLAGIARISM_PLATFORM_AUTHENTICATOR_PASSWORD')
       )
       .json({
-        email: school.email,
+        email: user.email,
         password: 'Alpha@12',
         deviceName: 'browser',
       })

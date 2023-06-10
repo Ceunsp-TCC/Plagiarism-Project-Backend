@@ -1,4 +1,4 @@
-import type {AuthConfig} from '@ioc:Adonis/Addons/Auth'
+import type { AuthConfig } from '@ioc:Adonis/Addons/Auth'
 
 const authConfig: AuthConfig = {
   guard: 'api',
@@ -9,7 +9,7 @@ const authConfig: AuthConfig = {
         type: 'api',
         driver: 'database',
         table: 'apiTokens',
-        foreignKey: 'idSchool',
+        foreignKey: 'userId',
       },
 
       provider: {
@@ -17,7 +17,7 @@ const authConfig: AuthConfig = {
         identifierKey: 'id',
         uids: ['email'],
 
-        model: () => import('App/Models/Schools'),
+        model: () => import('App/Models/Users'),
       },
     },
   },

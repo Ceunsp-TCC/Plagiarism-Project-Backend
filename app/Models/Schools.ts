@@ -1,28 +1,11 @@
-import { DateTime } from 'luxon'
-import type { HasOne } from '@ioc:Adonis/Lucid/Orm'
-import {
-  BaseModel,
-  column,
-  beforeFind,
-  ModelQueryBuilderContract,
-  beforeFetch,
-  hasOne,
-  beforeSave,
-} from '@ioc:Adonis/Lucid/Orm'
-import Hash from '@ioc:Adonis/Core/Hash'
-
-import SchoolAddress from 'App/Models/SchoolAddress'
-
+import { BaseModel, column, belongsTo, BelongsTo } from '@ioc:Adonis/Lucid/Orm'
+import Users from 'App/Models/Users'
 export default class Schools extends BaseModel {
   public static table = 'schools'
-  @column({ isPrimary: true })
-  public id: number
+  public static primaryKey = ''
 
-  @column({
-    columnName: 'corporateName',
-    serializeAs: null,
-  })
-  public corporateName: string
+  @column({ columnName: 'userId' })
+  public userId: number
 
   @column({
     columnName: 'CNPJ',
@@ -30,65 +13,34 @@ export default class Schools extends BaseModel {
   public CNPJ: string
 
   @column({
-    columnName: 'phoneNumber',
-    serializeAs: null,
+    columnName: 'CEP',
   })
-  public phoneNumber: string
+  public CEP: string
 
   @column()
-  public email: string
+  public street: string
 
-  @column({
-    serializeAs: null,
-  })
-  public password: string
+  @column()
+  public district: string
+
+  @column()
+  public city: string
+
+  @column()
+  public state: string
+
+  @column()
+  public complement: string
+
+  @column()
+  public number: number
 
   @column()
   public status: 'INREVIEW' | 'CANCELED' | 'COMPLETED'
 
-  @column.dateTime({
-    autoCreate: true,
-    columnName: 'createdAt',
-    serializeAs: 'createdAt',
-    serialize: (value) => value.toFormat('dd/MM/yyyy HH:mm:ss'),
+  @belongsTo(() => Users, {
+    localKey: 'userId',
+    foreignKey: 'id',
   })
-  public createdAt: DateTime
-
-  @column.dateTime({
-    autoCreate: true,
-    autoUpdate: true,
-    serializeAs: null,
-    columnName: 'updatedAt',
-  })
-  public updatedAt: DateTime
-
-  @column.dateTime({ columnName: 'deletedAt', serializeAs: null })
-  public deletedAt: DateTime
-
-  @hasOne(() => SchoolAddress, {
-    localKey: 'id',
-    foreignKey: 'idSchool',
-  })
-  public address: HasOne<typeof SchoolAddress>
-
-  @beforeSave()
-  public static async encryptPassword(school: Schools) {
-    if (school.$dirty.password) {
-      school.password = await Hash.make(school.password)
-    }
-  }
-
-  @beforeFind()
-  public static async ignoreDeletedFind(query: ModelQueryBuilderContract<typeof Schools>) {
-    query.whereNull('deletedAt')
-  }
-  @beforeFetch()
-  public static async ignoreDeletedFetch(query: ModelQueryBuilderContract<typeof Schools>) {
-    query.whereNull('deletedAt')
-  }
-
-  public async delete() {
-    this.deletedAt = DateTime.local()
-    await this.save()
-  }
+  public user: BelongsTo<typeof Users>
 }

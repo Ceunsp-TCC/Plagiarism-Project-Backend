@@ -14,15 +14,22 @@ export default class AuthMiddleware {
 
       if (await auth.use(guard).check()) {
         auth.defaultGuard = guard
-        const userInReviewOrCanceled =
-          (await auth.user!.status) === 'INREVIEW' || (await auth.user!.status) === 'CANCELED'
 
-        if (userInReviewOrCanceled) {
-          throw new CustomException(
-            'Access denied. The user account is currently under review or has been canceled',
-            403
-          )
+        const isSchool = (await auth.user?.roleName) === 'SCHOOL'
+        if (isSchool) {
+          const school = await auth.user?.related('school').query().first()
+          const statusSchool = await school?.status
+          const schoolInReviewOrCanceled =
+            statusSchool === 'INREVIEW' || statusSchool === 'CANCELED'
+
+          if (schoolInReviewOrCanceled) {
+            throw new CustomException(
+              'Access denied. The user account is currently under review or has been canceled',
+              403
+            )
+          }
         }
+
         return true
       }
     }

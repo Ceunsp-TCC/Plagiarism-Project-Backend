@@ -4,8 +4,8 @@ import MeService from 'App/Services/AuthServices/MeService'
 import LogoutService from 'App/Services/AuthServices/LogoutService'
 import DefaultResponse from 'App/Utils/DefaultResponse'
 import HttpContext from '@ioc:Adonis/Core/HttpContext'
-import SchoolLucidRepository from 'App/Repositories/SchoolRepository/SchoolLucidRepository'
-import Schools from 'App/Models/Schools'
+import UserLucidRepository from 'App/Repositories/UserRepository/UserLucidRepository'
+import Users from 'App/Models/Users'
 import LoginValidator from 'App/Validators/LoginValidator'
 import Hash from '@ioc:Adonis/Core/Hash'
 
@@ -17,7 +17,7 @@ export default class AuthController {
     this.loginService = new LoginService(
       new DefaultResponse(),
       HttpContext,
-      new SchoolLucidRepository(Schools),
+      new UserLucidRepository(Users),
       Hash
     )
     this.meService = new MeService(HttpContext, new DefaultResponse())

@@ -5,16 +5,17 @@ export default class extends BaseSchema {
 
   public async up() {
     this.schema.createTable(this.tableName, (table) => {
-      table.increments('id')
-      table.string('corporateName', 150).notNullable()
+      table.bigInteger('userId').notNullable()
       table.string('CNPJ', 16).notNullable().unique()
-      table.string('phoneNumber', 15).notNullable()
-      table.string('email', 150).notNullable().unique()
-      table.string('password').notNullable()
+      table.string('CEP', 50).notNullable()
+      table.string('street', 255).notNullable()
+      table.string('district', 150).notNullable()
+      table.string('city', 100).notNullable()
+      table.string('state', 5).notNullable()
+      table.string('complement', 100).nullable()
+      table.integer('number').nullable()
       table.enum('status', ['INREVIEW', 'CANCELED', 'COMPLETED']).defaultTo('INREVIEW')
-      table.timestamp('createdAt', { useTz: true }).defaultTo(this.now())
-      table.timestamp('updatedAt', { useTz: true }).defaultTo(this.now())
-      table.timestamp('deletedAt', { useTz: true }).nullable()
+      table.foreign('userId').references('users.id').onDelete('CASCADE')
     })
   }
 
