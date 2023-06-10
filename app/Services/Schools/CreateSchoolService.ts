@@ -1,17 +1,41 @@
 import DefaultResponse from 'App/Utils/DefaultResponse'
-import SchoolLucidRepository from 'App/Repositories/SchoolRepository/SchoolLucidRepository'
-import type { SchoolDto, SchoolAddressDto } from 'App/Dtos/Schools/SchoolDto'
+import UserLucidRepository from 'App/Repositories/UserRepository/UserLucidRepository'
+import type { CreateSchoolDto } from 'App/Dtos/Services/SchoolServices/CreateSchoolServiceDto'
+import RoleLucidRepository from 'App/Repositories/RoleRepository/RoleLucidRepository'
+
 export default class CreateSchoolService {
   constructor(
     private readonly defaultResponse: DefaultResponse,
-    private readonly schoolRepository: SchoolLucidRepository
+    private readonly userRepository: UserLucidRepository,
+    private readonly roleRepository: RoleLucidRepository
   ) {
-    this.schoolRepository = schoolRepository
+    this.userRepository = userRepository
+    this.roleRepository = roleRepository
     this.defaultResponse = defaultResponse
   }
 
-  public async create(school: SchoolDto, schoolAddress: SchoolAddressDto) {
-    await this.schoolRepository.create(school, schoolAddress)
+  public async create({ name, email, CNPJ, address, password, phoneNumber }: CreateSchoolDto) {
+    const roleSchool = await this.roleRepository.findByName('SCHOOL')
+    const user = {
+      name,
+      email,
+      phoneNumber,
+      password,
+      roleName: 'SCHOOL',
+      roleId: roleSchool?.id!,
+    }
+    const school = {
+      CNPJ,
+      CEP: address.CEP,
+      district: address.district,
+      street: address.street,
+      city: address.city,
+      state: address.state,
+      complement: address.complement,
+      number: address.number,
+    }
+
+    await this.userRepository.createSchool(user, school)
     return await this.defaultResponse.success('School created successfully', 201)
   }
 }

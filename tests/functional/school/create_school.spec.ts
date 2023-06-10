@@ -1,7 +1,7 @@
 import { test } from '@japa/runner'
 import Database from '@ioc:Adonis/Lucid/Database'
 import { faker } from '@faker-js/faker'
-import SchoolFactory from 'Database/factories/SchoolFactory'
+import UserFactory from 'Database/factories/UserFactory'
 import Env from '@ioc:Adonis/Core/Env'
 const url = '/v1/schools/create'
 
@@ -18,7 +18,7 @@ test.group('Create school', (group) => {
         Env.get('PLAGIARISM_PLATFORM_AUTHENTICATOR_PASSWORD')
       )
       .json({
-        corporateName: faker.company.name(),
+        name: faker.company.name(),
         email: faker.internet.email(),
         password: faker.internet.password({
           length: 10,
@@ -57,7 +57,7 @@ test.group('Create school', (group) => {
   })
 
   test('Should generate error because has other school with same email', async ({ client }) => {
-    const school = await SchoolFactory.create()
+    const user = await UserFactory.apply('school').apply('defaultPassword').with('school').create()
     const sut = await client
       .post(url)
       .basicAuth(
@@ -65,8 +65,8 @@ test.group('Create school', (group) => {
         Env.get('PLAGIARISM_PLATFORM_AUTHENTICATOR_PASSWORD')
       )
       .json({
-        corporateName: faker.company.name(),
-        email: school.email,
+        name: faker.company.name(),
+        email: user.email,
         password: faker.internet.password({
           length: 10,
         }),
@@ -88,7 +88,7 @@ test.group('Create school', (group) => {
     sut.assertStatus(422)
   })
   test('Should generate error because has other school with same cnpj', async ({ client }) => {
-    const school = await SchoolFactory.create()
+    const user = await UserFactory.apply('school').apply('defaultPassword').with('school').create()
     const sut = await client
       .post(url)
       .basicAuth(
@@ -96,12 +96,12 @@ test.group('Create school', (group) => {
         Env.get('PLAGIARISM_PLATFORM_AUTHENTICATOR_PASSWORD')
       )
       .json({
-        corporateName: faker.company.name(),
+        name: faker.company.name(),
         email: faker.internet.email(),
         password: faker.internet.password({
           length: 10,
         }),
-        CNPJ: school.CNPJ,
+        CNPJ: user.school.CNPJ,
         phoneNumber: faker.phone.number('119########'),
         address: {
           street: faker.location.street(),

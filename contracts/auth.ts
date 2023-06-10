@@ -1,10 +1,10 @@
-import Schools from 'App/Models/Schools'
+import Users from 'App/Models/Users'
 
 declare module '@ioc:Adonis/Addons/Auth' {
   interface ProvidersList {
     user: {
-      implementation: LucidProviderContract<typeof Schools>
-      config: LucidProviderConfig<typeof Schools>
+      implementation: LucidProviderContract<typeof Users>
+      config: LucidProviderConfig<typeof Users>
     }
   }
 

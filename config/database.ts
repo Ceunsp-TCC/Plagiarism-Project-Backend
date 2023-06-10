@@ -6,7 +6,7 @@
  */
 
 import Env from '@ioc:Adonis/Core/Env'
-import type {DatabaseConfig} from '@ioc:Adonis/Lucid/Database'
+import type { DatabaseConfig } from '@ioc:Adonis/Lucid/Database'
 
 const databaseConfig: DatabaseConfig = {
   connection: Env.get('DB_CONNECTION'),
@@ -25,6 +25,9 @@ const databaseConfig: DatabaseConfig = {
       },
       healthCheck: true,
       debug: true,
+      seeders: {
+        paths: ['./database/seeders/MainSeeder'],
+      },
     },
   },
 }
