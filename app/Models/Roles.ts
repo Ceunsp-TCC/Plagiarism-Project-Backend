@@ -6,10 +6,11 @@ import {
   beforeFetch,
   ModelQueryBuilderContract,
   beforeSave,
-  hasMany,
-  HasMany,
+  manyToMany,
+  ManyToMany,
 } from '@ioc:Adonis/Lucid/Orm'
-import RolesPermissions from './RolesPermissions'
+import Permissions from './Permissions'
+
 export default class Roles extends BaseModel {
   @column({ isPrimary: true })
   public id: number
@@ -44,11 +45,15 @@ export default class Roles extends BaseModel {
   public static async ignoreDeletedFetch(query: ModelQueryBuilderContract<typeof Roles>) {
     query.whereNull('deletedAt')
   }
-  @hasMany(() => RolesPermissions, {
+  @manyToMany(() => Permissions, {
+    pivotTable: 'rolesPermissions',
     localKey: 'id',
-    foreignKey: 'idRole',
+    relatedKey: 'id',
+    pivotForeignKey: 'idRole',
+    pivotRelatedForeignKey: 'idPermission',
+    pivotColumns: ['idRole'],
   })
-  public rolePermissions: HasMany<typeof RolesPermissions>
+  public permissions: ManyToMany<typeof Permissions>
 
   public async delete() {
     this.deletedAt = DateTime.local()
