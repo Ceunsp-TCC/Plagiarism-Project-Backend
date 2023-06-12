@@ -1,9 +1,5 @@
 import DefaultResponse from 'App/Utils/DefaultResponse'
 import HttpContext from '@ioc:Adonis/Core/HttpContext'
-import Users from 'App/Models/Users'
-import Roles from 'App/Models/Roles'
-import Permissions from 'App/Models/Permissions'
-import Logger from '@ioc:Adonis/Core/Logger'
 
 export default class MeService {
   constructor(
