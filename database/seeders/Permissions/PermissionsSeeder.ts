@@ -7,31 +7,31 @@ export default class PermissionsSeeder extends BaseSeeder {
 
     await Permissions.createMany([
       {
-        name: 'CREATE-PERMISSION',
+        name: 'createPermission',
       },
       {
-        name: 'DELETE-PERMISSION',
+        name: 'deletePermission',
       },
       {
-        name: 'UPDATE-PERMISSION',
+        name: 'updatePermission',
       },
       {
-        name: 'VIEW-PERMISSION',
+        name: 'viewPermission',
       },
       {
-        name: 'CREATE-ROLE',
+        name: 'createRole',
       },
       {
-        name: 'UPDATE-ROLE',
+        name: 'updateRole',
       },
       {
-        name: 'VIEW-ROLE',
+        name: 'viewRole',
       },
       {
-        name: 'DELETE-ROLE',
+        name: 'deleteRole',
       },
       {
-        name: 'SYNC-ROLES-PERMISSIONS',
+        name: 'syncRolesPermissions',
       },
     ])
   }

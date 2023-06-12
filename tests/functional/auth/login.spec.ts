@@ -78,14 +78,15 @@ test.group('Login', (group) => {
       content: {
         user: {
           permissions: [
-            'CREATE-PERMISSION',
-            'DELETE-PERMISSION',
-            'UPDATE-PERMISSION',
-            'VIEW-PERMISSION',
-            'UPDATE-ROLE',
-            'VIEW-ROLE',
-            'DELETE-ROLE',
-            'SYNC-ROLES-PERMISSIONS',
+            'createPermission',
+            'deletePermission',
+            'updatePermission',
+            'viewPermission',
+            'createRole',
+            'updateRole',
+            'viewRole',
+            'deleteRole',
+            'syncRolesPermissions',
           ],
         },
       },

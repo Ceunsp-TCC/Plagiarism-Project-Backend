@@ -133,7 +133,7 @@ test.group('Sync permissions and roles', (group) => {
         password: 'Alpha@12',
         deviceName: 'browser',
       })
-    const permissions = ['TESTE1', 'TESTE2']
+    const permissions = ['teste1', 'teste2']
     const sut = await client
       .post(url)
       .bearerToken(login.response.body.content.accessToken.token)
@@ -172,5 +172,35 @@ test.group('Sync permissions and roles', (group) => {
 
     sut.assertStatus(400)
     sut.assertBodyContains({ message: `There are duplicate permissions: ${permissions[0].name}` })
+  })
+  test('Should be a unathorized action', async ({ client }) => {
+    const role = await RoleFactory.create()
+    const user = await UserFactory.with('school', 1, (school) => school.apply('schoolCompleted'))
+      .apply('school')
+      .apply('defaultPassword')
+      .create()
+
+    const login = await client
+      .post(urlLogin)
+      .basicAuth(
+        Env.get('PLAGIARISM_PLATFORM_AUTHENTICATOR_USERNAME'),
+        Env.get('PLAGIARISM_PLATFORM_AUTHENTICATOR_PASSWORD')
+      )
+      .json({
+        email: user.email,
+        password: 'Alpha@12',
+        deviceName: 'browser',
+      })
+    const permissions = ['teste1', 'teste2']
+    const sut = await client
+      .post(url)
+      .bearerToken(login.response.body.content.accessToken.token)
+      .json({
+        roleName: role.name,
+        permissions,
+      })
+
+    sut.assertStatus(403)
+    sut.assertBodyContains({ message: 'Access to this resource is denied' })
   })
 })

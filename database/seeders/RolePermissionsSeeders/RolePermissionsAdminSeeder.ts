@@ -5,15 +5,15 @@ import Roles from 'App/Models/Roles'
 export default class RolePermissionsAdminSeeder extends BaseSeeder {
   public async run() {
     const permissionsAdmin = [
-      'CREATE-PERMISSION',
-      'DELETE-PERMISSION',
-      'UPDATE-PERMISSION',
-      'VIEW-PERMISSION',
-      'REATE-ROLE',
-      'UPDATE-ROLE',
-      'VIEW-ROLE',
-      'DELETE-ROLE',
-      'SYNC-ROLES-PERMISSIONS',
+      'createPermission',
+      'deletePermission',
+      'updatePermission',
+      'viewPermission',
+      'createRole',
+      'updateRole',
+      'viewRole',
+      'deleteRole',
+      'syncRolesPermissions',
     ]
 
     const AdminPermissionsIds = (await Permissions.query().whereIn('name', permissionsAdmin)).map(

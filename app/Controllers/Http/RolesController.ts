@@ -30,7 +30,7 @@ export default class RolesController {
     return await this.createRoleService.create(payload.name)
   }
 
-  public async scyncPermissionsAndRoles({ request }: HttpContextContract) {
+  public async syncPermissionsAndRoles({ request }: HttpContextContract) {
     const payload = await request.validate(SyncPermissionsAndRoleValidator)
 
     return this.syncRolesPermissionService.syncRolesAndPermission(
