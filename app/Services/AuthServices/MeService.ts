@@ -10,9 +10,32 @@ export default class MeService {
     this.defaultResponse = defaultResponse
   }
   public async me() {
+    let user
     const ctx = await this.httpContext.get()
+    const isSchool = (await ctx?.auth.user?.roleName) === 'SCHOOL'
+    const isAdmin = (await ctx?.auth.user?.roleName) === 'ADMIN'
+    const roleId = await ctx?.auth.user?.roleId
+    const role = await ctx?.auth.user?.related('role').query().where('id', roleId!).first()
+    const permissions = (await role?.related('permissions').query()!).map(
+      (permission) => permission.name
+    )
+    const userData = await ctx?.auth.user?.serialize()
 
-    const user = await ctx?.auth.user
+    if (isSchool) {
+      const school = await ctx?.auth.user?.related('school').query().first()
+      user = {
+        ...userData,
+        schoolData: school,
+        permissions,
+      }
+    }
+
+    if (isAdmin) {
+      user = {
+        ...userData,
+        permissions: permissions,
+      }
+    }
 
     return await this.defaultResponse.successWithContent(
       'User information successfully returned',

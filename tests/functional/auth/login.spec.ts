@@ -39,7 +39,61 @@ test.group('Login', (group) => {
     sut.assertBodyContains({
       content: {
         user: {
+          permissions: [],
+        },
+      },
+    })
+    sut.assertBodyContains({
+      content: {
+        user: {
           roleName: 'SCHOOL',
+        },
+      },
+    })
+  })
+  test('Should be admin login successfully', async ({ client }) => {
+    const user = await UserFactory.apply('admin').apply('defaultPassword').create()
+
+    const sut = await client
+      .post(url)
+      .basicAuth(
+        Env.get('PLAGIARISM_PLATFORM_AUTHENTICATOR_USERNAME'),
+        Env.get('PLAGIARISM_PLATFORM_AUTHENTICATOR_PASSWORD')
+      )
+      .json({
+        email: user.email,
+        password: 'Alpha@12',
+        deviceName: 'browser',
+      })
+
+    sut.assertStatus(200)
+    sut.assertBodyContains({
+      content: {
+        accessToken: {
+          token: sut.response.body.content.accessToken.token,
+        },
+      },
+    })
+    sut.assertBodyContains({
+      content: {
+        user: {
+          permissions: [
+            'CREATE-PERMISSION',
+            'DELETE-PERMISSION',
+            'UPDATE-PERMISSION',
+            'VIEW-PERMISSION',
+            'UPDATE-ROLE',
+            'VIEW-ROLE',
+            'DELETE-ROLE',
+            'SYNC-ROLES-PERMISSIONS',
+          ],
+        },
+      },
+    })
+    sut.assertBodyContains({
+      content: {
+        user: {
+          roleName: 'ADMIN',
         },
       },
     })
