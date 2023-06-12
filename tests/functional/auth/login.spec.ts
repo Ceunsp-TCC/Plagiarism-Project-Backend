@@ -38,7 +38,9 @@ test.group('Login', (group) => {
     })
     sut.assertBodyContains({
       content: {
-        permissions: [],
+        user: {
+          permissions: [],
+        },
       },
     })
     sut.assertBodyContains({
@@ -74,21 +76,25 @@ test.group('Login', (group) => {
     })
     sut.assertBodyContains({
       content: {
-        permissions: [
-          'CREATE-PERMISSION',
-          'DELETE-PERMISSION',
-          'UPDATE-PERMISSION',
-          'VIEW-PERMISSION',
-          'UPDATE-ROLE',
-          'VIEW-ROLE',
-          'DELETE-ROLE',
-          'SYNC-ROLES-PERMISSIONS',
-        ],
+        user: {
+          permissions: [
+            'CREATE-PERMISSION',
+            'DELETE-PERMISSION',
+            'UPDATE-PERMISSION',
+            'VIEW-PERMISSION',
+            'UPDATE-ROLE',
+            'VIEW-ROLE',
+            'DELETE-ROLE',
+            'SYNC-ROLES-PERMISSIONS',
+          ],
+        },
       },
     })
     sut.assertBodyContains({
       content: {
-        roleName: 'ADMIN',
+        user: {
+          roleName: 'ADMIN',
+        },
       },
     })
   })
