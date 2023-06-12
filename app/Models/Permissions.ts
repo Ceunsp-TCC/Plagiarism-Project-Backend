@@ -1,5 +1,4 @@
 import { DateTime } from 'luxon'
-import RolesPermissions from './RolesPermissions'
 import {
   BaseModel,
   column,
@@ -7,9 +6,10 @@ import {
   beforeFetch,
   ModelQueryBuilderContract,
   beforeSave,
-  hasMany,
-  HasMany,
+  manyToMany,
+  ManyToMany,
 } from '@ioc:Adonis/Lucid/Orm'
+import Roles from 'App/Models/Roles'
 
 export default class Permissions extends BaseModel {
   @column({ isPrimary: true })
@@ -37,11 +37,14 @@ export default class Permissions extends BaseModel {
   @column.dateTime({ columnName: 'deletedAt', serializeAs: null })
   public deletedAt: DateTime
 
-  @hasMany(() => RolesPermissions, {
+  @manyToMany(() => Roles, {
+    pivotTable: 'rolesPermissions',
     localKey: 'id',
-    foreignKey: 'idPermisssion',
+    relatedKey: 'id',
+    pivotForeignKey: 'idPermission',
+    pivotRelatedForeignKey: 'idRole',
   })
-  public rolePermissions: HasMany<typeof RolesPermissions>
+  public roles: ManyToMany<typeof Roles>
 
   @beforeFind()
   public static async ignoreDeletedFind(query: ModelQueryBuilderContract<typeof Permissions>) {

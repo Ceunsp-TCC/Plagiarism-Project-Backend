@@ -11,6 +11,7 @@ import {
 } from '@ioc:Adonis/Lucid/Orm'
 import Hash from '@ioc:Adonis/Core/Hash'
 import Schools from 'App/Models/Schools'
+import Roles from 'App/Models/Roles'
 
 export default class Users extends BaseModel {
   @column({ isPrimary: true })
@@ -41,7 +42,7 @@ export default class Users extends BaseModel {
 
   @column({
     columnName: 'roleId',
-    serializeAs: 'roleId',
+    serializeAs: null,
   })
   public roleId: number
 
@@ -69,6 +70,12 @@ export default class Users extends BaseModel {
     foreignKey: 'userId',
   })
   public school: HasOne<typeof Schools>
+
+  @hasOne(() => Roles, {
+    localKey: 'roleId',
+    foreignKey: 'id',
+  })
+  public role: HasOne<typeof Roles>
 
   @beforeSave()
   public static async encryptPassword(user: Users) {

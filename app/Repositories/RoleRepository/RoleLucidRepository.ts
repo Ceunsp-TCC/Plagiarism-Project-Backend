@@ -17,4 +17,12 @@ export default class RoleLucidRepository implements RoleRepositoryInterface {
   public async findByName(roleName: string) {
     return await this.model.findBy('name', roleName)
   }
+
+  public async syncRolesAndPermissions(roleName: string, permissionsIds: number[]) {
+    const role = await this.model.query().where('name', roleName).first()
+
+    await role?.related('permissions').attach(permissionsIds)
+
+    return true
+  }
 }

@@ -170,7 +170,7 @@ test.group('Sync permissions and roles', (group) => {
         permissions: [...permissions.map((permission) => permission.name), permissions[0].name],
       })
 
-    sut.assertStatus(404)
+    sut.assertStatus(400)
     sut.assertBodyContains({ message: `There are duplicate permissions: ${permissions[0].name}` })
   })
 })

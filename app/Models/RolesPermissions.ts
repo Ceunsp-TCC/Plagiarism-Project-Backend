@@ -1,4 +1,4 @@
-import { BaseModel, column, BelongsTo, belongsTo } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, column, BelongsTo, belongsTo, hasOne, HasOne } from '@ioc:Adonis/Lucid/Orm'
 import Roles from './Roles'
 import Permissions from './Permissions'
 
@@ -14,11 +14,11 @@ export default class RolesPermissions extends BaseModel {
   @column({ columnName: 'idPermission' })
   public idPermission: number
 
-  @belongsTo(() => Roles, {
-    localKey: 'id',
-    foreignKey: 'idRole',
+  @hasOne(() => Roles, {
+    localKey: 'idRole',
+    foreignKey: 'id',
   })
-  public roles: BelongsTo<typeof Roles>
+  public roles: HasOne<typeof Roles>
 
   @belongsTo(() => Permissions, {
     localKey: 'id',

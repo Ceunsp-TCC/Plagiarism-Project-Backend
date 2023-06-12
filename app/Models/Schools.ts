@@ -4,7 +4,7 @@ export default class Schools extends BaseModel {
   public static table = 'schools'
   public static primaryKey = ''
 
-  @column({ columnName: 'userId' })
+  @column({ columnName: 'userId', serializeAs: null })
   public userId: number
 
   @column({
