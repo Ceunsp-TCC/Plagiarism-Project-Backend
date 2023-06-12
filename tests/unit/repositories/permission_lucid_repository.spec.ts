@@ -27,7 +27,7 @@ test.group('Permission repository', (group) => {
       .resolves(permissions as unknown as Permissions[])
     const permissionRepository = new PermissionLucidRepository(mockModel)
 
-    const result = await permissionRepository.getPermissionsByNames(['VIEW ROLES'])
+    const result = await permissionRepository.getPermissionsByNames(['viewRoles'])
     assert.equal(result, permissions)
   })
 })

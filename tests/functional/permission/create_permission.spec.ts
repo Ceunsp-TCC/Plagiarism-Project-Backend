@@ -63,4 +63,32 @@ test.group('Create permissions', (group) => {
     sut.assertStatus(422)
     sut.assertBody({ name: ['unique validation failure'] })
   })
+  test('Should be a unathorized action', async ({ client }) => {
+    const user = await UserFactory.with('school', 1, (school) => school.apply('schoolCompleted'))
+      .apply('school')
+      .apply('defaultPassword')
+      .create()
+
+    const login = await client
+      .post(urlLogin)
+      .basicAuth(
+        Env.get('PLAGIARISM_PLATFORM_AUTHENTICATOR_USERNAME'),
+        Env.get('PLAGIARISM_PLATFORM_AUTHENTICATOR_PASSWORD')
+      )
+      .json({
+        email: user.email,
+        password: 'Alpha@12',
+        deviceName: 'browser',
+      })
+    const permission = await PermissionFactory.create()
+    const sut = await client
+      .post(url)
+      .bearerToken(login.response.body.content.accessToken.token)
+      .json({
+        name: permission.name,
+      })
+
+    sut.assertStatus(403)
+    sut.assertBodyContains({ message: 'Access to this resource is denied' })
+  })
 })
