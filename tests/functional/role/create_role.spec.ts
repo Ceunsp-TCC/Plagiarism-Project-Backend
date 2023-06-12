@@ -37,6 +37,33 @@ test.group('Create roles', (group) => {
     sut.assertStatus(201)
     sut.assertBodyContains({ message: 'Role created successfully' })
   })
+  test('Should be a unathorized action', async ({ client }) => {
+    const user = await UserFactory.with('school', 1, (school) => school.apply('schoolCompleted'))
+      .apply('school')
+      .apply('defaultPassword')
+      .create()
+
+    const login = await client
+      .post(urlLogin)
+      .basicAuth(
+        Env.get('PLAGIARISM_PLATFORM_AUTHENTICATOR_USERNAME'),
+        Env.get('PLAGIARISM_PLATFORM_AUTHENTICATOR_PASSWORD')
+      )
+      .json({
+        email: user.email,
+        password: 'Alpha@12',
+        deviceName: 'browser',
+      })
+    const sut = await client
+      .post(url)
+      .bearerToken(login.response.body.content.accessToken.token)
+      .json({
+        name: faker.person.middleName(),
+      })
+
+    sut.assertStatus(403)
+    sut.assertBodyContains({ message: 'Access to this resource is denied' })
+  })
 
   test('Should be already exists name role', async ({ client }) => {
     const user = await UserFactory.apply('admin').apply('defaultPassword').create()

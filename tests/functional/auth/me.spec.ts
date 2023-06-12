@@ -65,14 +65,15 @@ test.group('Me', (group) => {
     sut.assertBodyContains({
       content: {
         permissions: [
-          'CREATE-PERMISSION',
-          'DELETE-PERMISSION',
-          'UPDATE-PERMISSION',
-          'VIEW-PERMISSION',
-          'UPDATE-ROLE',
-          'VIEW-ROLE',
-          'DELETE-ROLE',
-          'SYNC-ROLES-PERMISSIONS',
+          'createPermission',
+          'deletePermission',
+          'updatePermission',
+          'viewPermission',
+          'createRole',
+          'updateRole',
+          'viewRole',
+          'deleteRole',
+          'syncRolesPermissions',
         ],
       },
     })

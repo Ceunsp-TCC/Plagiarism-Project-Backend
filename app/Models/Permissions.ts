@@ -5,7 +5,6 @@ import {
   beforeFind,
   beforeFetch,
   ModelQueryBuilderContract,
-  beforeSave,
   manyToMany,
   ManyToMany,
 } from '@ioc:Adonis/Lucid/Orm'
@@ -58,11 +57,5 @@ export default class Permissions extends BaseModel {
   public async delete() {
     this.deletedAt = DateTime.local()
     await this.save()
-  }
-  @beforeSave()
-  public static async uppercaseName(permissions: Permissions) {
-    if (permissions.$dirty.name) {
-      permissions.name = permissions.name.toUpperCase()
-    }
   }
 }

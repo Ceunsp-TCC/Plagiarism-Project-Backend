@@ -17,11 +17,15 @@ Route.group(() => {
   //Logged routes
   Route.group(() => {
     Route.group(() => {
-      Route.post('/create', 'PermissionsController.store')
+      Route.post('/create', 'PermissionsController.store').middleware(
+        'permission:PermissionPolicy,createPermission'
+      )
     }).prefix('permissions')
     Route.group(() => {
-      Route.post('/create', 'RolesController.store')
-      Route.post('/sync-roles-permissions', 'RolesController.scyncPermissionsAndRoles')
+      Route.post('/create', 'RolesController.store').middleware('permission:RolePolicy,createRole')
+      Route.post('/sync-roles-permissions', 'RolesController.syncPermissionsAndRoles').middleware(
+        'permission:RolePolicy,syncRolesPermissions'
+      )
     }).prefix('roles')
     Route.group(() => {
       Route.get('/me', 'AuthController.me')
