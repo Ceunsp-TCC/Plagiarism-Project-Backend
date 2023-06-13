@@ -19,7 +19,7 @@ jobs:
         with:
           context: .
           file: Dockerfile.prod
-          tags: gabrielsoaresdev/plagiarism-back:latest
+          tags: gabrielsoaresdev/school-guardian-backend:latest
           no-cache: true
           push: true
           github-token: ${{ secrets.TOKEN_GITHUB }}

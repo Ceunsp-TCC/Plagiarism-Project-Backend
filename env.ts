@@ -12,6 +12,6 @@ export default Env.rules({
   PLAGIARISM_SEARCH_API_USER: Env.schema.string(),
   PLAGIARISM_SEARCH_API_KEY: Env.schema.string(),
   TZ: Env.schema.string(),
-  PLAGIARISM_PLATFORM_AUTHENTICATOR_USERNAME: Env.schema.string(),
-  PLAGIARISM_PLATFORM_AUTHENTICATOR_PASSWORD: Env.schema.string(),
+  SCHOOL_GUARDIAN_AUTHENTICATOR_USERNAME: Env.schema.string(),
+  SCHOOL_GUARDIAN_AUTHENTICATOR_PASSWORD: Env.schema.string(),
 })

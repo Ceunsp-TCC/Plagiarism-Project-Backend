@@ -5,8 +5,8 @@ FROM $NODE_IMAGE AS base
 
 RUN apk --no-cache add dumb-init
 
-RUN mkdir -p /app/plagiarism-platform-backend && chown node:node /app/plagiarism-platform-backend
-WORKDIR /app/plagiarism-platform-backend
+RUN mkdir -p /app/school-guardian-backend && chown node:node /app/school-guardian-backend
+WORKDIR /app/school-guardian-backend
 
 USER node
 
@@ -30,7 +30,7 @@ FROM base AS production
 COPY --chown=node:node ./package*.json ./
 
 RUN npm ci --production
-COPY --chown=node:node --from=build /app/plagiarism-platform-backend/build .
+COPY --chown=node:node --from=build /app/school-guardian-backend/build .
 
 COPY --chown=node:node ./run-prod.sh  /tmp
 

@@ -18,8 +18,8 @@ export default class BasicAuth {
     const password = credentials[1]
 
     const invalidBasic =
-      username !== Env.get('PLAGIARISM_PLATFORM_AUTHENTICATOR_USERNAME') ||
-      password !== Env.get('PLAGIARISM_PLATFORM_AUTHENTICATOR_PASSWORD')
+      username !== Env.get('SCHOOL_GUARDIAN_AUTHENTICATOR_USERNAME') ||
+      password !== Env.get('SCHOOL_GUARDIAN_AUTHENTICATOR_PASSWORD')
     if (invalidBasic) {
       throw new CustomException('Invalid basic crendentials', 401)
     }
