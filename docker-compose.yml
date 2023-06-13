@@ -1,23 +1,23 @@
 version: '3.5'
 services:
-  plagiarism-platform-backend:
-    container_name: plagiarism-platform-backend
+  school-guardian-backend:
+    container_name: school-guardian-backend
     build: .
     restart: always
     ports:
       - '3335:3335'
     volumes:
-      - .:/app/plagiarism-platform-backend
-      - node-modules-plagiarism-platform-backend:/app/plagiarism-platform-backend/node_modules
+      - .:/app/school-guardian-backend
+      - node-modules-school-guardian-backend:/app/school-guardian-backend/node_modules
     networks:
-      - plagiarism-platform-network
+      - school-guardian-backend-network
       - postgres-network
 volumes:
-  node-modules-plagiarism-platform-backend:
-    name: node-modules-plagiarism-platform-backend
+  node-modules-school-guardian-backend:
+    name: node-modules-school-guardian-backend
 networks:
-  plagiarism-platform-network:
-    name: plagiarism-platform-network
+  school-guardian-backend-network:
+    name: school-guardian-backend-network
     driver: bridge
   postgres-network:
     name: postgres-network

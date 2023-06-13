@@ -19,8 +19,8 @@ test.group('Login', (group) => {
     const sut = await client
       .post(url)
       .basicAuth(
-        Env.get('PLAGIARISM_PLATFORM_AUTHENTICATOR_USERNAME'),
-        Env.get('PLAGIARISM_PLATFORM_AUTHENTICATOR_PASSWORD')
+        Env.get('SCHOOL_GUARDIAN_AUTHENTICATOR_USERNAME'),
+        Env.get('SCHOOL_GUARDIAN_AUTHENTICATOR_PASSWORD')
       )
       .json({
         email: user.email,
@@ -57,8 +57,8 @@ test.group('Login', (group) => {
     const sut = await client
       .post(url)
       .basicAuth(
-        Env.get('PLAGIARISM_PLATFORM_AUTHENTICATOR_USERNAME'),
-        Env.get('PLAGIARISM_PLATFORM_AUTHENTICATOR_PASSWORD')
+        Env.get('SCHOOL_GUARDIAN_AUTHENTICATOR_USERNAME'),
+        Env.get('SCHOOL_GUARDIAN_AUTHENTICATOR_PASSWORD')
       )
       .json({
         email: user.email,
@@ -103,8 +103,8 @@ test.group('Login', (group) => {
     const sut = await client
       .post(url)
       .basicAuth(
-        Env.get('PLAGIARISM_PLATFORM_AUTHENTICATOR_USERNAME'),
-        Env.get('PLAGIARISM_PLATFORM_AUTHENTICATOR_PASSWORD')
+        Env.get('SCHOOL_GUARDIAN_AUTHENTICATOR_USERNAME'),
+        Env.get('SCHOOL_GUARDIAN_AUTHENTICATOR_PASSWORD')
       )
       .json({
         email: 'diretoria@estererafaelapadarialtda.com.br',
@@ -126,8 +126,8 @@ test.group('Login', (group) => {
     const sut = await client
       .post(url)
       .basicAuth(
-        Env.get('PLAGIARISM_PLATFORM_AUTHENTICATOR_USERNAME'),
-        Env.get('PLAGIARISM_PLATFORM_AUTHENTICATOR_PASSWORD')
+        Env.get('SCHOOL_GUARDIAN_AUTHENTICATOR_USERNAME'),
+        Env.get('SCHOOL_GUARDIAN_AUTHENTICATOR_PASSWORD')
       )
       .json({
         email: user.email,
@@ -142,8 +142,8 @@ test.group('Login', (group) => {
     const sut = await client
       .post(url)
       .basicAuth(
-        Env.get('PLAGIARISM_PLATFORM_AUTHENTICATOR_USERNAME'),
-        Env.get('PLAGIARISM_PLATFORM_AUTHENTICATOR_PASSWORD')
+        Env.get('SCHOOL_GUARDIAN_AUTHENTICATOR_USERNAME'),
+        Env.get('SCHOOL_GUARDIAN_AUTHENTICATOR_PASSWORD')
       )
       .json({
         email: null,
@@ -158,8 +158,8 @@ test.group('Login', (group) => {
     const sut = await client
       .post(url)
       .basicAuth(
-        Env.get('PLAGIARISM_PLATFORM_AUTHENTICATOR_USERNAME'),
-        Env.get('PLAGIARISM_PLATFORM_AUTHENTICATOR_PASSWORD')
+        Env.get('SCHOOL_GUARDIAN_AUTHENTICATOR_USERNAME'),
+        Env.get('SCHOOL_GUARDIAN_AUTHENTICATOR_PASSWORD')
       )
       .json({
         email: faker.internet.email(),
@@ -174,8 +174,8 @@ test.group('Login', (group) => {
     const sut = await client
       .post(url)
       .basicAuth(
-        Env.get('PLAGIARISM_PLATFORM_AUTHENTICATOR_USERNAME'),
-        Env.get('PLAGIARISM_PLATFORM_AUTHENTICATOR_PASSWORD')
+        Env.get('SCHOOL_GUARDIAN_AUTHENTICATOR_USERNAME'),
+        Env.get('SCHOOL_GUARDIAN_AUTHENTICATOR_PASSWORD')
       )
       .json({
         email: faker.internet.email(),
@@ -193,8 +193,8 @@ test.group('Login', (group) => {
     const sut = await client
       .post(url)
       .basicAuth(
-        Env.get('PLAGIARISM_PLATFORM_AUTHENTICATOR_USERNAME'),
-        Env.get('PLAGIARISM_PLATFORM_AUTHENTICATOR_PASSWORD')
+        Env.get('SCHOOL_GUARDIAN_AUTHENTICATOR_USERNAME'),
+        Env.get('SCHOOL_GUARDIAN_AUTHENTICATOR_PASSWORD')
       )
       .json({
         email: user.email,

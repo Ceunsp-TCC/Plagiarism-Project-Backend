@@ -21,8 +21,8 @@ test.group('Me', (group) => {
     const login = await client
       .post(urlLogin)
       .basicAuth(
-        Env.get('PLAGIARISM_PLATFORM_AUTHENTICATOR_USERNAME'),
-        Env.get('PLAGIARISM_PLATFORM_AUTHENTICATOR_PASSWORD')
+        Env.get('SCHOOL_GUARDIAN_AUTHENTICATOR_USERNAME'),
+        Env.get('SCHOOL_GUARDIAN_AUTHENTICATOR_PASSWORD')
       )
       .json({
         email: user.email,
@@ -50,8 +50,8 @@ test.group('Me', (group) => {
     const login = await client
       .post(urlLogin)
       .basicAuth(
-        Env.get('PLAGIARISM_PLATFORM_AUTHENTICATOR_USERNAME'),
-        Env.get('PLAGIARISM_PLATFORM_AUTHENTICATOR_PASSWORD')
+        Env.get('SCHOOL_GUARDIAN_AUTHENTICATOR_USERNAME'),
+        Env.get('SCHOOL_GUARDIAN_AUTHENTICATOR_PASSWORD')
       )
       .json({
         email: user.email,

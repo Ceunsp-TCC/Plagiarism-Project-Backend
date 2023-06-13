@@ -14,8 +14,8 @@ test.group('Create school', (group) => {
     const sut = await client
       .post(url)
       .basicAuth(
-        Env.get('PLAGIARISM_PLATFORM_AUTHENTICATOR_USERNAME'),
-        Env.get('PLAGIARISM_PLATFORM_AUTHENTICATOR_PASSWORD')
+        Env.get('SCHOOL_GUARDIAN_AUTHENTICATOR_USERNAME'),
+        Env.get('SCHOOL_GUARDIAN_AUTHENTICATOR_PASSWORD')
       )
       .json({
         name: faker.company.name(),
@@ -49,8 +49,8 @@ test.group('Create school', (group) => {
     const sut = await client
       .post(url)
       .basicAuth(
-        Env.get('PLAGIARISM_PLATFORM_AUTHENTICATOR_USERNAME'),
-        Env.get('PLAGIARISM_PLATFORM_AUTHENTICATOR_PASSWORD')
+        Env.get('SCHOOL_GUARDIAN_AUTHENTICATOR_USERNAME'),
+        Env.get('SCHOOL_GUARDIAN_AUTHENTICATOR_PASSWORD')
       )
 
     sut.assertStatus(422)
@@ -61,8 +61,8 @@ test.group('Create school', (group) => {
     const sut = await client
       .post(url)
       .basicAuth(
-        Env.get('PLAGIARISM_PLATFORM_AUTHENTICATOR_USERNAME'),
-        Env.get('PLAGIARISM_PLATFORM_AUTHENTICATOR_PASSWORD')
+        Env.get('SCHOOL_GUARDIAN_AUTHENTICATOR_USERNAME'),
+        Env.get('SCHOOL_GUARDIAN_AUTHENTICATOR_PASSWORD')
       )
       .json({
         name: faker.company.name(),
@@ -92,8 +92,8 @@ test.group('Create school', (group) => {
     const sut = await client
       .post(url)
       .basicAuth(
-        Env.get('PLAGIARISM_PLATFORM_AUTHENTICATOR_USERNAME'),
-        Env.get('PLAGIARISM_PLATFORM_AUTHENTICATOR_PASSWORD')
+        Env.get('SCHOOL_GUARDIAN_AUTHENTICATOR_USERNAME'),
+        Env.get('SCHOOL_GUARDIAN_AUTHENTICATOR_PASSWORD')
       )
       .json({
         name: faker.company.name(),
