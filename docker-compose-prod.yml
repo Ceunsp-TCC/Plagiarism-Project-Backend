@@ -1,9 +1,9 @@
 version: '3.5'
 
 services:
-  plagiarism-platform-backend:
-    container_name: plagiarism-platform-backend
-    image: gabrielsoaresdev/plagiarism-back:latest
+  school-guardian-backend:
+    container_name: school-guardian-backend
+    image: gabrielsoaresdev/school-guardian-backend:latest
     restart: always
     env_file:
       - stack.env
@@ -11,11 +11,11 @@ services:
       - '3335:3335'
     networks:
       - proxy-reverse-network
-      - plagiarism-platform-network
+      - school-guardian-network
       - postgres-network
 networks:
-  plagiarism-platform-network:
-    name: plagiarism-platform-network
+  school-guardian-network:
+    name: school-guardian-network
     external: true
   proxy-reverse-network:
     name: proxy-reverse-network

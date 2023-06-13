@@ -1,8 +1,8 @@
-import {plagiarismSearchApi} from 'App/Services/Apis/PlagiarismSearchApi'
-import type {CreateReportDto} from 'App/Dtos/Services/Http/PlagiarismSearchServicesDto'
-import type {CreateReportResponse} from 'App/Services/types/Http/PlagiarismSearchServices/CreateReportResponse'
-import type {GetReportsResponse} from 'App/Services/types/Http/PlagiarismSearchServices/GetReportsResponse'
-import type {GetReportByIdResponse} from 'App/Services/types/Http/PlagiarismSearchServices/GetReportByIdResponse'
+import { plagiarismSearchApi } from 'App/Services/Apis/PlagiarismSearchApi'
+import type { CreateReportDto } from 'App/Dtos/Services/Http/PlagiarismSearchServicesDto'
+import type { CreateReportResponse } from 'App/Services/types/Http/PlagiarismSearchServices/CreateReportResponse'
+import type { GetReportsResponse } from 'App/Services/types/Http/PlagiarismSearchServices/GetReportsResponse'
+import type { GetReportByIdResponse } from 'App/Services/types/Http/PlagiarismSearchServices/GetReportByIdResponse'
 import FormData from 'form-data'
 
 class PlagiarismSearchServices {
