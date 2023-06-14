@@ -29,8 +29,13 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: '16.x'
-      - run: npm ci
-      - run: node ace type-check
-      - run: npm run format
-      - run: npm run lint
-      - run: node ace test
+      - name: Install dependencies
+        run: npm ci
+      - name: Checking types
+        run: node ace type-check
+      - name: Format code
+        run: npm run format
+      - name: Verify errors eslint
+        run: npm run lint
+      - name: Running tests
+        run: node ace test
