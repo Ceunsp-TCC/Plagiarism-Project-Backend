@@ -19,14 +19,14 @@ export default class CreateSchoolService {
     const user = {
       name,
       email,
-      phoneNumber,
+      phoneNumber: phoneNumber.replace(/\D/g, ''),
       password,
       roleName: 'SCHOOL',
       roleId: roleSchool?.id!,
     }
     const school = {
-      CNPJ,
-      CEP: address.CEP,
+      CNPJ: CNPJ.replace(/\D/g, ''),
+      CEP: address.CEP.replace(/\D/g, ''),
       district: address.district,
       street: address.street,
       city: address.city,
