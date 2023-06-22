@@ -4,6 +4,7 @@ import Database from '@ioc:Adonis/Lucid/Database'
 import sinon from 'sinon'
 import { faker } from '@faker-js/faker'
 import Users from 'App/Models/Users'
+import Schools from 'App/Models/Schools'
 import RoleFactory from 'Database/factories/RoleFactory'
 
 test.group('User Lucid repository', (group) => {
@@ -14,7 +15,9 @@ test.group('User Lucid repository', (group) => {
 
   test('Should be create a scholl', async ({ assert }) => {
     const mockModel = sinon.createStubInstance(Users) as unknown as typeof Users
-    sinon.stub(UserLucidRepository.prototype, 'createSchool').resolves(true)
+
+    const schoolReturn = new Schools()
+    sinon.stub(UserLucidRepository.prototype, 'createSchool').resolves(schoolReturn)
     const schoolRepository = new UserLucidRepository(mockModel)
     const role = await RoleFactory.create()
 
@@ -43,7 +46,7 @@ test.group('User Lucid repository', (group) => {
 
     const result = await schoolRepository.createSchool(user, school)
 
-    assert.equal(result, true)
+    assert.equal(result, schoolReturn)
   })
 
   test('Should be find user by email', async ({ assert }) => {
@@ -66,6 +69,27 @@ test.group('User Lucid repository', (group) => {
     const userRepository = new UserLucidRepository(mockModel)
 
     const result = await userRepository.findSchoolByCnpj('22232323')
+    assert.equal(result, result)
+  })
+  test('Should be find user by id', async ({ assert }) => {
+    const mockModel = sinon.createStubInstance(Users) as unknown as typeof Users
+
+    const user = new Users()
+    sinon.stub(UserLucidRepository.prototype, 'findUserById').resolves(user)
+
+    const userRepository = new UserLucidRepository(mockModel)
+
+    const result = await userRepository.findUserById(1)
+    assert.equal(result, result)
+  })
+  test('Should be update status schoool  by id', async ({ assert }) => {
+    const mockModel = sinon.createStubInstance(Users) as unknown as typeof Users
+
+    sinon.stub(UserLucidRepository.prototype, 'updateSchoolStatus').resolves(true)
+
+    const userRepository = new UserLucidRepository(mockModel)
+
+    const result = await userRepository.updateSchoolStatus('COMPLETED', 1)
     assert.equal(result, result)
   })
 })

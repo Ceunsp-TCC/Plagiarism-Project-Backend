@@ -13,6 +13,11 @@ test.group('Create school', (group) => {
     return () => Database.rollbackGlobalTransaction()
   })
   test('Should create school success', async ({ client }) => {
+    nock(Env.get('NTFY_API'))
+      .post('/')
+      .reply(200, {
+        topic: Env.get('NTFY_TOPIC_NEW_SCHOOL'),
+      })
     nock(Env.get('VIACEP_API')).get('/ws/13323389/json/').reply(200, {
       cep: '13323-389',
       logradouro: 'Rua Antonio Coelho de Carvalho',
@@ -66,6 +71,11 @@ test.group('Create school', (group) => {
   })
 
   test('Should generate error because has other school with same email', async ({ client }) => {
+    nock(Env.get('NTFY_API'))
+      .post('/')
+      .reply(200, {
+        topic: Env.get('NTFY_TOPIC_NEW_SCHOOL'),
+      })
     nock(Env.get('VIACEP_API')).get('/ws/13323389/json/').reply(200, {
       cep: '13323-389',
       logradouro: 'Rua Antonio Coelho de Carvalho',
@@ -103,6 +113,11 @@ test.group('Create school', (group) => {
     sut.assertStatus(422)
   })
   test('Should generate error because has other school with same cnpj', async ({ client }) => {
+    nock(Env.get('NTFY_API'))
+      .post('/')
+      .reply(200, {
+        topic: Env.get('NTFY_TOPIC_NEW_SCHOOL'),
+      })
     nock(Env.get('VIACEP_API')).get('/ws/13323389/json/').reply(200, {
       cep: '13323-389',
       logradouro: 'Rua Antonio Coelho de Carvalho',
