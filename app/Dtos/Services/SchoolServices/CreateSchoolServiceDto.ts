@@ -1,9 +1,5 @@
 export interface Address {
   CEP: string
-  street: string
-  district: string
-  city: string
-  state: string
   complement?: string
   number?: number
 }

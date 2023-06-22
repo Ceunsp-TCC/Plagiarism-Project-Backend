@@ -57,4 +57,15 @@ test.group('User Lucid repository', (group) => {
     const result = await userRepository.findByEmail('gmaciel@gmail.com')
     assert.equal(result, result)
   })
+  test('Should be find school by cnpj', async ({ assert }) => {
+    const mockModel = sinon.createStubInstance(Users) as unknown as typeof Users
+
+    const user = new Users()
+    sinon.stub(UserLucidRepository.prototype, 'findSchoolByCnpj').resolves(user)
+
+    const userRepository = new UserLucidRepository(mockModel)
+
+    const result = await userRepository.findSchoolByCnpj('22232323')
+    assert.equal(result, result)
+  })
 })

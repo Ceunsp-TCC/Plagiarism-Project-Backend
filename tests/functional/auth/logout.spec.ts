@@ -1,6 +1,5 @@
 import { test } from '@japa/runner'
 import Database from '@ioc:Adonis/Lucid/Database'
-import UserFactory from 'Database/factories/UserFactory'
 import Env from '@ioc:Adonis/Core/Env'
 
 const url = '/v1/auth/logout'
@@ -14,11 +13,6 @@ test.group('Logout', (group) => {
   })
 
   test('Should be is logout user', async ({ client }) => {
-    const user = await UserFactory.with('school', 1, (school) => school.apply('schoolCompleted'))
-      .apply('school')
-      .apply('defaultPassword')
-      .create()
-
     const login = await client
       .post(urlLogin)
       .basicAuth(
@@ -26,8 +20,8 @@ test.group('Logout', (group) => {
         Env.get('SCHOOL_GUARDIAN_AUTHENTICATOR_PASSWORD')
       )
       .json({
-        email: user.email,
-        password: 'Alpha@12',
+        email: 'schoolCompleted@gmail.com',
+        password: 'schoolCompleted@school',
         deviceName: 'browser',
       })
 
@@ -36,11 +30,6 @@ test.group('Logout', (group) => {
     sut.assertBodyContains({ message: 'User successfully logged out' })
   })
   test('Should be verify is token turn invalid', async ({ client }) => {
-    const user = await UserFactory.with('school', 1, (school) => school.apply('schoolCompleted'))
-      .apply('school')
-      .apply('defaultPassword')
-      .create()
-
     const login = await client
       .post(urlLogin)
       .basicAuth(
@@ -48,8 +37,8 @@ test.group('Logout', (group) => {
         Env.get('SCHOOL_GUARDIAN_AUTHENTICATOR_PASSWORD')
       )
       .json({
-        email: user.email,
-        password: 'Alpha@12',
+        email: 'schoolCompleted@gmail.com',
+        password: 'schoolCompleted@school',
         deviceName: 'browser',
       })
 

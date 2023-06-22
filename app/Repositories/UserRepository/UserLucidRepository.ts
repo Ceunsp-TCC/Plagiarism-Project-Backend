@@ -16,4 +16,13 @@ export default class UserLucidRepository implements UserRepositoryInterface {
   public async findByEmail(email: string): Promise<Users | null> {
     return await this.model.findBy('email', email)
   }
+
+  public async findSchoolByCnpj(CNPJ: string): Promise<Users | null> {
+    return await this.model
+      .query()
+      .whereHas('school', (query) => {
+        query.where('CNPJ', CNPJ)
+      })
+      .first()
+  }
 }

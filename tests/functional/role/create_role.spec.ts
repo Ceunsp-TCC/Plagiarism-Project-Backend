@@ -1,6 +1,5 @@
 import { test } from '@japa/runner'
 import Database from '@ioc:Adonis/Lucid/Database'
-import UserFactory from 'Database/factories/UserFactory'
 import RoleFactory from 'Database/factories/RoleFactory'
 import Env from '@ioc:Adonis/Core/Env'
 import { faker } from '@faker-js/faker'
@@ -14,8 +13,6 @@ test.group('Create roles', (group) => {
   })
 
   test('Should be create a role', async ({ client }) => {
-    const user = await UserFactory.apply('admin').apply('defaultPassword').create()
-
     const login = await client
       .post(urlLogin)
       .basicAuth(
@@ -23,8 +20,8 @@ test.group('Create roles', (group) => {
         Env.get('SCHOOL_GUARDIAN_AUTHENTICATOR_PASSWORD')
       )
       .json({
-        email: user.email,
-        password: 'Alpha@12',
+        email: 'admin@gmail.com',
+        password: 'Admin@12',
         deviceName: 'browser',
       })
     const sut = await client
@@ -38,11 +35,6 @@ test.group('Create roles', (group) => {
     sut.assertBodyContains({ message: 'Role created successfully' })
   })
   test('Should be a unathorized action', async ({ client }) => {
-    const user = await UserFactory.with('school', 1, (school) => school.apply('schoolCompleted'))
-      .apply('school')
-      .apply('defaultPassword')
-      .create()
-
     const login = await client
       .post(urlLogin)
       .basicAuth(
@@ -50,8 +42,8 @@ test.group('Create roles', (group) => {
         Env.get('SCHOOL_GUARDIAN_AUTHENTICATOR_PASSWORD')
       )
       .json({
-        email: user.email,
-        password: 'Alpha@12',
+        email: 'schoolCompleted@gmail.com',
+        password: 'schoolCompleted@school',
         deviceName: 'browser',
       })
     const sut = await client
@@ -66,8 +58,6 @@ test.group('Create roles', (group) => {
   })
 
   test('Should be already exists name role', async ({ client }) => {
-    const user = await UserFactory.apply('admin').apply('defaultPassword').create()
-
     const login = await client
       .post(urlLogin)
       .basicAuth(
@@ -75,8 +65,8 @@ test.group('Create roles', (group) => {
         Env.get('SCHOOL_GUARDIAN_AUTHENTICATOR_PASSWORD')
       )
       .json({
-        email: user.email,
-        password: 'Alpha@12',
+        email: 'admin@gmail.com',
+        password: 'Admin@12',
         deviceName: 'browser',
       })
 
