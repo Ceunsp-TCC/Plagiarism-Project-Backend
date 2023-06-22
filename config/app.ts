@@ -29,7 +29,7 @@ export const logger: LoggerConfig = {
   name: Env.get('APP_NAME'),
   enabled: true,
   level: Env.get('LOG_LEVEL', 'info'),
-  prettyPrint: Env.get('NODE_ENV') === 'development',
+  prettyPrint: true,
 }
 
 export const profiler: ProfilerConfig = {
