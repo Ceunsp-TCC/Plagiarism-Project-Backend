@@ -12,6 +12,7 @@ Route.group(() => {
     Route.group(() => {
       Route.post('/create', 'SchoolsController.store')
       Route.post('/valid-document', 'SchoolsController.validDocument')
+      Route.put('/update-status/:id', 'SchoolsController.updateStatus')
     }).prefix('schools')
     Route.group(() => {
       Route.post('/valid-email', 'UsersController.validEmail')
