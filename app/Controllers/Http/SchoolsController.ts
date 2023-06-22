@@ -49,10 +49,13 @@ export default class SchoolsController {
   }
 
   public async updateStatus({ request }: HttpContextContract) {
-    Logger.error('payload', request.all())
+    //@ts-ignore
+    Logger.error({
+      ...request.all(),
+    })
     const payload = await request.validate(UpdateSchoolStatusValidator)
     const userId = await request.param('id')
-    Logger.error('payload', request.all())
+
     return await this.updateStatusSchoolService.updateStatus(payload.status as any, userId)
   }
 }
