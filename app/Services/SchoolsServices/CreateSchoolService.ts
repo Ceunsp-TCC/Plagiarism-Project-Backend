@@ -5,7 +5,6 @@ import type { CreateSchoolDto } from 'App/Dtos/Services/SchoolServices/CreateSch
 import RoleLucidRepository from 'App/Repositories/RoleRepository/RoleLucidRepository'
 import ViaCepServices from 'App/Services/Http/ViaCepServices/ViaCepServices'
 import NtfyServices from 'App/Services/Http/NtfyServices/NtfyServices'
-import Application from '@ioc:Adonis/Core/Application'
 import Env from '@ioc:Adonis/Core/Env'
 import { base64 } from '@ioc:Adonis/Core/Helpers'
 export default class CreateSchoolService {
@@ -45,9 +44,7 @@ export default class CreateSchoolService {
           headers: {
             Authorization: `Basic ${credentialsEncoded}`,
           },
-          body: JSON.stringify({
-            status: "COMPLETED"
-          }),
+          body: "{\"status\": COMPLETED}",
         },
         {
           action: 'http' as any,
@@ -57,9 +54,7 @@ export default class CreateSchoolService {
           headers: {
             Authorization: `Basic ${credentialsEncoded}`,
           },
-          body: JSON.stringify({
-            status: "INREVIEW"
-          }),
+          body: "{\"status\": INREVIEW}",
         },
         {
           action: 'http' as any,
@@ -69,9 +64,7 @@ export default class CreateSchoolService {
           headers: {
             Authorization: `Basic ${credentialsEncoded}`,
           },
-          body: JSON.stringify({
-            status: "CANCELED"
-          }),
+          body: "{\"status\": CANCELED}",
         },
       ],
     }
@@ -102,12 +95,11 @@ export default class CreateSchoolService {
 
     const createSchool = await this.userRepository.createSchool(user, school)
 
-    const enabledNotification = Application.inTest || Application.inProduction
-    if (enabledNotification) {
+
       await this.ntfyServices.sendNotification(
         this.notificationObject({ ...user, ...school, schoolId: createSchool.userId })
       )
-    }
+
 
     return await this.defaultResponse.success('School created successfully', 201)
   }
