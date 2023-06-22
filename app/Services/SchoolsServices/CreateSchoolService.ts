@@ -2,20 +2,25 @@ import DefaultResponse from 'App/Utils/DefaultResponse'
 import UserLucidRepository from 'App/Repositories/UserRepository/UserLucidRepository'
 import type { CreateSchoolDto } from 'App/Dtos/Services/SchoolServices/CreateSchoolServiceDto'
 import RoleLucidRepository from 'App/Repositories/RoleRepository/RoleLucidRepository'
+import ViaCepServices from 'App/Services/Http/ViaCepServices/ViaCepServices'
 
 export default class CreateSchoolService {
   constructor(
     private readonly defaultResponse: DefaultResponse,
     private readonly userRepository: UserLucidRepository,
-    private readonly roleRepository: RoleLucidRepository
+    private readonly roleRepository: RoleLucidRepository,
+    private readonly viaCepService: ViaCepServices
   ) {
     this.userRepository = userRepository
     this.roleRepository = roleRepository
     this.defaultResponse = defaultResponse
+    this.viaCepService = viaCepService
   }
 
   public async create({ name, email, CNPJ, address, password, phoneNumber }: CreateSchoolDto) {
     const roleSchool = await this.roleRepository.findByName('SCHOOL')
+
+    const getAddress = await this.viaCepService.getAddress(address.CEP)
     const user = {
       name,
       email,
@@ -27,10 +32,10 @@ export default class CreateSchoolService {
     const school = {
       CNPJ: CNPJ.replace(/\D/g, ''),
       CEP: address.CEP.replace(/\D/g, ''),
-      district: address.district,
-      street: address.street,
-      city: address.city,
-      state: address.state,
+      district: getAddress?.bairro!,
+      street: getAddress?.logradouro!,
+      city: getAddress?.localidade!,
+      state: getAddress?.uf!,
       complement: address.complement,
       number: address.number,
     }

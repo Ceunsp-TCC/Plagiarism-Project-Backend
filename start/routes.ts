@@ -11,7 +11,12 @@ Route.group(() => {
 
     Route.group(() => {
       Route.post('/create', 'SchoolsController.store')
+      Route.post('/valid-document', 'SchoolsController.validDocument')
     }).prefix('schools')
+    Route.group(() => {
+      Route.post('/valid-email', 'UsersController.validEmail')
+      Route.post('/valid-zipcode', 'UsersController.validZipCode')
+    }).prefix('users')
   }).middleware('basicAuth')
 
   //Logged routes

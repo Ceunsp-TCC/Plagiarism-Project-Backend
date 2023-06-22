@@ -1,7 +1,6 @@
 import Users from 'App/Models/Users'
 import Factory from '@ioc:Adonis/Lucid/Factory'
 import Schools from 'App/Models/Schools'
-import Roles from 'App/Models/Roles'
 
 //@ts-ignore
 const SchoolFactory = Factory.define(Schools, ({ faker }) => {
@@ -16,11 +15,7 @@ const SchoolFactory = Factory.define(Schools, ({ faker }) => {
     complement: faker.location.secondaryAddress(),
     status: 'INREVIEW',
   }
-})
-  .state('schoolCompleted', async (school) => {
-    school.status = 'COMPLETED'
-  })
-  .build()
+}).build()
 
 export default Factory.define(Users, ({ faker }) => {
   return {
@@ -30,16 +25,5 @@ export default Factory.define(Users, ({ faker }) => {
     password: faker.internet.password({ length: 10 }),
   }
 })
-  .state('admin', async (user) => {
-    const role = await Roles.query().select('id').where('name', 'ADMIN').first()
-    user.roleName = 'ADMIN'
-    user.roleId = role?.id!
-  })
-  .state('school', async (user) => {
-    const role = await Roles.query().select('id').where('name', 'SCHOOL').first()
-    user.roleName = 'SCHOOL'
-    user.roleId = role?.id!
-  })
-  .state('defaultPassword', (user) => (user.password = 'Alpha@12'))
   .relation('school', () => SchoolFactory)
   .build()
