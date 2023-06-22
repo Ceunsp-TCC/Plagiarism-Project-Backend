@@ -43,8 +43,9 @@ export default class CreateSchoolService {
           method: 'PUT' as any,
           headers: {
             Authorization: `Basic ${credentialsEncoded}`,
+            'Content-Type': 'application/json',
           },
-          body:'{"status": "COMPLETED"}',
+          body: JSON.stringify({ status: "COMPLETED" }),
         },
         {
           action: 'http' as any,
@@ -53,8 +54,9 @@ export default class CreateSchoolService {
           method: 'PUT' as any,
           headers: {
             Authorization: `Basic ${credentialsEncoded}`,
+            'Content-Type': 'application/json',
           },
-          body: '{"status": "INREVIEW"}',
+          body: JSON.stringify({ status: "INREVIEW" }),
         },
         {
           action: 'http' as any,
@@ -63,8 +65,9 @@ export default class CreateSchoolService {
           method: 'PUT' as any,
           headers: {
             Authorization: `Basic ${credentialsEncoded}`,
+            'Content-Type': 'application/json',
           },
-          body: '{"status": "CANCELED"}',
+          body: JSON.stringify({ status: "CANCELED" }),
         },
       ],
     }
