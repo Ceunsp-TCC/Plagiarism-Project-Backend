@@ -48,6 +48,7 @@ export default class SchoolsController {
   }
 
   public async updateStatus({ request }: HttpContextContract) {
+    console.log(request.all())
     const payload = await request.validate(UpdateSchoolStatusValidator)
     const userId = await request.param('id')
     console.log(payload)
