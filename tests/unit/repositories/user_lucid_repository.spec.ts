@@ -46,7 +46,7 @@ test.group('User Lucid repository', (group) => {
 
     const result = await schoolRepository.createSchool(user, school)
 
-    assert.equal(result, true)
+    assert.equal(result, schoolReturn)
   })
 
   test('Should be find user by email', async ({ assert }) => {
