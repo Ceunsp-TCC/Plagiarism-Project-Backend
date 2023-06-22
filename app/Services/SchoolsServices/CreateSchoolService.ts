@@ -45,9 +45,7 @@ export default class CreateSchoolService {
           headers: {
             Authorization: `Basic ${credentialsEncoded}`,
           },
-          body:{
-            status: "COMPLETED"
-          },
+          body: '{\"status\": \"COMPLETED\"}',
         },
         {
           action: 'http' as any,
@@ -57,9 +55,7 @@ export default class CreateSchoolService {
           headers: {
             Authorization: `Basic ${credentialsEncoded}`,
           },
-          body:{
-            status: "INREVIEW"
-          },
+          body:'{\"status\": \"INREVIEW\"}',
         },
         {
           action: 'http' as any,
@@ -69,9 +65,7 @@ export default class CreateSchoolService {
           headers: {
             Authorization: `Basic ${credentialsEncoded}`,
           },
-          body:{
-            status: "CANCELED"
-          },
+          body:'{\"status\": \"CANCELED\"}',
         },
       ],
     }
