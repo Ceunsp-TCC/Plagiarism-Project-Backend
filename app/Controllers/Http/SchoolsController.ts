@@ -12,6 +12,7 @@ import RoleLucidRepository from 'App/Repositories/RoleRepository/RoleLucidReposi
 import ViaCepServices from 'App/Services/Http/ViaCepServices/ViaCepServices'
 import Roles from 'App/Models/Roles'
 import Users from 'App/Models/Users'
+import Logger from '@ioc:Adonis/Core/Logger'
 export default class SchoolsController {
   private createSchoolService: CreateSchoolService
   private validDocumentService: ValidDocumentService
@@ -48,10 +49,10 @@ export default class SchoolsController {
   }
 
   public async updateStatus({ request }: HttpContextContract) {
-    console.log(request.all())
+    Logger.error('payload', request.all())
     const payload = await request.validate(UpdateSchoolStatusValidator)
     const userId = await request.param('id')
-    console.log(payload)
+    Logger.error('payload', request.all())
     return await this.updateStatusSchoolService.updateStatus(payload.status as any, userId)
   }
 }
