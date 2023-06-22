@@ -1,6 +1,5 @@
 import { test } from '@japa/runner'
 import Database from '@ioc:Adonis/Lucid/Database'
-import UserFactory from 'Database/factories/UserFactory'
 import Env from '@ioc:Adonis/Core/Env'
 import { faker } from '@faker-js/faker'
 
@@ -11,11 +10,6 @@ test.group('Login', (group) => {
     return () => Database.rollbackGlobalTransaction()
   })
   test('Should be school login successfully', async ({ client }) => {
-    const user = await UserFactory.with('school', 1, (school) => school.apply('schoolCompleted'))
-      .apply('school')
-      .apply('defaultPassword')
-      .create()
-
     const sut = await client
       .post(url)
       .basicAuth(
@@ -23,8 +17,8 @@ test.group('Login', (group) => {
         Env.get('SCHOOL_GUARDIAN_AUTHENTICATOR_PASSWORD')
       )
       .json({
-        email: user.email,
-        password: 'Alpha@12',
+        email: 'schoolCompleted@gmail.com',
+        password: 'schoolCompleted@school',
         deviceName: 'browser',
       })
 
@@ -52,8 +46,6 @@ test.group('Login', (group) => {
     })
   })
   test('Should be admin login successfully', async ({ client }) => {
-    const user = await UserFactory.apply('admin').apply('defaultPassword').create()
-
     const sut = await client
       .post(url)
       .basicAuth(
@@ -61,8 +53,8 @@ test.group('Login', (group) => {
         Env.get('SCHOOL_GUARDIAN_AUTHENTICATOR_PASSWORD')
       )
       .json({
-        email: user.email,
-        password: 'Alpha@12',
+        email: 'admin@gmail.com',
+        password: 'Admin@12',
         deviceName: 'browser',
       })
 
@@ -117,12 +109,6 @@ test.group('Login', (group) => {
   })
 
   test('Should is invalid credentials if password is incorrect', async ({ client }) => {
-    const user = await UserFactory.apply('school')
-      .apply('defaultPassword')
-
-      .with('school')
-      .create()
-
     const sut = await client
       .post(url)
       .basicAuth(
@@ -130,8 +116,8 @@ test.group('Login', (group) => {
         Env.get('SCHOOL_GUARDIAN_AUTHENTICATOR_PASSWORD')
       )
       .json({
-        email: user.email,
-        password: '12345',
+        email: 'admin@gmail.com',
+        password: 'Admin@11',
         deviceName: 'browser',
       })
 
@@ -188,8 +174,6 @@ test.group('Login', (group) => {
   })
 
   test('Should be user school in review', async ({ client }) => {
-    const user = await UserFactory.apply('school').apply('defaultPassword').with('school').create()
-
     const sut = await client
       .post(url)
       .basicAuth(
@@ -197,8 +181,8 @@ test.group('Login', (group) => {
         Env.get('SCHOOL_GUARDIAN_AUTHENTICATOR_PASSWORD')
       )
       .json({
-        email: user.email,
-        password: 'Alpha@12',
+        email: 'schoolInReview@gmail.com',
+        password: 'schoolInReview@school',
         deviceName: 'browser',
       })
 

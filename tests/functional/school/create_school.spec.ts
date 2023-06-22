@@ -1,16 +1,30 @@
 import { test } from '@japa/runner'
 import Database from '@ioc:Adonis/Lucid/Database'
 import { faker } from '@faker-js/faker'
-import UserFactory from 'Database/factories/UserFactory'
 import Env from '@ioc:Adonis/Core/Env'
+import nock from 'nock'
+
 const url = '/v1/schools/create'
 
+const passwordMock = 'Default@12'
 test.group('Create school', (group) => {
   group.each.setup(async () => {
     await Database.beginGlobalTransaction()
     return () => Database.rollbackGlobalTransaction()
   })
   test('Should create school success', async ({ client }) => {
+    nock(Env.get('VIACEP_API')).get('/ws/13323389/json/').reply(200, {
+      cep: '13323-389',
+      logradouro: 'Rua Antonio Coelho de Carvalho',
+      complemento: '',
+      bairro: 'Jardim Santa Marta III',
+      localidade: 'Salto',
+      uf: 'SP',
+      ibge: '3545209',
+      gia: '6002',
+      ddd: '11',
+      siafi: '7005',
+    })
     const sut = await client
       .post(url)
       .basicAuth(
@@ -20,17 +34,12 @@ test.group('Create school', (group) => {
       .json({
         name: faker.company.name(),
         email: faker.internet.email(),
-        password: faker.internet.password({
-          length: 10,
-        }),
+        password: passwordMock,
+        confirmPassword: passwordMock,
         CNPJ: faker.string.numeric(14),
         phoneNumber: faker.phone.number('119########'),
         address: {
-          street: faker.location.street(),
-          city: faker.location.city(),
-          state: faker.location.state({ abbreviated: true }),
-          CEP: faker.location.zipCode(),
-          district: faker.location.country(),
+          CEP: '13323389',
           number: faker.number.int({
             max: 5,
           }),
@@ -57,7 +66,18 @@ test.group('Create school', (group) => {
   })
 
   test('Should generate error because has other school with same email', async ({ client }) => {
-    const user = await UserFactory.apply('school').apply('defaultPassword').with('school').create()
+    nock(Env.get('VIACEP_API')).get('/ws/13323389/json/').reply(200, {
+      cep: '13323-389',
+      logradouro: 'Rua Antonio Coelho de Carvalho',
+      complemento: '',
+      bairro: 'Jardim Santa Marta III',
+      localidade: 'Salto',
+      uf: 'SP',
+      ibge: '3545209',
+      gia: '6002',
+      ddd: '11',
+      siafi: '7005',
+    })
     const sut = await client
       .post(url)
       .basicAuth(
@@ -66,18 +86,13 @@ test.group('Create school', (group) => {
       )
       .json({
         name: faker.company.name(),
-        email: user.email,
-        password: faker.internet.password({
-          length: 10,
-        }),
+        email: 'schoolCompleted@gmail.com',
+        password: passwordMock,
+        confirmPassword: passwordMock,
         CNPJ: faker.string.numeric(14),
         phoneNumber: faker.phone.number('119########'),
         address: {
-          street: faker.location.street(),
-          city: faker.location.city(),
-          state: faker.location.state({ abbreviated: true }),
           CEP: faker.location.zipCode(),
-          district: faker.location.country(),
           number: faker.number.int({
             max: 5,
           }),
@@ -88,7 +103,18 @@ test.group('Create school', (group) => {
     sut.assertStatus(422)
   })
   test('Should generate error because has other school with same cnpj', async ({ client }) => {
-    const user = await UserFactory.apply('school').apply('defaultPassword').with('school').create()
+    nock(Env.get('VIACEP_API')).get('/ws/13323389/json/').reply(200, {
+      cep: '13323-389',
+      logradouro: 'Rua Antonio Coelho de Carvalho',
+      complemento: '',
+      bairro: 'Jardim Santa Marta III',
+      localidade: 'Salto',
+      uf: 'SP',
+      ibge: '3545209',
+      gia: '6002',
+      ddd: '11',
+      siafi: '7005',
+    })
     const sut = await client
       .post(url)
       .basicAuth(
@@ -98,17 +124,12 @@ test.group('Create school', (group) => {
       .json({
         name: faker.company.name(),
         email: faker.internet.email(),
-        password: faker.internet.password({
-          length: 10,
-        }),
-        CNPJ: user.school.CNPJ,
+        password: passwordMock,
+        confirmPassword: passwordMock,
+        CNPJ: '22232323',
         phoneNumber: faker.phone.number('119########'),
         address: {
-          street: faker.location.street(),
-          city: faker.location.city(),
-          state: faker.location.state({ abbreviated: true }),
-          CEP: faker.location.zipCode(),
-          district: faker.location.country(),
+          CEP: '13323389',
           number: faker.number.int({
             max: 5,
           }),

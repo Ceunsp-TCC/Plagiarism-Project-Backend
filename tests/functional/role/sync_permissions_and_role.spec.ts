@@ -1,6 +1,5 @@
 import { test } from '@japa/runner'
 import Database from '@ioc:Adonis/Lucid/Database'
-import UserFactory from 'Database/factories/UserFactory'
 import RoleFactory from 'Database/factories/RoleFactory'
 import PermissionFactory from 'Database/factories/PermissionFactory'
 import Env from '@ioc:Adonis/Core/Env'
@@ -14,7 +13,6 @@ test.group('Sync permissions and roles', (group) => {
   })
 
   test('Should be sync roles and permissions', async ({ client }) => {
-    const user = await UserFactory.apply('admin').apply('defaultPassword').create()
     const role = await RoleFactory.create()
     const permissions = await PermissionFactory.createMany(4)
 
@@ -25,8 +23,8 @@ test.group('Sync permissions and roles', (group) => {
         Env.get('SCHOOL_GUARDIAN_AUTHENTICATOR_PASSWORD')
       )
       .json({
-        email: user.email,
-        password: 'Alpha@12',
+        email: 'admin@gmail.com',
+        password: 'Admin@12',
         deviceName: 'browser',
       })
     const sut = await client
@@ -42,7 +40,6 @@ test.group('Sync permissions and roles', (group) => {
   })
 
   test('Should be sync roles  permissions is empty', async ({ client }) => {
-    const user = await UserFactory.apply('admin').apply('defaultPassword').create()
     const role = await RoleFactory.create()
 
     const login = await client
@@ -52,8 +49,8 @@ test.group('Sync permissions and roles', (group) => {
         Env.get('SCHOOL_GUARDIAN_AUTHENTICATOR_PASSWORD')
       )
       .json({
-        email: user.email,
-        password: 'Alpha@12',
+        email: 'admin@gmail.com',
+        password: 'Admin@12',
         deviceName: 'browser',
       })
     const sut = await client
@@ -68,7 +65,6 @@ test.group('Sync permissions and roles', (group) => {
     sut.assertBody({ permissions: ['required validation failed'] })
   })
   test('Should be sync roles  role name is empty', async ({ client }) => {
-    const user = await UserFactory.apply('admin').apply('defaultPassword').create()
     const permissions = await PermissionFactory.createMany(4)
 
     const login = await client
@@ -78,8 +74,8 @@ test.group('Sync permissions and roles', (group) => {
         Env.get('SCHOOL_GUARDIAN_AUTHENTICATOR_PASSWORD')
       )
       .json({
-        email: user.email,
-        password: 'Alpha@12',
+        email: 'admin@gmail.com',
+        password: 'Admin@12',
         deviceName: 'browser',
       })
     const sut = await client
@@ -94,7 +90,6 @@ test.group('Sync permissions and roles', (group) => {
     sut.assertBody({ roleName: ['required validation failed'] })
   })
   test('Should be role not found', async ({ client }) => {
-    const user = await UserFactory.apply('admin').apply('defaultPassword').create()
     const permissions = await PermissionFactory.createMany(4)
 
     const login = await client
@@ -104,8 +99,8 @@ test.group('Sync permissions and roles', (group) => {
         Env.get('SCHOOL_GUARDIAN_AUTHENTICATOR_PASSWORD')
       )
       .json({
-        email: user.email,
-        password: 'Alpha@12',
+        email: 'admin@gmail.com',
+        password: 'Admin@12',
         deviceName: 'browser',
       })
     const sut = await client
@@ -120,7 +115,6 @@ test.group('Sync permissions and roles', (group) => {
     sut.assertBodyContains({ message: 'Role not found' })
   })
   test('Should be permission not found', async ({ client }) => {
-    const user = await UserFactory.apply('admin').apply('defaultPassword').create()
     const role = await RoleFactory.create()
     const login = await client
       .post(urlLogin)
@@ -129,8 +123,8 @@ test.group('Sync permissions and roles', (group) => {
         Env.get('SCHOOL_GUARDIAN_AUTHENTICATOR_PASSWORD')
       )
       .json({
-        email: user.email,
-        password: 'Alpha@12',
+        email: 'admin@gmail.com',
+        password: 'Admin@12',
         deviceName: 'browser',
       })
     const permissions = ['teste1', 'teste2']
@@ -146,7 +140,6 @@ test.group('Sync permissions and roles', (group) => {
     sut.assertBodyContains({ message: `These permissions do not exist: ${permissions}` })
   })
   test('Should be permissions duplicated', async ({ client }) => {
-    const user = await UserFactory.apply('admin').apply('defaultPassword').create()
     const role = await RoleFactory.create()
     const permissions = await PermissionFactory.createMany(4)
 
@@ -157,8 +150,8 @@ test.group('Sync permissions and roles', (group) => {
         Env.get('SCHOOL_GUARDIAN_AUTHENTICATOR_PASSWORD')
       )
       .json({
-        email: user.email,
-        password: 'Alpha@12',
+        email: 'admin@gmail.com',
+        password: 'Admin@12',
         deviceName: 'browser',
       })
 
@@ -175,10 +168,6 @@ test.group('Sync permissions and roles', (group) => {
   })
   test('Should be a unathorized action', async ({ client }) => {
     const role = await RoleFactory.create()
-    const user = await UserFactory.with('school', 1, (school) => school.apply('schoolCompleted'))
-      .apply('school')
-      .apply('defaultPassword')
-      .create()
 
     const login = await client
       .post(urlLogin)
@@ -187,8 +176,8 @@ test.group('Sync permissions and roles', (group) => {
         Env.get('SCHOOL_GUARDIAN_AUTHENTICATOR_PASSWORD')
       )
       .json({
-        email: user.email,
-        password: 'Alpha@12',
+        email: 'schoolCompleted@gmail.com',
+        password: 'schoolCompleted@school',
         deviceName: 'browser',
       })
     const permissions = ['teste1', 'teste2']
