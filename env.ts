@@ -15,4 +15,6 @@ export default Env.rules({
   PLAGIARISM_SEARCH_API_USER: Env.schema.string(),
   PLAGIARISM_SEARCH_API_KEY: Env.schema.string(),
   VIACEP_API: Env.schema.string(),
+  NTFY_API: Env.schema.string(),
+  NTFY_TOPIC_NEW_SCHOOL: Env.schema.string(),
 })
