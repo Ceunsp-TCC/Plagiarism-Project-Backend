@@ -30,7 +30,7 @@ export default class UsersController {
   }
   public async validZipCode({ request }: HttpContextContract) {
     const payload = await request.validate(ValidZipCodeValidator)
-
+    console.log(payload)
     return await this.validZipCodeService.validZipCode(payload.zipcode)
   }
 }

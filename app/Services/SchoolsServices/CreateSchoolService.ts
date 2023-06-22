@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import DefaultResponse from 'App/Utils/DefaultResponse'
 import UserLucidRepository from 'App/Repositories/UserRepository/UserLucidRepository'
 import type { CreateSchoolDto } from 'App/Dtos/Services/SchoolServices/CreateSchoolServiceDto'
@@ -30,7 +31,7 @@ export default class CreateSchoolService {
         'SCHOOL_GUARDIAN_AUTHENTICATOR_PASSWORD'
       )}`
     )
-    console.log(credentialsEncoded)
+
     return {
       topic: Env.get('NTFY_TOPIC_NEW_SCHOOL'),
       title: 'New school created at School Guardian',
@@ -44,7 +45,7 @@ export default class CreateSchoolService {
           headers: {
             Authorization: `Basic ${credentialsEncoded}`,
           },
-          body: '{"status": "COMPLETED"}',
+          body: '{\"status\": \"COMPLETED\"}',
         },
         {
           action: 'http' as any,
@@ -54,7 +55,7 @@ export default class CreateSchoolService {
           headers: {
             Authorization: `Basic ${credentialsEncoded}`,
           },
-          body: '{"status": "INREVIEW"}',
+          body:'{\"status\": \"INREVIEW\"}',
         },
         {
           action: 'http' as any,
@@ -64,7 +65,7 @@ export default class CreateSchoolService {
           headers: {
             Authorization: `Basic ${credentialsEncoded}`,
           },
-          body: '{"status": "CANCELED"}',
+          body:'{\"status\": \"CANCELED\"}',
         },
       ],
     }
