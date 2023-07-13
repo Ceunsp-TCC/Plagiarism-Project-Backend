@@ -1,27 +1,12 @@
-/* eslint-disable prettier/prettier */
-import DefaultResponse from 'App/Utils/DefaultResponse'
-import UserLucidRepository from 'App/Repositories/UserRepository/UserLucidRepository'
+import DefaultResponse from '@ioc:Utils/DefaultResponse'
+import UserRepository from '@ioc:Repositories/UserRepository'
+import RoleRepository from '@ioc:Repositories/RoleRepository'
 import type { CreateSchoolDto } from 'App/Dtos/Services/SchoolServices/CreateSchoolServiceDto'
-import RoleLucidRepository from 'App/Repositories/RoleRepository/RoleLucidRepository'
-import ViaCepServices from 'App/Services/Http/ViaCepServices/ViaCepServices'
-import NtfyServices from 'App/Services/Http/NtfyServices/NtfyServices'
+import ViaCep from '@ioc:ExternalApis/ViaCep'
+import Ntfy from '@ioc:ExternalApis/Ntfy'
 import Env from '@ioc:Adonis/Core/Env'
 import { base64 } from '@ioc:Adonis/Core/Helpers'
 export default class CreateSchoolService {
-  constructor(
-    private readonly defaultResponse: DefaultResponse,
-    private readonly userRepository: UserLucidRepository,
-    private readonly roleRepository: RoleLucidRepository,
-    private readonly viaCepService: ViaCepServices,
-    private readonly ntfyServices: NtfyServices
-  ) {
-    this.userRepository = userRepository
-    this.roleRepository = roleRepository
-    this.defaultResponse = defaultResponse
-    this.viaCepService = viaCepService
-    this.ntfyServices = ntfyServices
-  }
-
   private notificationObject(user: any) {
     delete user.password
 
@@ -42,10 +27,10 @@ export default class CreateSchoolService {
           url: `${Env.get('APP_URL')}/v1/schools/update-status/${user.schoolId}`,
           method: 'PUT' as any,
           headers: {
-            Authorization: `Basic ${credentialsEncoded}`,
+            'Authorization': `Basic ${credentialsEncoded}`,
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ status: "COMPLETED" }),
+          body: JSON.stringify({ status: 'COMPLETED' }),
         },
         {
           action: 'http' as any,
@@ -53,10 +38,10 @@ export default class CreateSchoolService {
           url: `${Env.get('APP_URL')}/v1/schools/update-status/${user.schoolId} `,
           method: 'PUT' as any,
           headers: {
-            Authorization: `Basic ${credentialsEncoded}`,
+            'Authorization': `Basic ${credentialsEncoded}`,
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ status: "INREVIEW" }),
+          body: JSON.stringify({ status: 'INREVIEW' }),
         },
         {
           action: 'http' as any,
@@ -64,19 +49,19 @@ export default class CreateSchoolService {
           url: `${Env.get('APP_URL')}/v1/schools/update-status/${user.schoolId}`,
           method: 'PUT' as any,
           headers: {
-            Authorization: `Basic ${credentialsEncoded}`,
+            'Authorization': `Basic ${credentialsEncoded}`,
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ status: "CANCELED" }),
+          body: JSON.stringify({ status: 'CANCELED' }),
         },
       ],
     }
   }
 
   public async create({ name, email, CNPJ, address, password, phoneNumber }: CreateSchoolDto) {
-    const roleSchool = await this.roleRepository.findByName('SCHOOL')
+    const roleSchool = await RoleRepository.findByName('SCHOOL')
 
-    const getAddress = await this.viaCepService.getAddress(address.CEP)
+    const getAddress = await ViaCep.getAddress(address.CEP)
     const user = {
       name,
       email,
@@ -96,14 +81,12 @@ export default class CreateSchoolService {
       number: address.number,
     }
 
-    const createSchool = await this.userRepository.createSchool(user, school)
+    const createSchool = await UserRepository.createSchool(user, school)
 
+    await Ntfy.sendNotification(
+      this.notificationObject({ ...user, ...school, schoolId: createSchool.userId })
+    )
 
-      await this.ntfyServices.sendNotification(
-        this.notificationObject({ ...user, ...school, schoolId: createSchool.userId })
-      )
-
-
-    return await this.defaultResponse.success('School created successfully', 201)
+    return await DefaultResponse.success('School created successfully', 201)
   }
 }

@@ -23,14 +23,12 @@ Route.group(() => {
   //Logged routes
   Route.group(() => {
     Route.group(() => {
-      Route.post('/create', 'PermissionsController.store').middleware(
-        'permission:PermissionPolicy,createPermission'
-      )
+      Route.post('/create', 'PermissionsController.store').middleware('permission:createPermission')
     }).prefix('permissions')
     Route.group(() => {
-      Route.post('/create', 'RolesController.store').middleware('permission:RolePolicy,createRole')
+      Route.post('/create', 'RolesController.store').middleware('permission:createRole')
       Route.post('/sync-roles-permissions', 'RolesController.syncPermissionsAndRoles').middleware(
-        'permission:RolePolicy,syncRolesPermissions'
+        'permission:syncRolesPermissions'
       )
     }).prefix('roles')
     Route.group(() => {

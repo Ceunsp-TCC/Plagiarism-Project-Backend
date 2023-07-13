@@ -1,25 +1,14 @@
-import DefaultResponse from 'App/Utils/DefaultResponse'
+import DefaultResponse from '@ioc:Utils/DefaultResponse'
 import HttpContext from '@ioc:Adonis/Core/HttpContext'
-import UserLucidRepository from 'App/Repositories/UserRepository/UserLucidRepository'
+import UserRepository from '@ioc:Repositories/UserRepository'
 import Hash from '@ioc:Adonis/Core/Hash'
 import CustomException from 'App/Exceptions/CustomException'
 
 export default class LoginService {
-  constructor(
-    private readonly defaultResponse: DefaultResponse,
-    private readonly httpContext: typeof HttpContext,
-    private readonly userRepository: UserLucidRepository,
-    private readonly hash: typeof Hash
-  ) {
-    this.defaultResponse = defaultResponse
-    this.httpContext = httpContext
-    this.userRepository = userRepository
-    this.hash = hash
-  }
   public async login(email: string, password: string) {
-    const ctx = await this.httpContext.get()
-    const user = await this.userRepository.findByEmail(email)
-    const isInvalidCredentials = !user || !(await this.hash.verify(user?.password!, password))
+    const ctx = await HttpContext.get()
+    const user = await UserRepository.findByEmail(email)
+    const isInvalidCredentials = !user || !(await Hash.verify(user?.password!, password))
 
     if (isInvalidCredentials) {
       throw new CustomException('Invalid Credentials', 401)
@@ -64,6 +53,6 @@ export default class LoginService {
       user: userInfos,
     }
 
-    return await this.defaultResponse.successWithContent('Authenticated', 200, data)
+    return await DefaultResponse.successWithContent('Authenticated', 200, data)
   }
 }

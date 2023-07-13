@@ -1,11 +1,8 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import ValidEmailService from 'App/Services/UsersService/ValidEmailService'
 import ValidZipCodeService from 'App/Services/UsersService/ValidZipCodeService'
-import DefaultResponse from 'App/Utils/DefaultResponse'
-import UserLucidRepository from 'App/Repositories/UserRepository/UserLucidRepository'
 import ValidEmailValidator from 'App/Validators/ValidEmailValidator'
 import ValidZipCodeValidator from 'App/Validators/ValidZipCodeValidator'
-import Users from 'App/Models/Users'
 import ViaCepServices from 'App/Services/Http/ViaCepServices/ViaCepServices'
 
 export default class UsersController {
@@ -13,14 +10,8 @@ export default class UsersController {
   private validZipCodeService: ValidZipCodeService
 
   constructor() {
-    ;(this.validEmailService = new ValidEmailService(
-      new DefaultResponse(),
-      new UserLucidRepository(Users)
-    )),
-      (this.validZipCodeService = new ValidZipCodeService(
-        new DefaultResponse(),
-        new ViaCepServices()
-      ))
+    ;(this.validEmailService = new ValidEmailService()),
+      (this.validZipCodeService = new ValidZipCodeService(new ViaCepServices()))
   }
 
   public async validEmail({ request }: HttpContextContract) {

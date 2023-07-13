@@ -1,16 +1,8 @@
-import DefaultResponse from 'App/Utils/DefaultResponse'
-import RoleLucidRepository from 'App/Repositories/RoleRepository/RoleLucidRepository'
+import DefaultResponse from '@ioc:Utils/DefaultResponse'
+import RoleRepository from '@ioc:Repositories/RoleRepository'
 export default class CreateRoleService {
-  constructor(
-    private readonly defaultResponse: DefaultResponse,
-    private readonly roleRepository: RoleLucidRepository
-  ) {
-    this.roleRepository = roleRepository
-    this.defaultResponse = defaultResponse
-  }
-
   public async create(name: string) {
-    await this.roleRepository.create(name)
-    return await this.defaultResponse.success('Role created successfully', 201)
+    await RoleRepository.create(name)
+    return await DefaultResponse.success('Role created successfully', 201)
   }
 }
