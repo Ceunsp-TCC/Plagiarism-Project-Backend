@@ -1,17 +1,10 @@
-import DefaultResponse from 'App/Utils/DefaultResponse'
+import DefaultResponse from '@ioc:Utils/DefaultResponse'
 import HttpContext from '@ioc:Adonis/Core/HttpContext'
 
 export default class MeService {
-  constructor(
-    private readonly httpContext: typeof HttpContext,
-    private readonly defaultResponse: DefaultResponse
-  ) {
-    this.httpContext = httpContext
-    this.defaultResponse = defaultResponse
-  }
   public async me() {
     let user
-    const ctx = await this.httpContext.get()
+    const ctx = await HttpContext.get()
     const isSchool = (await ctx?.auth.user?.roleName) === 'SCHOOL'
     const isAdmin = (await ctx?.auth.user?.roleName) === 'ADMIN'
     const roleId = await ctx?.auth.user?.roleId
@@ -37,7 +30,7 @@ export default class MeService {
       }
     }
 
-    return await this.defaultResponse.successWithContent(
+    return await DefaultResponse.successWithContent(
       'User information successfully returned',
       200,
       user

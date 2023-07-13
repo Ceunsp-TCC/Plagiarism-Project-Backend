@@ -1,4 +1,4 @@
-import type {CorsConfig} from '@ioc:Adonis/Core/Cors'
+import type { CorsConfig } from '@ioc:Adonis/Core/Cors'
 
 const corsConfig: CorsConfig = {
   enabled: true,

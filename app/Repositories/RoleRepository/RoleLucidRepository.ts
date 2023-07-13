@@ -2,9 +2,7 @@ import Roles from 'App/Models/Roles'
 import type RoleRepositoryInterface from 'App/Interfaces/Repositories/RoleRepositoryInterface'
 
 export default class RoleLucidRepository implements RoleRepositoryInterface {
-  constructor(private readonly model: typeof Roles) {
-    this.model = model
-  }
+  constructor(private readonly model: typeof Roles) {}
 
   public async create(name: string): Promise<boolean> {
     await this.model.create({
