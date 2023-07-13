@@ -1,7 +1,8 @@
 import { ntfyApi } from 'App/Services/Apis/NtfyApi'
 import type { SendNotificationProps } from 'App/Services/types/Http/NtfyServices/SendNotificationProps'
+import { NtfyServicesInterface } from 'App/Interfaces/Services/NtfyServicesInterface'
 
-export default class NtfyServices {
+export default class NtfyServices implements NtfyServicesInterface {
   public async sendNotification({
     topic,
     title = '',

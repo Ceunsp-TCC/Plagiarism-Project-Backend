@@ -5,13 +5,6 @@ import UpdateStatusSchoolService from 'App/Services/SchoolsServices/UpdateStatus
 import CreateSchoolValidator from 'App/Validators/CreateSchoolValidator'
 import ValidSchoolDocumentValidator from 'App/Validators/ValidSchoolDocumentValidator'
 import UpdateSchoolStatusValidator from 'App/Validators/UpdateSchoolStatusValidator'
-import NtfyServices from 'App/Services/Http/NtfyServices/NtfyServices'
-import DefaultResponse from 'App/Utils/DefaultResponse'
-import UserLucidRepository from 'App/Repositories/UserRepository/UserLucidRepository'
-import RoleLucidRepository from 'App/Repositories/RoleRepository/RoleLucidRepository'
-import ViaCepServices from 'App/Services/Http/ViaCepServices/ViaCepServices'
-import Roles from 'App/Models/Roles'
-import Users from 'App/Models/Users'
 
 export default class SchoolsController {
   private createSchoolService: CreateSchoolService
@@ -19,21 +12,9 @@ export default class SchoolsController {
   private updateStatusSchoolService: UpdateStatusSchoolService
 
   constructor() {
-    ;(this.createSchoolService = new CreateSchoolService(
-      new DefaultResponse(),
-      new UserLucidRepository(Users),
-      new RoleLucidRepository(Roles),
-      new ViaCepServices(),
-      new NtfyServices()
-    )),
-      (this.validDocumentService = new ValidDocumentService(
-        new DefaultResponse(),
-        new UserLucidRepository(Users)
-      )),
-      (this.updateStatusSchoolService = new UpdateStatusSchoolService(
-        new DefaultResponse(),
-        new UserLucidRepository(Users)
-      ))
+    ;(this.createSchoolService = new CreateSchoolService()),
+      (this.validDocumentService = new ValidDocumentService()),
+      (this.updateStatusSchoolService = new UpdateStatusSchoolService())
   }
 
   public async store({ request }: HttpContextContract) {
