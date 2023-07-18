@@ -5,6 +5,7 @@ import sinon from 'sinon'
 import { faker } from '@faker-js/faker'
 import Users from 'App/Models/Users'
 import Schools from 'App/Models/Schools'
+import Teachers from 'App/Models/Teachers'
 import RoleFactory from 'Database/factories/RoleFactory'
 
 test.group('User Lucid repository', (group) => {
@@ -47,6 +48,33 @@ test.group('User Lucid repository', (group) => {
     const result = await schoolRepository.createSchool(user, school)
 
     assert.equal(result, schoolReturn)
+  })
+  test('Should be create a  teacher', async ({ assert }) => {
+    const mockModel = sinon.createStubInstance(Users) as unknown as typeof Users
+
+    const teacherReturn = new Teachers()
+    sinon.stub(UserLucidRepository.prototype, 'createTeacher').resolves(teacherReturn)
+    const userRepository = new UserLucidRepository(mockModel)
+    const role = await RoleFactory.create()
+
+    const user = {
+      name: faker.company.name(),
+      email: faker.internet.email(),
+      phoneNumber: faker.phone.number('119########'),
+      password: faker.internet.password({
+        length: 10,
+      }),
+      roleName: 'TEACHER',
+      roleId: role.id!,
+    }
+    const teacher = {
+      CPF: faker.string.numeric(14),
+      CND: faker.string.numeric(14),
+    }
+
+    const result = await userRepository.createTeacher(user, teacher)
+
+    assert.equal(result, teacherReturn)
   })
 
   test('Should be find user by email', async ({ assert }) => {
