@@ -1,5 +1,6 @@
-import { BaseModel, column, belongsTo, BelongsTo } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, column, belongsTo, BelongsTo, HasMany, hasMany } from '@ioc:Adonis/Lucid/Orm'
 import Users from 'App/Models/Users'
+import Teachers from 'App/Models/Teachers'
 export default class Schools extends BaseModel {
   public static table = 'schools'
   public static primaryKey = ''
@@ -37,6 +38,12 @@ export default class Schools extends BaseModel {
 
   @column()
   public status: 'INREVIEW' | 'CANCELED' | 'COMPLETED'
+
+  @hasMany(() => Teachers, {
+    localKey: 'userId',
+    foreignKey: 'schoolId',
+  })
+  public teachers: HasMany<typeof Teachers>
 
   @belongsTo(() => Users, {
     localKey: 'userId',

@@ -11,6 +11,7 @@ import {
 } from '@ioc:Adonis/Lucid/Orm'
 import Hash from '@ioc:Adonis/Core/Hash'
 import Schools from 'App/Models/Schools'
+import Teachers from 'App/Models/Teachers'
 import Roles from 'App/Models/Roles'
 
 export default class Users extends BaseModel {
@@ -70,6 +71,12 @@ export default class Users extends BaseModel {
     foreignKey: 'userId',
   })
   public school: HasOne<typeof Schools>
+
+  @hasOne(() => Teachers, {
+    localKey: 'id',
+    foreignKey: 'userId',
+  })
+  public teacher: HasOne<typeof Teachers>
 
   @hasOne(() => Roles, {
     localKey: 'roleId',

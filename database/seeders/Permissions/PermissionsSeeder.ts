@@ -33,6 +33,12 @@ export default class PermissionsSeeder extends BaseSeeder {
       {
         name: 'syncRolesPermissions',
       },
+      {
+        name: 'teachers',
+      },
+      {
+        name: 'createTeacher',
+      },
     ])
   }
 }

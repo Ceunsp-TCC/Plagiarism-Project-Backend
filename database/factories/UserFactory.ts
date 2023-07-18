@@ -1,6 +1,7 @@
 import Users from 'App/Models/Users'
 import Factory from '@ioc:Adonis/Lucid/Factory'
 import Schools from 'App/Models/Schools'
+import TeacherFactory from 'database/factories/TeacherFactory'
 
 //@ts-ignore
 const SchoolFactory = Factory.define(Schools, ({ faker }) => {
@@ -15,7 +16,9 @@ const SchoolFactory = Factory.define(Schools, ({ faker }) => {
     complement: faker.location.secondaryAddress(),
     status: 'INREVIEW',
   }
-}).build()
+})
+  .relation('teachers', () => TeacherFactory)
+  .build()
 
 export default Factory.define(Users, ({ faker }) => {
   return {
@@ -26,4 +29,5 @@ export default Factory.define(Users, ({ faker }) => {
   }
 })
   .relation('school', () => SchoolFactory)
+  .relation('teacher', () => TeacherFactory)
   .build()
