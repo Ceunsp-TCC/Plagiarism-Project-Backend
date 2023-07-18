@@ -10,12 +10,14 @@ export default class IndexSeeder extends BaseSeeder {
     await this.runSeeder(await import('../Roles/RolesSeeder'))
     await this.runSeeder(await import('../Permissions/PermissionsSeeder'))
     await this.runSeeder(await import('../RolePermissions/RolePermissionsAdminSeeder'))
+    await this.runSeeder(await import('../RolePermissions/RolePermissionsSchoolSeeder'))
 
     const isTestEnviroment = Application.inTest
 
     if (isTestEnviroment) {
       await this.runSeeder(await import('../Users/AdminSeeder'))
       await this.runSeeder(await import('../Users/SchoolSeeder'))
+      await this.runSeeder(await import('../Users/TeacherSeeder'))
     }
   }
 }
