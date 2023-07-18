@@ -70,6 +70,7 @@ test.group('User Lucid repository', (group) => {
     const teacher = {
       CPF: faker.string.numeric(14),
       CND: faker.string.numeric(14),
+      schoolId: 1,
     }
 
     const result = await userRepository.createTeacher(user, teacher)
