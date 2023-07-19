@@ -14,7 +14,6 @@ export default class CreateUpdateTeacherValidator {
         column: 'email',
       }),
     ]),
-    password: schema.string({}, [rules.confirmed('confirmPassword')]),
     CPF: schema.string({}, [
       rules.unique({
         table: 'teachers',

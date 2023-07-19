@@ -1,7 +1,11 @@
 import { test } from '@japa/runner'
 import Database from '@ioc:Adonis/Lucid/Database'
-import Env from '@ioc:Adonis/Core/Env'
 import { faker } from '@faker-js/faker'
+import {
+  basicCredentials,
+  mockTeacherCredentials,
+  mockTeacherInactiveCredentials,
+} from '../../helpers'
 
 const url = '/v1/auth/login'
 test.group('Login', (group) => {
@@ -12,15 +16,41 @@ test.group('Login', (group) => {
   test('Should be school login successfully', async ({ client }) => {
     const sut = await client
       .post(url)
-      .basicAuth(
-        Env.get('SCHOOL_GUARDIAN_AUTHENTICATOR_USERNAME'),
-        Env.get('SCHOOL_GUARDIAN_AUTHENTICATOR_PASSWORD')
-      )
+      .basicAuth(basicCredentials.username, basicCredentials.password)
       .json({
         email: 'schoolCompleted@gmail.com',
         password: 'schoolCompleted@school',
         deviceName: 'browser',
       })
+
+    sut.assertStatus(200)
+    sut.assertBodyContains({
+      content: {
+        accessToken: {
+          token: sut.response.body.content.accessToken.token,
+        },
+      },
+    })
+    sut.assertBodyContains({
+      content: {
+        user: {
+          permissions: ['teachers', 'createTeacher'],
+        },
+      },
+    })
+    sut.assertBodyContains({
+      content: {
+        user: {
+          roleName: 'SCHOOL',
+        },
+      },
+    })
+  })
+  test('Should be teacher login successfully', async ({ client }) => {
+    const sut = await client
+      .post(url)
+      .basicAuth(basicCredentials.username, basicCredentials.password)
+      .json(mockTeacherCredentials)
 
     sut.assertStatus(200)
     sut.assertBodyContains({
@@ -40,18 +70,23 @@ test.group('Login', (group) => {
     sut.assertBodyContains({
       content: {
         user: {
-          roleName: 'SCHOOL',
+          roleName: 'TEACHER',
         },
       },
     })
   })
+  test('Should be teacher inactive', async ({ client }) => {
+    const sut = await client
+      .post(url)
+      .basicAuth(basicCredentials.username, basicCredentials.password)
+      .json(mockTeacherInactiveCredentials)
+
+    sut.assertStatus(403)
+  })
   test('Should be admin login successfully', async ({ client }) => {
     const sut = await client
       .post(url)
-      .basicAuth(
-        Env.get('SCHOOL_GUARDIAN_AUTHENTICATOR_USERNAME'),
-        Env.get('SCHOOL_GUARDIAN_AUTHENTICATOR_PASSWORD')
-      )
+      .basicAuth(basicCredentials.username, basicCredentials.password)
       .json({
         email: 'admin@gmail.com',
         password: 'Admin@12',
@@ -94,10 +129,7 @@ test.group('Login', (group) => {
   test('Should is invalid credentials if user doest exists', async ({ client }) => {
     const sut = await client
       .post(url)
-      .basicAuth(
-        Env.get('SCHOOL_GUARDIAN_AUTHENTICATOR_USERNAME'),
-        Env.get('SCHOOL_GUARDIAN_AUTHENTICATOR_PASSWORD')
-      )
+      .basicAuth(basicCredentials.username, basicCredentials.password)
       .json({
         email: 'diretoria@estererafaelapadarialtda.com.br',
         password: '12345',
@@ -111,10 +143,7 @@ test.group('Login', (group) => {
   test('Should is invalid credentials if password is incorrect', async ({ client }) => {
     const sut = await client
       .post(url)
-      .basicAuth(
-        Env.get('SCHOOL_GUARDIAN_AUTHENTICATOR_USERNAME'),
-        Env.get('SCHOOL_GUARDIAN_AUTHENTICATOR_PASSWORD')
-      )
+      .basicAuth(basicCredentials.username, basicCredentials.password)
       .json({
         email: 'admin@gmail.com',
         password: 'Admin@11',
@@ -127,10 +156,7 @@ test.group('Login', (group) => {
   test('Should be email is empty', async ({ client }) => {
     const sut = await client
       .post(url)
-      .basicAuth(
-        Env.get('SCHOOL_GUARDIAN_AUTHENTICATOR_USERNAME'),
-        Env.get('SCHOOL_GUARDIAN_AUTHENTICATOR_PASSWORD')
-      )
+      .basicAuth(basicCredentials.username, basicCredentials.password)
       .json({
         email: null,
         password: faker.internet.password({ length: 10 }),
@@ -143,10 +169,7 @@ test.group('Login', (group) => {
   test('Should password is empty', async ({ client }) => {
     const sut = await client
       .post(url)
-      .basicAuth(
-        Env.get('SCHOOL_GUARDIAN_AUTHENTICATOR_USERNAME'),
-        Env.get('SCHOOL_GUARDIAN_AUTHENTICATOR_PASSWORD')
-      )
+      .basicAuth(basicCredentials.username, basicCredentials.password)
       .json({
         email: faker.internet.email(),
         password: null,
@@ -159,10 +182,7 @@ test.group('Login', (group) => {
   test('Should device name is empty', async ({ client }) => {
     const sut = await client
       .post(url)
-      .basicAuth(
-        Env.get('SCHOOL_GUARDIAN_AUTHENTICATOR_USERNAME'),
-        Env.get('SCHOOL_GUARDIAN_AUTHENTICATOR_PASSWORD')
-      )
+      .basicAuth(basicCredentials.username, basicCredentials.password)
       .json({
         email: faker.internet.email(),
         password: faker.internet.password({ length: 10 }),
@@ -176,10 +196,7 @@ test.group('Login', (group) => {
   test('Should be user school in review', async ({ client }) => {
     const sut = await client
       .post(url)
-      .basicAuth(
-        Env.get('SCHOOL_GUARDIAN_AUTHENTICATOR_USERNAME'),
-        Env.get('SCHOOL_GUARDIAN_AUTHENTICATOR_PASSWORD')
-      )
+      .basicAuth(basicCredentials.username, basicCredentials.password)
       .json({
         email: 'schoolInReview@gmail.com',
         password: 'schoolInReview@school',

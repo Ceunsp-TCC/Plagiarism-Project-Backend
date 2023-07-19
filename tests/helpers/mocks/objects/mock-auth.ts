@@ -9,3 +9,13 @@ export const mockSchoolCredentials = {
   password: 'schoolCompleted@school',
   deviceName: 'browser',
 }
+export const mockTeacherCredentials = {
+  email: 'teacher@gmail.com',
+  password: 'teacher@teacher',
+  deviceName: 'browser',
+}
+export const mockTeacherInactiveCredentials = {
+  email: 'teacher-inactive@gmail.com',
+  password: 'teacher-inactive@teacher',
+  deviceName: 'browser',
+}
