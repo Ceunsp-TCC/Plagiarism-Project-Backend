@@ -22,5 +22,20 @@ export default class TeacherSeeder extends BaseSeeder {
       CPF: 'cpf-teacher-test',
       schoolId: school?.userId,
     })
+    const createTeacherInactive = await Users.create({
+      name: 'teacher-inactive',
+      password: 'teacher-inactive@teacher',
+      email: 'teacher-inactive@gmail.com',
+      phoneNumber: '112333333',
+      roleId: roleTeacher?.id,
+      roleName: 'TEACHER',
+    })
+
+    await createTeacherInactive.related('teacher').create({
+      CND: 'cnd-test',
+      CPF: 'cpf-teacher-test',
+      status: 'INACTIVE',
+      schoolId: school?.userId,
+    })
   }
 }

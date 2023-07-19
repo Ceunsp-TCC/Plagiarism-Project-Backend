@@ -18,6 +18,7 @@ export default class LoginService {
     const token = await ctx?.auth.use('api').generate(user)
     const isSchool = (await ctx?.auth.user?.roleName) === 'SCHOOL'
     const isAdmin = (await ctx?.auth.user?.roleName) === 'ADMIN'
+    const isTeacher = (await ctx?.auth.user?.roleName) === 'TEACHER'
     const roleId = await ctx?.auth.user?.roleId
     const role = await ctx?.auth.user?.related('role').query().where('id', roleId!).first()
     const permissions = (await role?.related('permissions').query()!).map(
@@ -38,6 +39,20 @@ export default class LoginService {
       userInfos = {
         ...userData,
         schoolData: school,
+        permissions,
+      }
+    }
+
+    if (isTeacher) {
+      const teacher = await ctx?.auth.user?.related('teacher').query().first()
+      const teacherInactive = teacher?.status === 'INACTIVE'
+
+      if (teacherInactive) {
+        throw new CustomException('Access denied. The user account is inactive', 403)
+      }
+      userInfos = {
+        ...userData,
+        teacherData: teacher,
         permissions,
       }
     }
