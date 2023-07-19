@@ -7,6 +7,7 @@ export default class MeService {
     const ctx = await HttpContext.get()
     const isSchool = (await ctx?.auth.user?.roleName) === 'SCHOOL'
     const isAdmin = (await ctx?.auth.user?.roleName) === 'ADMIN'
+    const isTeacher = (await ctx?.auth.user?.roleName) === 'TEACHER'
     const roleId = await ctx?.auth.user?.roleId
     const role = await ctx?.auth.user?.related('role').query().where('id', roleId!).first()
     const permissions = (await role?.related('permissions').query()!).map(
@@ -22,7 +23,15 @@ export default class MeService {
         permissions,
       }
     }
+    if (isTeacher) {
+      const teacher = await ctx?.auth.user?.related('teacher').query().first()
 
+      user = {
+        ...userData,
+        teacherData: teacher,
+        permissions,
+      }
+    }
     if (isAdmin) {
       user = {
         ...userData,

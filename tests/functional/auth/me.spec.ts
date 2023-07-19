@@ -1,6 +1,6 @@
 import { test } from '@japa/runner'
 import Database from '@ioc:Adonis/Lucid/Database'
-import Env from '@ioc:Adonis/Core/Env'
+import { basicCredentials, mockTeacherCredentials } from '../../helpers'
 
 const url = '/v1/auth/me'
 const urlLogin = '/v1/auth/login'
@@ -14,10 +14,7 @@ test.group('Me', (group) => {
   test('Should be is returned user school informations', async ({ client }) => {
     const login = await client
       .post(urlLogin)
-      .basicAuth(
-        Env.get('SCHOOL_GUARDIAN_AUTHENTICATOR_USERNAME'),
-        Env.get('SCHOOL_GUARDIAN_AUTHENTICATOR_PASSWORD')
-      )
+      .basicAuth(basicCredentials.username, basicCredentials.password)
       .json({
         email: 'schoolCompleted@gmail.com',
         password: 'schoolCompleted@school',
@@ -29,7 +26,7 @@ test.group('Me', (group) => {
     sut.assertBodyContains({ message: 'User information successfully returned' })
     sut.assertBodyContains({
       content: {
-        permissions: [],
+        permissions: ['teachers', 'createTeacher'],
       },
     })
     sut.assertBodyContains({
@@ -38,13 +35,30 @@ test.group('Me', (group) => {
       },
     })
   })
+  test('Should be is returned user teacher informations', async ({ client }) => {
+    const login = await client
+      .post(urlLogin)
+      .basicAuth(basicCredentials.username, basicCredentials.password)
+      .json(mockTeacherCredentials)
+
+    const sut = await client.get(url).bearerToken(login.response.body.content.accessToken.token)
+    sut.assertStatus(200)
+    sut.assertBodyContains({ message: 'User information successfully returned' })
+    sut.assertBodyContains({
+      content: {
+        permissions: [],
+      },
+    })
+    sut.assertBodyContains({
+      content: {
+        roleName: 'TEACHER',
+      },
+    })
+  })
   test('Should be is returned user admin informations', async ({ client }) => {
     const login = await client
       .post(urlLogin)
-      .basicAuth(
-        Env.get('SCHOOL_GUARDIAN_AUTHENTICATOR_USERNAME'),
-        Env.get('SCHOOL_GUARDIAN_AUTHENTICATOR_PASSWORD')
-      )
+      .basicAuth(basicCredentials.username, basicCredentials.password)
       .json({
         email: 'admin@gmail.com',
         password: 'Admin@12',

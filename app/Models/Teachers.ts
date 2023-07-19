@@ -23,9 +23,10 @@ export default class Teachers extends BaseModel {
   public CND: string
 
   @column({
-    columnName: 'passwordIsChange',
+    columnName: 'randomPassword',
+    serializeAs: 'randomPassword',
   })
-  public passwordIsChange: boolean
+  public randomPassword: boolean
 
   @column()
   public status: 'ACTIVE' | 'INACTIVE'

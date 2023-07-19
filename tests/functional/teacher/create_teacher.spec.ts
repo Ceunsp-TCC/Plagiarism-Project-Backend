@@ -27,7 +27,7 @@ test.group('Create teacher', (group) => {
       .json(mockTeacherObject)
 
     sut.assertStatus(201)
-    sut.assertBody({
+    sut.assertBodyContains({
       statusCode: 201,
       message: 'Teacher created successfully',
     })

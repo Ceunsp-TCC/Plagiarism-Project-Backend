@@ -9,7 +9,7 @@ export default class extends BaseSchema {
       table.bigInteger('schoolId').notNullable()
       table.string('CPF', 20).notNullable()
       table.string('CND').notNullable()
-      table.boolean('passwordIsChange').defaultTo(false)
+      table.boolean('randomPassword').defaultTo(true)
       table.enum('status', ['ACTIVE', 'INACTIVE']).defaultTo('ACTIVE')
       table.foreign('schoolId').references('users.id').onDelete('CASCADE')
       table.foreign('userId').references('users.id').onDelete('CASCADE')
