@@ -39,6 +39,9 @@ export default class PermissionsSeeder extends BaseSeeder {
       {
         name: 'createTeacher',
       },
+      {
+        name: 'getTeachers',
+      },
     ])
   }
 }

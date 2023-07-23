@@ -1,6 +1,6 @@
 import Users from 'App/Models/Users'
 import Schools from 'App/Models/Schools'
-import { BaseModel, column, belongsTo, BelongsTo } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, column, belongsTo, BelongsTo, scope } from '@ioc:Adonis/Lucid/Orm'
 
 export default class Teachers extends BaseModel {
   public static table = 'teachers'
@@ -32,8 +32,8 @@ export default class Teachers extends BaseModel {
   public status: 'ACTIVE' | 'INACTIVE'
 
   @belongsTo(() => Users, {
-    localKey: 'userId',
-    foreignKey: 'id',
+    localKey: 'id',
+    foreignKey: 'userId',
   })
   public user: BelongsTo<typeof Users>
 
@@ -42,4 +42,8 @@ export default class Teachers extends BaseModel {
     foreignKey: 'userId',
   })
   public school: BelongsTo<typeof Schools>
+
+  public static byUser = scope((query, schoolId: number) => {
+    query.where('schoolId', schoolId)
+  })
 }

@@ -25,6 +25,13 @@ export default class RepositoriesProvider {
 
       return new PermissionLucidRepository(permissionsModel)
     })
+    this.app.container.bind('Repositories/TeacherRepository', () => {
+      const TeacherLucidRepository =
+        require('App/Repositories/TeacherRepository/TeacherLucidRepository').default
+      const teacherModel = require('App/Models/Teachers').default
+
+      return new TeacherLucidRepository(teacherModel)
+    })
   }
 
   public async boot() {}
