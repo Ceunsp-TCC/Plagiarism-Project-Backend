@@ -33,6 +33,7 @@ Route.group(() => {
     }).prefix('roles')
     Route.group(() => {
       Route.post('/create', 'TeachersController.store').middleware('permission:createTeacher')
+      Route.get('/get-all', 'TeachersController.index').middleware('permission:getTeachers')
     }).prefix('teachers')
     Route.group(() => {
       Route.get('/me', 'AuthController.me')
