@@ -10,5 +10,13 @@ export default class UtilsProvider {
       const context = this.app.container.resolveBinding('Adonis/Core/HttpContext')
       return new DefaultResponse(context)
     })
+    this.app.container.singleton('Utils/FormatDate', () => {
+      const FormatDate = require('App/Utils/FormatDate').default
+      return new FormatDate()
+    })
+    this.app.container.singleton('Utils/DefaultPaginate', () => {
+      const DefaultPaginate = require('App/Utils/DefaultPaginate').default
+      return new DefaultPaginate()
+    })
   }
 }

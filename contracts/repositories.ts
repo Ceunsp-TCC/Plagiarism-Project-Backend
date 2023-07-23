@@ -14,3 +14,8 @@ declare module '@ioc:Repositories/PermissionRepository' {
   const PermissionRepository: PermissionRepositoryInterface
   export default PermissionRepository
 }
+declare module '@ioc:Repositories/TeacherRepository' {
+  import type TeacherRepositoryInterface from 'App/Interfaces/Repositories/TeacherRepositoryInterface'
+  const TeacherRepository: TeacherRepositoryInterface
+  export default TeacherRepository
+}

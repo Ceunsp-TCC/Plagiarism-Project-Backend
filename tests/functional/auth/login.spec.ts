@@ -34,7 +34,7 @@ test.group('Login', (group) => {
     sut.assertBodyContains({
       content: {
         user: {
-          permissions: ['teachers', 'createTeacher'],
+          permissions: ['teachers', 'createTeacher', 'getTeachers'],
         },
       },
     })
