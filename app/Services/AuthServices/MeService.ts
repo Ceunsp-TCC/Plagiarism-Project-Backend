@@ -8,6 +8,7 @@ export default class MeService {
     const isSchool = (await ctx?.auth.user?.roleName) === 'SCHOOL'
     const isAdmin = (await ctx?.auth.user?.roleName) === 'ADMIN'
     const isTeacher = (await ctx?.auth.user?.roleName) === 'TEACHER'
+    const isStudent = (await ctx?.auth.user?.roleName) === 'STUDENT'
     const roleId = await ctx?.auth.user?.roleId
     const role = await ctx?.auth.user?.related('role').query().where('id', roleId!).first()
     const permissions = (await role?.related('permissions').query()!).map(
@@ -29,6 +30,15 @@ export default class MeService {
       user = {
         ...userData,
         teacherData: teacher,
+        permissions,
+      }
+    }
+    if (isStudent) {
+      const student = await ctx?.auth.user?.related('student').query().first()
+
+      user = {
+        ...userData,
+        studentData: student,
         permissions,
       }
     }
