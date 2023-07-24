@@ -15,3 +15,7 @@ export const mockTeacherObject = {
   CPF: faker.string.numeric(14),
   CND: faker.string.numeric(14),
 }
+export const mockStudentObject = {
+  ...mockUserObject,
+  CPF: faker.string.numeric(14),
+}

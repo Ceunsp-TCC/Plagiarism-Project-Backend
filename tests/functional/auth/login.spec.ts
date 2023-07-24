@@ -5,6 +5,8 @@ import {
   basicCredentials,
   mockTeacherCredentials,
   mockTeacherInactiveCredentials,
+  mockStudentCredentials,
+  mockStudentInactiveCredentials,
 } from '../../helpers'
 
 const url = '/v1/auth/login'
@@ -31,10 +33,18 @@ test.group('Login', (group) => {
         },
       },
     })
+
     sut.assertBodyContains({
       content: {
         user: {
-          permissions: ['teachers', 'createTeacher', 'getTeachers'],
+          permissions: [
+            'teachers',
+            'createTeacher',
+            'getTeachers',
+            'students',
+            'createStudent',
+            'getStudents',
+          ],
         },
       },
     })
@@ -75,7 +85,44 @@ test.group('Login', (group) => {
       },
     })
   })
+  test('Should be student login successfully', async ({ client }) => {
+    const sut = await client
+      .post(url)
+      .basicAuth(basicCredentials.username, basicCredentials.password)
+      .json(mockStudentCredentials)
+
+    sut.assertStatus(200)
+    sut.assertBodyContains({
+      content: {
+        accessToken: {
+          token: sut.response.body.content.accessToken.token,
+        },
+      },
+    })
+    sut.assertBodyContains({
+      content: {
+        user: {
+          permissions: [],
+        },
+      },
+    })
+    sut.assertBodyContains({
+      content: {
+        user: {
+          roleName: 'STUDENT',
+        },
+      },
+    })
+  })
   test('Should be teacher inactive', async ({ client }) => {
+    const sut = await client
+      .post(url)
+      .basicAuth(basicCredentials.username, basicCredentials.password)
+      .json(mockStudentInactiveCredentials)
+
+    sut.assertStatus(403)
+  })
+  test('Should be student inactive', async ({ client }) => {
     const sut = await client
       .post(url)
       .basicAuth(basicCredentials.username, basicCredentials.password)
