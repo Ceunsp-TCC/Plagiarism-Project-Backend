@@ -4,7 +4,14 @@ import Roles from 'App/Models/Roles'
 
 export default class RolePermissionsSchoolSeeder extends BaseSeeder {
   public async run() {
-    const permissionsSchool = ['teachers', 'createTeacher', 'getTeachers']
+    const permissionsSchool = [
+      'teachers',
+      'createTeacher',
+      'getTeachers',
+      'students',
+      'createStudent',
+      'getStudents',
+    ]
 
     const schoolPermissionsIds = (await Permissions.query().whereIn('name', permissionsSchool)).map(
       (permission) => permission.id

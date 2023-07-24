@@ -13,6 +13,7 @@ import Hash from '@ioc:Adonis/Core/Hash'
 import Schools from 'App/Models/Schools'
 import Teachers from 'App/Models/Teachers'
 import Roles from 'App/Models/Roles'
+import Students from 'App/Models/Students'
 
 export default class Users extends BaseModel {
   @column({ isPrimary: true })
@@ -77,6 +78,12 @@ export default class Users extends BaseModel {
     foreignKey: 'userId',
   })
   public teacher: HasOne<typeof Teachers>
+
+  @hasOne(() => Students, {
+    localKey: 'id',
+    foreignKey: 'userId',
+  })
+  public student: HasOne<typeof Students>
 
   @hasOne(() => Roles, {
     localKey: 'roleId',

@@ -26,7 +26,14 @@ test.group('Me', (group) => {
     sut.assertBodyContains({ message: 'User information successfully returned' })
     sut.assertBodyContains({
       content: {
-        permissions: ['teachers', 'createTeacher', 'getTeachers'],
+        permissions: [
+          'teachers',
+          'createTeacher',
+          'getTeachers',
+          'students',
+          'createStudent',
+          'getStudents',
+        ],
       },
     })
     sut.assertBodyContains({
@@ -36,6 +43,26 @@ test.group('Me', (group) => {
     })
   })
   test('Should be is returned user teacher informations', async ({ client }) => {
+    const login = await client
+      .post(urlLogin)
+      .basicAuth(basicCredentials.username, basicCredentials.password)
+      .json(mockTeacherCredentials)
+
+    const sut = await client.get(url).bearerToken(login.response.body.content.accessToken.token)
+    sut.assertStatus(200)
+    sut.assertBodyContains({ message: 'User information successfully returned' })
+    sut.assertBodyContains({
+      content: {
+        permissions: [],
+      },
+    })
+    sut.assertBodyContains({
+      content: {
+        roleName: 'TEACHER',
+      },
+    })
+  })
+  test('Should be is returned user student informations', async ({ client }) => {
     const login = await client
       .post(urlLogin)
       .basicAuth(basicCredentials.username, basicCredentials.password)
