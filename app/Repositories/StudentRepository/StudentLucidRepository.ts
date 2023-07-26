@@ -52,4 +52,11 @@ export default class StudentLucidRepository implements StudentRepositoryInterfac
       paginateProperties: students,
     })
   }
+  public async updateRandomPassword(userId: number) {
+    const updateStudent = await Database.from('students')
+      .where('userId', userId)
+      .update({ randomPassword: false })
+
+    return updateStudent
+  }
 }

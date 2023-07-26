@@ -17,6 +17,7 @@ Route.group(() => {
     Route.group(() => {
       Route.post('/valid-email', 'UsersController.validEmail')
       Route.post('/valid-zipcode', 'UsersController.validZipCode')
+      Route.put('/update-password/:id', 'UsersController.updatePassword')
     }).prefix('users')
   }).middleware('basicAuth')
 
