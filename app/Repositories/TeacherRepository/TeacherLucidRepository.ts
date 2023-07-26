@@ -52,4 +52,11 @@ export default class TeacherLucidRepository implements TeacherRepositoryInterfac
       paginateProperties: teachers,
     })
   }
+  public async updateRandomPassword(userId: number) {
+    const updateTeacher = await Database.from('teachers')
+      .where('userId', userId)
+      .update({ randomPassword: false })
+
+    return updateTeacher
+  }
 }

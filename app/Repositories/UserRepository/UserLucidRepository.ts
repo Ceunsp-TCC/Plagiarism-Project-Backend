@@ -53,4 +53,10 @@ export default class UserLucidRepository implements UserRepositoryInterface {
 
     return true
   }
+
+  public async updatePassword(userId: number, newPassword: string): Promise<Users | undefined> {
+    const user = await this.model.findBy('id', userId)
+
+    return await user?.merge({ password: newPassword }).save()
+  }
 }
