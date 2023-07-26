@@ -149,4 +149,15 @@ test.group('User Lucid repository', (group) => {
     const result = await userRepository.updateSchoolStatus('COMPLETED', 1)
     assert.equal(result, result)
   })
+  test('Should be update password', async ({ assert }) => {
+    const mockModel = sinon.createStubInstance(Users) as unknown as typeof Users
+
+    const user = new Users()
+    sinon.stub(UserLucidRepository.prototype, 'updatePassword').resolves(user)
+
+    const userRepository = new UserLucidRepository(mockModel)
+
+    const result = await userRepository.updatePassword(1, 'mogi@12')
+    assert.equal(result, user)
+  })
 })

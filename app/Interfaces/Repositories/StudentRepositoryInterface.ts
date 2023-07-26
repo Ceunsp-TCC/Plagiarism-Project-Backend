@@ -8,4 +8,5 @@ export default interface StudentRepositoryInterface {
     numberlinesPerPage?: number,
     name?: string
   ): Promise<DefaultPaginateDtoResponse<StudentDtoResponse>>
+  updateRandomPassword(userId: number)
 }

@@ -15,4 +15,5 @@ export default interface UserRepositoryInterface {
   findSchoolByCnpj(CNPJ: string): Promise<Users | null>
   findUserById(id: number): Promise<Users | null>
   updateSchoolStatus(status: 'INREVIEW' | 'CANCELED' | 'COMPLETED', id: number): Promise<boolean>
+  updatePassword(userId: number, newPassword: string): Promise<Users | undefined>
 }

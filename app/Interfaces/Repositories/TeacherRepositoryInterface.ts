@@ -7,4 +7,5 @@ export default interface TeacherRepositoryInterface {
     numberlinesPerPage?: number,
     name?: string
   ): Promise<DefaultPaginateDtoResponse<TeacherDtoResponse>>
+  updateRandomPassword(userId: number)
 }
