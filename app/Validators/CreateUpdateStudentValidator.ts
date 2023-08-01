@@ -14,12 +14,7 @@ export default class CreateUpdateStudentValidator {
         column: 'email',
       }),
     ]),
-    CPF: schema.string({}, [
-      rules.unique({
-        table: 'students',
-        column: 'CPF',
-      }),
-    ]),
+    CPF: schema.string(),
   })
 
   public messages: CustomMessages = {}

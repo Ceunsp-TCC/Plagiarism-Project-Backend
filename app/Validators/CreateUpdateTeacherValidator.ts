@@ -14,12 +14,7 @@ export default class CreateUpdateTeacherValidator {
         column: 'email',
       }),
     ]),
-    CPF: schema.string({}, [
-      rules.unique({
-        table: 'teachers',
-        column: 'CPF',
-      }),
-    ]),
+    CPF: schema.string(),
     CND: schema.string(),
   })
 
