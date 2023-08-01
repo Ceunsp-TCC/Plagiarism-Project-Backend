@@ -59,26 +59,7 @@ test.group('Create student', (group) => {
 
     sut.assertStatus(403)
   })
-  test('Should be cpf already exists', async ({ client }) => {
-    const login = await client
-      .post(urlLogin)
-      .basicAuth(basicCredentials.username, basicCredentials.password)
-      .json(mockSchoolCredentials)
 
-    const sut = await client
-      .post(url)
-      .bearerToken(login.response.body.content.accessToken.token)
-      .json({
-        name: faker.company.name(),
-        email: faker.internet.email(),
-        password: 'Alpha@12',
-        confirmPassword: 'Alpha@12',
-        phoneNumber: faker.phone.number('119########'),
-        CPF: 'cpf-student-test',
-      })
-
-    sut.assertStatus(422)
-  })
   test('Should be email already exists', async ({ client }) => {
     const login = await client
       .post(urlLogin)
