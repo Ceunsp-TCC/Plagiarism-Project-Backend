@@ -33,6 +33,7 @@ export default class TeacherLucidRepository implements TeacherRepositoryInterfac
           query.whereILike('users.name', `%${name}%`)
         }
       })
+      .orderBy('users.createdAt', 'desc')
       .paginate(currentPage!, numberlinesPerPage)
 
     const items = (await teachers.all()) as TeacherDtoResponse[]

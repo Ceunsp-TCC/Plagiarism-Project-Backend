@@ -33,6 +33,7 @@ export default class StudentLucidRepository implements StudentRepositoryInterfac
           query.whereILike('users.name', `%${name}%`)
         }
       })
+      .orderBy('users.createdAt', 'desc')
       .paginate(currentPage!, numberlinesPerPage)
 
     const items = (await students.all()) as StudentDtoResponse[]
