@@ -24,3 +24,8 @@ declare module '@ioc:Repositories/StudentRepository' {
   const StudentRepository: StudentRepositoryInterface
   export default StudentRepository
 }
+declare module '@ioc:Repositories/CourseRepository' {
+  import type CourseRepositoryInterface from 'App/Interfaces/Repositories/CourseRepositoryInterface'
+  const CourseRepository: CourseRepositoryInterface
+  export default CourseRepository
+}
