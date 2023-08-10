@@ -14,6 +14,7 @@ Route.group(() => {
       Route.post('/valid-document', 'SchoolsController.validDocument')
       Route.put('/update-status/:id', 'SchoolsController.updateStatus')
     }).prefix('schools')
+
     Route.group(() => {
       Route.post('/valid-email', 'UsersController.validEmail')
       Route.post('/valid-zipcode', 'UsersController.validZipCode')
@@ -26,20 +27,29 @@ Route.group(() => {
     Route.group(() => {
       Route.post('/create', 'PermissionsController.store').middleware('permission:createPermission')
     }).prefix('permissions')
+
     Route.group(() => {
       Route.post('/create', 'RolesController.store').middleware('permission:createRole')
       Route.post('/sync-roles-permissions', 'RolesController.syncPermissionsAndRoles').middleware(
         'permission:syncRolesPermissions'
       )
     }).prefix('roles')
+
     Route.group(() => {
       Route.post('/create', 'TeachersController.store').middleware('permission:createTeacher')
       Route.get('/get-all', 'TeachersController.index').middleware('permission:getTeachers')
     }).prefix('teachers')
+
+    Route.group(() => {
+      Route.post('/create', 'CoursesController.store').middleware('permission:createCourse')
+      Route.get('/get-all', 'CoursesController.index').middleware('permission:getStudents')
+    }).prefix('courses')
+
     Route.group(() => {
       Route.post('/create', 'StudentsController.store').middleware('permission:createStudent')
-      Route.get('/get-all', 'StudentsController.index').middleware('permission:getStudents')
+      Route.get('/get-all', 'StudentsController.index').middleware('permission:getCourses')
     }).prefix('students')
+
     Route.group(() => {
       Route.get('/me', 'AuthController.me')
       Route.post('/logout', 'AuthController.logout')
