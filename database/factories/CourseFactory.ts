@@ -1,4 +1,5 @@
 import Courses from 'App/Models/Courses'
+import SemesterFactory from './SemesterFactory'
 import Factory from '@ioc:Adonis/Lucid/Factory'
 //@ts-ignore
 export default Factory.define(Courses, ({ faker }) => {
@@ -11,4 +12,6 @@ export default Factory.define(Courses, ({ faker }) => {
     modality: 'HYBRID',
     price: 1.2,
   }
-}).build()
+})
+  .relation('semesters', () => SemesterFactory)
+  .build()

@@ -57,6 +57,12 @@ Route.group(() => {
     }).prefix('semesters')
 
     Route.group(() => {
+      Route.post('/create/:semesterId', 'LessonsController.store').middleware(
+        'permission:createLesson'
+      )
+    }).prefix('lessons')
+
+    Route.group(() => {
       Route.get('/me', 'AuthController.me')
       Route.post('/logout', 'AuthController.logout')
     }).prefix('auth')
