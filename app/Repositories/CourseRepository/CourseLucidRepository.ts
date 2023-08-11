@@ -6,6 +6,7 @@ import type { SimplePaginatorContract } from '@ioc:Adonis/Lucid/Database'
 
 export default class CourseLucidRepository implements CourseRepositoryInterface {
   constructor(private readonly model: typeof Courses) {}
+
   public async create(courseData: CourseRepositoryDto) {
     const course = await this.model.create(courseData)
 
@@ -33,5 +34,11 @@ export default class CourseLucidRepository implements CourseRepositoryInterface 
       items: (await courses.all()) as unknown as CourseDtoResponse[],
       paginateProperties: courses as unknown as SimplePaginatorContract<CourseDtoResponse>,
     })
+  }
+
+  public async findById(courseId: number): Promise<Courses | null> {
+    const course = await this.model.query().where('id', courseId).first()
+
+    return course
   }
 }
