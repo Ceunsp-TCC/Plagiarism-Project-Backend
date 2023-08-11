@@ -54,6 +54,14 @@ export default class RepositoriesProvider {
 
       return new SemesterLucidRepository(semesterModel)
     })
+
+    this.app.container.bind('Repositories/LessonRepository', () => {
+      const LessonLucidRepository =
+        require('App/Repositories/LessonRepository/LessonLucidRepository').default
+      const lessonModel = require('App/Models/Lessons').default
+
+      return new LessonLucidRepository(lessonModel)
+    })
   }
 
   public async boot() {}

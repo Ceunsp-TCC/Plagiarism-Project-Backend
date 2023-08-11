@@ -37,6 +37,7 @@ test.group('Me', (group) => {
           'createCourse',
           'getCourses',
           'createSemester',
+          'createLesson',
         ],
       },
     })

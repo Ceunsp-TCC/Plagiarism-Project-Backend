@@ -10,4 +10,10 @@ export default class SemesterLucidRepository implements SemesterRepositoryInterf
 
     return semester
   }
+
+  public async findById(semesterId: number): Promise<Semesters | null> {
+    const semester = await this.model.query().where('id', semesterId).first()
+
+    return semester
+  }
 }
