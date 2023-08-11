@@ -7,8 +7,11 @@ import {
   belongsTo,
   BelongsTo,
   scope,
+  hasMany,
+  HasMany,
 } from '@ioc:Adonis/Lucid/Orm'
 import Schools from 'App/Models/Schools'
+import Semesters from 'App/Models/Semesters'
 import type { ModelQueryBuilderContract } from '@ioc:Adonis/Lucid/Orm'
 
 export default class Courses extends BaseModel {
@@ -75,6 +78,12 @@ export default class Courses extends BaseModel {
     foreignKey: 'userId',
   })
   public school: BelongsTo<typeof Schools>
+
+  @hasMany(() => Semesters, {
+    localKey: 'id',
+    foreignKey: 'courseId',
+  })
+  public semesters: HasMany<typeof Semesters>
 
   public static byUser = scope((query, schoolId: number) => {
     query.where('schoolId', schoolId)

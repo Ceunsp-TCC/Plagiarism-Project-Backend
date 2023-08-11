@@ -10,4 +10,5 @@ export default interface CourseRepositoryInterface {
     numberlinesPerPage?: number,
     name?: string
   ): Promise<DefaultPaginateDtoResponse<CourseDtoResponse>>
+  findById(courseId: number): Promise<Courses | null>
 }

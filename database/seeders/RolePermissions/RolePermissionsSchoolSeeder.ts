@@ -14,6 +14,7 @@ export default class RolePermissionsSchoolSeeder extends BaseSeeder {
       'courses',
       'createCourse',
       'getCourses',
+      'createSemester',
     ]
 
     const schoolPermissionsIds = (await Permissions.query().whereIn('name', permissionsSchool)).map(
