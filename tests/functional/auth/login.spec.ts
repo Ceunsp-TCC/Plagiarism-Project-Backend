@@ -48,6 +48,7 @@ test.group('Login', (group) => {
             'createCourse',
             'getCourses',
             'createSemester',
+            'createLesson',
           ],
         },
       },

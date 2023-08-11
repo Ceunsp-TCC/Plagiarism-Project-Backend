@@ -4,27 +4,27 @@ import {
   column,
   beforeFind,
   beforeFetch,
-  BelongsTo,
   belongsTo,
-  hasMany,
-  HasMany,
+  BelongsTo,
 } from '@ioc:Adonis/Lucid/Orm'
-import Courses from 'App/Models/Courses'
-import Lessons from 'App/Models/Lessons'
+import Semesters from 'App/Models/Semesters'
 import type { ModelQueryBuilderContract } from '@ioc:Adonis/Lucid/Orm'
 
-export default class Semesters extends BaseModel {
+export default class Lessons extends BaseModel {
   @column({ isPrimary: true })
   public id: number
 
-  @column({ columnName: 'courseId', serializeAs: null })
-  public courseId: number
+  @column({ columnName: 'semesterId', serializeAs: null })
+  public semesterId: number
 
   @column()
   public name: string
 
   @column()
   public description: string
+
+  @column()
+  public local: string
 
   @column.dateTime({
     autoCreate: true,
@@ -46,11 +46,11 @@ export default class Semesters extends BaseModel {
   public deletedAt: DateTime
 
   @beforeFind()
-  public static async ignoreDeletedFind(query: ModelQueryBuilderContract<typeof Semesters>) {
+  public static async ignoreDeletedFind(query: ModelQueryBuilderContract<typeof Lessons>) {
     query.whereNull('deletedAt')
   }
   @beforeFetch()
-  public static async ignoreDeletedFetch(query: ModelQueryBuilderContract<typeof Semesters>) {
+  public static async ignoreDeletedFetch(query: ModelQueryBuilderContract<typeof Lessons>) {
     query.whereNull('deletedAt')
   }
 
@@ -58,16 +58,9 @@ export default class Semesters extends BaseModel {
     this.deletedAt = DateTime.local()
     await this.save()
   }
-
-  @belongsTo(() => Courses, {
-    localKey: 'courseId',
+  @belongsTo(() => Semesters, {
+    localKey: 'semesterId',
     foreignKey: 'id',
   })
-  public course: BelongsTo<typeof Courses>
-
-  @hasMany(() => Lessons, {
-    localKey: 'id',
-    foreignKey: 'semesterId',
-  })
-  public lessons: HasMany<typeof Lessons>
+  public semester: BelongsTo<typeof Semesters>
 }
