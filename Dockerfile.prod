@@ -3,7 +3,9 @@ ARG NODE_IMAGE=node:16.17
 
 FROM $NODE_IMAGE AS base
 
-RUN apk --no-cache add dumb-init
+RUN apk update && \
+    apk upgrade && \
+    apk --no-cache add dumb-init
 
 RUN mkdir -p /app/school-guardian-backend && chown node:node /app/school-guardian-backend
 WORKDIR /app/school-guardian-backend
