@@ -1,4 +1,4 @@
-ARG NODE_IMAGE=node:16.17-alpine
+ARG NODE_IMAGE=node:buster-slim
 
 
 FROM $NODE_IMAGE AS base
