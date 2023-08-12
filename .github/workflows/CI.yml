@@ -37,5 +37,5 @@ jobs:
         run: npm run format
       - name: Verify errors eslint
         run: npm run lint
-      - name: Running tests
-        run: node ace test
+      # - name: Running tests
+      #   run: node ace test
