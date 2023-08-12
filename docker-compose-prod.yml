@@ -27,4 +27,4 @@ networks:
     external: true
 volumes:
   uploads-school-guardian-volume:
-    name: uploads-school-guardian-volume
+    external: true

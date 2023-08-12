@@ -1,16 +1,19 @@
 import CreateCourseService from 'App/Services/CourseServices/CreateCourseService'
 import GetAllCoursesService from 'App/Services/CourseServices/GetAllCoursesService'
 import CreateUpdateCourseValidator from 'App/Validators/CreateUpdateCourseValidator'
+import GetCourseByIdService from 'App/Services/CourseServices/GetCourseByIdService'
 import type { CourseServiceDto } from 'App/Dtos/Courses/CourseDto'
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
 export default class CoursesController {
   public createCourseService: CreateCourseService
   public getAllCoursesService: GetAllCoursesService
+  public getCourseByIdService: GetCourseByIdService
 
   constructor() {
     this.createCourseService = new CreateCourseService()
     this.getAllCoursesService = new GetAllCoursesService()
+    this.getCourseByIdService = new GetCourseByIdService()
   }
 
   public async store({ request, auth }: HttpContextContract) {
@@ -27,5 +30,9 @@ export default class CoursesController {
     const name = await request.input('name')
 
     return await this.getAllCoursesService.getAll(schoolId, currentPage, numberlinesPerPage, name)
+  }
+
+  public async show({}: HttpContextContract) {
+    return await this.getCourseByIdService.getById()
   }
 }
