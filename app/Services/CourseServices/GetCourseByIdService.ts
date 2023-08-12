@@ -1,6 +1,5 @@
 import DefaultResponse from '@ioc:Utils/DefaultResponse'
 // import CourseRepository from '@ioc:Repositories/CourseRepository'
-import { translate } from 'google-translate-api-browser'
 import * as tf from '@tensorflow/tfjs-node'
 import * as qna from '@tensorflow-models/qna'
 
