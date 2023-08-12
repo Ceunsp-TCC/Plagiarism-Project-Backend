@@ -25,6 +25,3 @@ networks:
   postgres-network:
     name: postgres-network
     external: true
-volumes:
-  uploads-school-guardian-volume:
-    name: uploads-school-guardian-volume
