@@ -1,4 +1,4 @@
-FROM node:16.19-alpine
+FROM node:buster-slim
 
 
 WORKDIR /app/school-guardian-backend
