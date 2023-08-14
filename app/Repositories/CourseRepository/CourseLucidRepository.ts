@@ -37,7 +37,11 @@ export default class CourseLucidRepository implements CourseRepositoryInterface 
   }
 
   public async findById(courseId: number): Promise<Courses | null> {
-    const course = await this.model.query().where('id', courseId).first()
+    const course = await this.model
+      .query()
+      .where('id', courseId)
+      .preload('semesters', (builder) => builder.preload('lessons'))
+      .first()
 
     return course
   }

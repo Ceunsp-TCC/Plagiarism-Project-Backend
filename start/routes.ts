@@ -42,13 +42,13 @@ Route.group(() => {
 
     Route.group(() => {
       Route.post('/create', 'StudentsController.store').middleware('permission:createStudent')
-      Route.get('/get-all', 'StudentsController.index').middleware('permission:getCourses')
+      Route.get('/get-all', 'StudentsController.index').middleware('permission:getStudents')
     }).prefix('students')
 
     Route.group(() => {
       Route.post('/create', 'CoursesController.store').middleware('permission:createCourse')
-      Route.get('/get-all', 'CoursesController.index').middleware('permission:getStudents')
-      Route.post('/get-by-id', 'CoursesController.show')
+      Route.get('/get-all', 'CoursesController.index').middleware('permission:getCourses')
+      Route.get('/get-by-id/:courseId', 'CoursesController.show').middleware('permission:getCourse')
     }).prefix('courses')
 
     Route.group(() => {
