@@ -24,23 +24,3 @@ export default class extends BaseSchema {
     this.schema.dropTable(this.tableName)
   }
 }
-// Business & Entrepreneurship
-// Technology & IT
-// Arts & Creative
-// Health & Fitness
-// Language & Communication
-// Science & Mathematics
-// Personal Development & Self-Help
-// Social Sciences
-// Marketing & Digital Media
-// Finance & Accounting
-// Culinary Arts & Food
-// Design & Multimedia
-// Music & Performing Arts
-// Environmental Studies
-// Education & Teaching
-// Engineering & Architecture
-// Hospitality & Tourism
-// Law & Legal Studies
-// Writing & Journalism
-// Psychology & Counseling

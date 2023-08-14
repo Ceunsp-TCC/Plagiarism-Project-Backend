@@ -14,6 +14,7 @@ export default class RolePermissionsSchoolSeeder extends BaseSeeder {
       'courses',
       'createCourse',
       'getCourses',
+      'getCourse',
       'createSemester',
       'createLesson',
     ]
