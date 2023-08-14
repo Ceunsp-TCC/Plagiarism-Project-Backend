@@ -16,6 +16,7 @@ import type { ModelQueryBuilderContract } from '@ioc:Adonis/Lucid/Orm'
 
 export default class Courses extends BaseModel {
   public static table = 'courses'
+
   @column({ isPrimary: true })
   public id: number
 

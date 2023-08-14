@@ -32,7 +32,8 @@ export default class CoursesController {
     return await this.getAllCoursesService.getAll(schoolId, currentPage, numberlinesPerPage, name)
   }
 
-  public async show({}: HttpContextContract) {
-    return await this.getCourseByIdService.getById()
+  public async show({ params }: HttpContextContract) {
+    const courseId = params.courseId as number
+    return await this.getCourseByIdService.getById(courseId)
   }
 }
