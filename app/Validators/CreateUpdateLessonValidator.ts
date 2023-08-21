@@ -7,7 +7,7 @@ export default class CreateUpdateLessonValidator {
   public schema = schema.create({
     name: schema.string({}),
     description: schema.string.optional(),
-    local: schema.string({}),
+    place: schema.string({}),
   })
 
   public messages: CustomMessages = {}

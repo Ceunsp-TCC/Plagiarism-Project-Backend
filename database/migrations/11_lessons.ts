@@ -9,7 +9,7 @@ export default class extends BaseSchema {
       table.integer('semesterId').unsigned().notNullable().references('id').inTable('semesters')
       table.string('name', 150).notNullable()
       table.string('description', 255)
-      table.string('local').notNullable()
+      table.string('place').notNullable()
       table.timestamp('createdAt', { useTz: true }).defaultTo(this.now())
       table.timestamp('updatedAt', { useTz: true }).defaultTo(this.now())
       table.timestamp('deletedAt', { useTz: true }).nullable()

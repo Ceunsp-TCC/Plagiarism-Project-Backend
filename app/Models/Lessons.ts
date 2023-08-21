@@ -24,7 +24,7 @@ export default class Lessons extends BaseModel {
   public description: string
 
   @column()
-  public local: string
+  public place: string
 
   @column.dateTime({
     autoCreate: true,

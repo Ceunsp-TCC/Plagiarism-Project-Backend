@@ -10,7 +10,7 @@ const urlLogin = '/v1/auth/login'
 const body = {
   name: 'lesson test',
   description: 'lesson test',
-  local: 'lesson local',
+  place: 'lesson place',
 }
 
 test.group('Create lesson', (group) => {
