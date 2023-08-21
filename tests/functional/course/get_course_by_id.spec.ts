@@ -15,7 +15,7 @@ test.group('Get course by id', (group) => {
   test('Should be get course', async ({ client }) => {
     const course = await CourseFactory.create()
     const semester = await course.related('semesters').create({ name: 'semester' })
-    await semester.related('lessons').create({ name: 'lesson', local: 'local' })
+    await semester.related('lessons').create({ name: 'lesson', place: 'local' })
 
     const login = await client
       .post(urlLogin)

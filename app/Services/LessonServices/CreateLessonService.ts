@@ -5,7 +5,7 @@ import CustomException from 'App/Exceptions/CustomException'
 import type { LessonDto } from 'App/Dtos/Lessons/LessonDto'
 
 export default class CreateLessonService {
-  public async create({ semesterId, name, description, local }: LessonDto) {
+  public async create({ semesterId = 0, name = '', description = '', place = '' }: LessonDto) {
     const semester = await SemesterRepository.findById(semesterId)
 
     if (!semester) {
@@ -16,7 +16,7 @@ export default class CreateLessonService {
       semesterId,
       name,
       description,
-      local,
+      place,
     }
 
     await LessonRepository.create(lesson)

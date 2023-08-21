@@ -5,6 +5,6 @@ export default Factory.define(Lessons, ({ faker }) => {
   return {
     name: faker.person.bio(),
     description: faker.person.bio(),
-    local: faker.string.uuid(),
+    lesson: faker.string.uuid(),
   }
 }).build()
