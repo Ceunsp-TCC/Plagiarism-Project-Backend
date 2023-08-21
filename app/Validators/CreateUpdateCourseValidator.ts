@@ -18,7 +18,7 @@ export default class CreateUpdateCourseValidator {
     price: schema.number(),
     image: schema.file({
       size: '5mb',
-      extnames: ['png', 'jpg'],
+      extnames: ['png', 'jpg', 'jpeg'],
     }),
   })
 
