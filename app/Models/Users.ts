@@ -67,6 +67,27 @@ export default class Users extends BaseModel {
   @column.dateTime({ columnName: 'deletedAt', serializeAs: null })
   public deletedAt: DateTime
 
+  @beforeSave()
+  public static async encryptPassword(user: Users) {
+    if (user.$dirty.password) {
+      user.password = await Hash.make(user.password)
+    }
+  }
+
+  @beforeFind()
+  public static async ignoreDeletedFind(query: ModelQueryBuilderContract<typeof Users>) {
+    query.whereNull('deletedAt')
+  }
+  @beforeFetch()
+  public static async ignoreDeletedFetch(query: ModelQueryBuilderContract<typeof Users>) {
+    query.whereNull('deletedAt')
+  }
+
+  public async delete() {
+    this.deletedAt = DateTime.local()
+    await this.save()
+  }
+
   @hasOne(() => Schools, {
     localKey: 'id',
     foreignKey: 'userId',
@@ -90,25 +111,4 @@ export default class Users extends BaseModel {
     foreignKey: 'id',
   })
   public role: HasOne<typeof Roles>
-
-  @beforeSave()
-  public static async encryptPassword(user: Users) {
-    if (user.$dirty.password) {
-      user.password = await Hash.make(user.password)
-    }
-  }
-
-  @beforeFind()
-  public static async ignoreDeletedFind(query: ModelQueryBuilderContract<typeof Users>) {
-    query.whereNull('deletedAt')
-  }
-  @beforeFetch()
-  public static async ignoreDeletedFetch(query: ModelQueryBuilderContract<typeof Users>) {
-    query.whereNull('deletedAt')
-  }
-
-  public async delete() {
-    this.deletedAt = DateTime.local()
-    await this.save()
-  }
 }
