@@ -39,3 +39,8 @@ declare module '@ioc:Repositories/LessonRepository' {
   const LessonRepository: LessonRepositoryInterface
   export default LessonRepository
 }
+declare module '@ioc:Repositories/ClassRepository' {
+  import type ClassRepositoryInterface from 'App/Interfaces/Repositories/ClassRepositoryInterface'
+  const ClassRepository: ClassRepositoryInterface
+  export default ClassRepository
+}

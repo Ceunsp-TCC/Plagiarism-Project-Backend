@@ -69,6 +69,18 @@ export default class PermissionsSeeder extends BaseSeeder {
       {
         name: 'createLesson',
       },
+      {
+        name: 'classes',
+      },
+      {
+        name: 'createClass',
+      },
+      {
+        name: 'getClasses',
+      },
+      {
+        name: 'getClass',
+      },
     ])
   }
 }

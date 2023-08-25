@@ -38,8 +38,8 @@ test.group('Login', (group) => {
       content: {
         user: {
           permissions: [
-            'createTeacher',
             'teachers',
+            'createTeacher',
             'getTeachers',
             'students',
             'createStudent',
@@ -50,6 +50,10 @@ test.group('Login', (group) => {
             'getCourse',
             'createSemester',
             'createLesson',
+            'classes',
+            'createClass',
+            'getClasses',
+            'getClass',
           ],
         },
       },
