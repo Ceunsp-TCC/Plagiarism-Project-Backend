@@ -2,6 +2,7 @@ import { test } from '@japa/runner'
 import Database from '@ioc:Adonis/Lucid/Database'
 import { basicCredentials, mockSchoolCredentials, mockAdminCredentials } from '../../helpers'
 import ClassFactory from 'Database/factories/ClassFactory'
+import CourseFactory from 'Database/factories/CourseFactory'
 
 const url = '/v1/classes/get-all'
 const urlLogin = '/v1/auth/login'
@@ -13,16 +14,17 @@ test.group('Get classes', (group) => {
   })
 
   test('Should be get classes', async ({ client, assert }) => {
-    await ClassFactory.createMany(5)
     const login = await client
       .post(urlLogin)
       .basicAuth(basicCredentials.username, basicCredentials.password)
       .json(mockSchoolCredentials)
-
+    const schoolId = login.response.body.content.user.schoolData.id
+    const courseId = await (await CourseFactory.create()).id
+    await ClassFactory.merge({ schoolId, courseId }).createMany(3)
     const sut = await client.get(url).bearerToken(login.response.body.content.accessToken.token)
 
     sut.assertStatus(200)
-    assert.equal(sut.response.body.content.totalRegisters, 5)
+    assert.equal(sut.response.body.content.totalRegisters, 3)
   })
 
   test('Should be not found classes', async ({ client }) => {
@@ -37,11 +39,14 @@ test.group('Get classes', (group) => {
   })
 
   test('Should be choice numberlines per page', async ({ client }) => {
-    await ClassFactory.createMany(1)
     const login = await client
       .post(urlLogin)
       .basicAuth(basicCredentials.username, basicCredentials.password)
       .json(mockSchoolCredentials)
+
+    const schoolId = login.response.body.content.user.schoolData.id
+    const courseId = await (await CourseFactory.create()).id
+    await ClassFactory.merge({ schoolId, courseId }).createMany(3)
     const sut = await client
       .get(url)
       .qs({ numberlinesPerPage: 10 })

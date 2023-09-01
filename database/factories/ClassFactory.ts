@@ -1,14 +1,8 @@
 import Classes from 'App/Models/Classes'
 import Factory from '@ioc:Adonis/Lucid/Factory'
-import Schools from 'App/Models/Schools'
-import CourseFactory from 'Database/factories/CourseFactory'
 
-export default Factory.define(Classes, async () => {
-  const school = await Schools.query().where('CNPJ', '22232323').first()
-  const course = await CourseFactory.create()
+export default Factory.define(Classes, async ({ faker }) => {
   return {
-    schoolId: school!.id,
-    name: course.name,
-    courseId: course.id,
+    name: faker.company.name(),
   }
 }).build()
