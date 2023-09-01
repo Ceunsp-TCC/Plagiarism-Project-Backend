@@ -8,9 +8,13 @@ import {
   BelongsTo,
   HasOne,
   hasOne,
+  HasMany,
+  hasMany,
+  scope,
 } from '@ioc:Adonis/Lucid/Orm'
 import Schools from 'App/Models/Schools'
 import Courses from 'App/Models/Courses'
+import ClassSemesters from 'App/Models/ClassSemesters'
 import type { ModelQueryBuilderContract } from '@ioc:Adonis/Lucid/Orm'
 
 export default class Classes extends BaseModel {
@@ -60,10 +64,13 @@ export default class Classes extends BaseModel {
     this.deletedAt = DateTime.local()
     await this.save()
   }
+  public static byUser = scope((query, schoolId: number) => {
+    query.where('schoolId', schoolId)
+  })
 
   @belongsTo(() => Schools, {
     localKey: 'schoolId',
-    foreignKey: 'userId',
+    foreignKey: 'id',
   })
   public school: BelongsTo<typeof Schools>
 
@@ -72,4 +79,10 @@ export default class Classes extends BaseModel {
     foreignKey: 'id',
   })
   public course: HasOne<typeof Courses>
+
+  @hasMany(() => ClassSemesters, {
+    localKey: 'id',
+    foreignKey: 'classId',
+  })
+  public semesters: HasMany<typeof ClassSemesters>
 }

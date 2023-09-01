@@ -6,10 +6,20 @@ export default class extends BaseSchema {
   public async up() {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id')
-      table.bigInteger('idRole').notNullable()
-      table.bigInteger('idPermission').notNullable()
-      table.foreign('idRole').references('roles.id').onDelete('CASCADE')
-      table.foreign('idPermission').references('permissions.id').onDelete('CASCADE')
+      table
+        .integer('idRole')
+        .unsigned()
+        .notNullable()
+        .references('id')
+        .inTable('roles')
+        .onDelete('CASCADE')
+      table
+        .integer('idPermission')
+        .unsigned()
+        .notNullable()
+        .references('id')
+        .inTable('permissions')
+        .onDelete('CASCADE')
     })
   }
 

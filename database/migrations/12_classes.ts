@@ -6,8 +6,20 @@ export default class extends BaseSchema {
   public async up() {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id')
-      table.integer('schoolId').unsigned().notNullable().references('id').inTable('users')
-      table.integer('courseId').unsigned().notNullable().references('id').inTable('courses')
+      table
+        .integer('schoolId')
+        .unsigned()
+        .notNullable()
+        .references('id')
+        .inTable('schools')
+        .onDelete('CASCADE')
+      table
+        .integer('courseId')
+        .unsigned()
+        .notNullable()
+        .references('id')
+        .inTable('courses')
+        .onDelete('CASCADE')
       table.string('name', 150).unique().notNullable()
       table.timestamp('createdAt', { useTz: true }).defaultTo(this.now())
       table.timestamp('updatedAt', { useTz: true }).defaultTo(this.now())

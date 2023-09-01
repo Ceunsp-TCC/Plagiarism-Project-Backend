@@ -4,7 +4,9 @@ import { BaseModel, column, belongsTo, BelongsTo, scope } from '@ioc:Adonis/Luci
 
 export default class Teachers extends BaseModel {
   public static table = 'teachers'
-  public static primaryKey = ''
+
+  @column({ isPrimary: true })
+  public id: number
 
   @column({ columnName: 'userId', serializeAs: null })
   public userId: number

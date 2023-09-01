@@ -1,5 +1,6 @@
 import type { Config } from '@japa/runner'
 import TestUtils from '@ioc:Adonis/Core/TestUtils'
+import Ace from '@ioc:Adonis/Core/Ace'
 import { assert, runFailedTests, specReporter, apiClient } from '@japa/preset-adonis'
 
 export const plugins: Required<Config>['plugins'] = [assert(), runFailedTests(), apiClient()]
@@ -13,7 +14,7 @@ export const runnerHooks: Pick<Required<Config>, 'setup' | 'teardown'> = {
     () => TestUtils.db().truncate(),
     () => TestUtils.db().seed(),
   ],
-  teardown: [],
+  teardown: [() => Ace.handle(['db:wipe'])],
 }
 
 export const configureSuite: Required<Config>['configureSuite'] = (suite) => {

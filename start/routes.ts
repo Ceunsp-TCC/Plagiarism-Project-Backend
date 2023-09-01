@@ -67,6 +67,7 @@ Route.group(() => {
       Route.post('/create/:courseId', 'ClassesController.store').middleware(
         'permission:createClass'
       )
+      Route.get('/get-all', 'ClassesController.index').middleware('permission:getClasses')
     }).prefix('classes')
 
     Route.group(() => {
