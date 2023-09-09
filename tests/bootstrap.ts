@@ -14,9 +14,9 @@ export const runnerHooks: Pick<Required<Config>, 'setup' | 'teardown'> = {
     () => TestUtils.db().truncate(),
     () => TestUtils.db().seed(),
   ],
-  teardown: [() => Ace.handle(['db:wipe'])],
+  teardown: [],
 }
-
+// () => Ace.handle(['db:wipe'])
 export const configureSuite: Required<Config>['configureSuite'] = (suite) => {
   if (suite.name === 'functional') {
     suite.setup(() => TestUtils.httpServer().start())

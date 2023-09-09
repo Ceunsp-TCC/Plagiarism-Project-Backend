@@ -68,6 +68,13 @@ Route.group(() => {
         'permission:createClass'
       )
       Route.get('/get-all', 'ClassesController.index').middleware('permission:getClasses')
+      Route.get('/get-by-id/:classId', 'ClassesController.show').middleware('permission:getClass')
+      Route.get('/get-students/:classId', 'ClassesController.getStudents').middleware(
+        'permission:getStudentsByClass'
+      )
+      Route.patch('/link-teacher-and-lesson', 'ClassesController.linkTeacherWithLesson').middleware(
+        'permission:linkTeacherAndLessonInClass'
+      )
     }).prefix('classes')
 
     Route.group(() => {

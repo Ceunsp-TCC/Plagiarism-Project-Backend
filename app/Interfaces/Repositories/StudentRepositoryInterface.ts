@@ -9,4 +9,10 @@ export default interface StudentRepositoryInterface {
     name?: string
   ): Promise<DefaultPaginateDtoResponse<StudentDtoResponse>>
   updateRandomPassword(userId: number)
+  getByClass(
+    classId: number,
+    currentPage?: number,
+    numberlinesPerPage?: number,
+    name?: string
+  ): Promise<DefaultPaginateDtoResponse<StudentDtoResponse>>
 }

@@ -20,6 +20,13 @@ export default class extends BaseSchema {
         .references('id')
         .inTable('schools')
         .onDelete('CASCADE')
+      table
+        .integer('classId')
+        .unsigned()
+        .notNullable()
+        .references('id')
+        .inTable('classes')
+        .onDelete('CASCADE')
       table.string('CPF', 20).notNullable()
       table.boolean('randomPassword').defaultTo(true)
       table.enum('status', ['ACTIVE', 'INACTIVE']).defaultTo('ACTIVE')

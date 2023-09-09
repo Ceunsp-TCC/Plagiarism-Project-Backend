@@ -1,4 +1,5 @@
 import Classes from 'App/Models/Classes'
+import ClassSemestersLessons from 'App/Models/ClassSemestersLessons'
 import Database from '@ioc:Adonis/Lucid/Database'
 import CustomException from 'App/Exceptions/CustomException'
 import DefaultPaginate from '@ioc:Utils/DefaultPaginate'
@@ -7,7 +8,10 @@ import type ClassRepositoryInterface from 'App/Interfaces/Repositories/ClassRepo
 import type { SimplePaginatorContract } from '@ioc:Adonis/Lucid/Database'
 
 export default class ClassLucidRepository implements ClassRepositoryInterface {
-  constructor(private readonly model: typeof Classes) {}
+  constructor(
+    private readonly model: typeof Classes,
+    private readonly modelLessons: typeof ClassSemestersLessons
+  ) {}
 
   public async create({ name, courseId, schoolId, semesters }: ClassRepositoryDto) {
     const trx = await Database.transaction()
@@ -69,5 +73,26 @@ export default class ClassLucidRepository implements ClassRepositoryInterface {
       items: (await classes.all()) as unknown as ClassDtoResponse[],
       paginateProperties: classes as unknown as SimplePaginatorContract<ClassDtoResponse>,
     })
+  }
+
+  public async getById(classId: number): Promise<Classes | null> {
+    const classe = await this.model
+      .query()
+      .where('id', classId)
+      .preload('semesters', (semesterBuilder) =>
+        semesterBuilder.preload('lessons', (lessonBuilder) => {
+          lessonBuilder.preload('teacher')
+        })
+      )
+      .first()
+
+    return classe
+  }
+
+  public async updateTeacherInLesson(lessonId: number, teacherId: number): Promise<boolean> {
+    const lesson = await this.modelLessons.findBy('id', lessonId)
+    const isUpdated = await lesson?.merge({ teacherId }).save()
+
+    return !!isUpdated
   }
 }

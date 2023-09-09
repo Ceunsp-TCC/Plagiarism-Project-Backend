@@ -1,6 +1,11 @@
 import { test } from '@japa/runner'
 import Database from '@ioc:Adonis/Lucid/Database'
-import { basicCredentials, mockSchoolCredentials, mockAdminCredentials } from '../../helpers'
+import {
+  basicCredentials,
+  mockSchoolCredentials,
+  mockAdminCredentials,
+  mockSchoolEmptyClassesCredentials,
+} from '../../helpers'
 import ClassFactory from 'Database/factories/ClassFactory'
 import CourseFactory from 'Database/factories/CourseFactory'
 
@@ -24,14 +29,14 @@ test.group('Get classes', (group) => {
     const sut = await client.get(url).bearerToken(login.response.body.content.accessToken.token)
 
     sut.assertStatus(200)
-    assert.equal(sut.response.body.content.totalRegisters, 3)
+    assert.equal(sut.response.body.content.totalRegisters, 4)
   })
 
   test('Should be not found classes', async ({ client }) => {
     const login = await client
       .post(urlLogin)
       .basicAuth(basicCredentials.username, basicCredentials.password)
-      .json(mockSchoolCredentials)
+      .json(mockSchoolEmptyClassesCredentials)
 
     const sut = await client.get(url).bearerToken(login.response.body.content.accessToken.token)
 

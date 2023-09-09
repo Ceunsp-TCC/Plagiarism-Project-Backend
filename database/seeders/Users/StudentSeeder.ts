@@ -20,6 +20,7 @@ export default class Student extends BaseSeeder {
     await createStudent.related('student').create({
       CPF: 'cpf-student-test',
       schoolId: school?.id,
+      classId: 300,
     })
     const createStudentInactive = await Users.create({
       name: 'student-inactive',
@@ -34,6 +35,7 @@ export default class Student extends BaseSeeder {
       CPF: 'cpf-student-test',
       status: 'INACTIVE',
       schoolId: school?.id,
+      classId: 300,
     })
   }
 }

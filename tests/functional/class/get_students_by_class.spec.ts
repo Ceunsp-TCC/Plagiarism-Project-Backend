@@ -1,50 +1,56 @@
 import { test } from '@japa/runner'
 import Database from '@ioc:Adonis/Lucid/Database'
-import CourseFactory from 'Database/factories/CourseFactory'
 import {
   basicCredentials,
   mockSchoolCredentials,
   mockAdminCredentials,
-  mockSchoolEmptyCoursesCredentials,
+  mockSchoolEmptyClassesCredentials,
 } from '../../helpers'
 
-const url = '/v1/courses/get-all'
+const url = '/v1/classes/get-students'
 const urlLogin = '/v1/auth/login'
-test.group('Get courses', (group) => {
+
+test.group('Get students by class', (group) => {
   group.each.setup(async () => {
     await Database.beginGlobalTransaction()
     return () => Database.rollbackGlobalTransaction()
   })
-  test('Should be get courses', async ({ client, assert }) => {
-    await CourseFactory.createMany(5)
+
+  test('Should be get students by class', async ({ client, assert }) => {
     const login = await client
       .post(urlLogin)
       .basicAuth(basicCredentials.username, basicCredentials.password)
       .json(mockSchoolCredentials)
 
-    const sut = await client.get(url).bearerToken(login.response.body.content.accessToken.token)
+    const sut = await client
+      .get(`${url}/300`)
+      .bearerToken(login.response.body.content.accessToken.token)
 
     sut.assertStatus(200)
-    assert.equal(sut.response.body.content.totalRegisters, 6)
+    assert.equal(sut.response.body.content.totalRegisters, 2)
   })
-  test('Should be not found course', async ({ client }) => {
+
+  test('Should be not found students in class', async ({ client }) => {
     const login = await client
       .post(urlLogin)
       .basicAuth(basicCredentials.username, basicCredentials.password)
-      .json(mockSchoolEmptyCoursesCredentials)
+      .json(mockSchoolEmptyClassesCredentials)
 
-    const sut = await client.get(url).bearerToken(login.response.body.content.accessToken.token)
+    const sut = await client
+      .get(`${url}/4`)
+      .bearerToken(login.response.body.content.accessToken.token)
 
     sut.assertStatus(404)
   })
+
   test('Should be choice numberlines per page', async ({ client }) => {
-    await CourseFactory.createMany(3)
     const login = await client
       .post(urlLogin)
       .basicAuth(basicCredentials.username, basicCredentials.password)
       .json(mockSchoolCredentials)
+
     const sut = await client
-      .get(url)
+      .get(`${url}/300`)
       .qs({ numberlinesPerPage: 10 })
       .bearerToken(login.response.body.content.accessToken.token)
 
@@ -59,7 +65,9 @@ test.group('Get courses', (group) => {
       .post(urlLogin)
       .basicAuth(basicCredentials.username, basicCredentials.password)
       .json(mockAdminCredentials)
-    const sut = await client.get(url).bearerToken(login.response.body.content.accessToken.token)
+    const sut = await client
+      .get(`${url}/1`)
+      .bearerToken(login.response.body.content.accessToken.token)
 
     sut.assertStatus(403)
   })

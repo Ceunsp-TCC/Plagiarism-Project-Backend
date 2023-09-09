@@ -1,4 +1,5 @@
 import { DefaultPaginateDtoResponse } from 'App/Dtos/Utils/DefaultPaginateDto'
+import Classes from 'App/Models/Classes'
 import type { ClassRepositoryDto, ClassDtoResponse } from 'App/Dtos/Class/ClassDto'
 
 export default interface ClassRepositoryInterface {
@@ -9,4 +10,7 @@ export default interface ClassRepositoryInterface {
     numberlinesPerPage?: number,
     name?: string
   ): Promise<DefaultPaginateDtoResponse<ClassDtoResponse>>
+
+  getById(classId: number): Promise<Classes | null>
+  updateTeacherInLesson(lessonId: number, teacherId: number): Promise<boolean>
 }

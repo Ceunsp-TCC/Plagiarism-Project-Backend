@@ -23,7 +23,7 @@ export default class ClassSemestersLessons extends BaseModel {
   public classSemesterId: number
 
   @column({ columnName: 'teacherId', serializeAs: null })
-  public teacherId: number
+  public teacherId?: number
 
   @column()
   public name: string
@@ -69,7 +69,7 @@ export default class ClassSemestersLessons extends BaseModel {
 
   @hasOne(() => Teachers, {
     localKey: 'teacherId',
-    foreignKey: 'userId',
+    foreignKey: 'id',
   })
   public teacher: HasOne<typeof Teachers>
 
