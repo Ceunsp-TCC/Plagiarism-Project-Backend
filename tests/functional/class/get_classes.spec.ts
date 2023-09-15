@@ -1,48 +1,57 @@
 import { test } from '@japa/runner'
 import Database from '@ioc:Adonis/Lucid/Database'
-import CourseFactory from 'Database/factories/CourseFactory'
 import {
   basicCredentials,
   mockSchoolCredentials,
   mockAdminCredentials,
-  mockSchoolEmptyCoursesCredentials,
+  mockSchoolEmptyClassesCredentials,
 } from '../../helpers'
+import ClassFactory from 'Database/factories/ClassFactory'
+import CourseFactory from 'Database/factories/CourseFactory'
 
-const url = '/v1/courses/get-all'
+const url = '/v1/classes/get-all'
 const urlLogin = '/v1/auth/login'
-test.group('Get courses', (group) => {
+
+test.group('Get classes', (group) => {
   group.each.setup(async () => {
     await Database.beginGlobalTransaction()
     return () => Database.rollbackGlobalTransaction()
   })
-  test('Should be get courses', async ({ client, assert }) => {
-    await CourseFactory.createMany(5)
+
+  test('Should be get classes', async ({ client, assert }) => {
     const login = await client
       .post(urlLogin)
       .basicAuth(basicCredentials.username, basicCredentials.password)
       .json(mockSchoolCredentials)
-
+    const schoolId = login.response.body.content.user.schoolData.id
+    const courseId = await (await CourseFactory.create()).id
+    await ClassFactory.merge({ schoolId, courseId }).createMany(3)
     const sut = await client.get(url).bearerToken(login.response.body.content.accessToken.token)
 
     sut.assertStatus(200)
-    assert.equal(sut.response.body.content.totalRegisters, 6)
+    assert.equal(sut.response.body.content.totalRegisters, 4)
   })
-  test('Should be not found course', async ({ client }) => {
+
+  test('Should be not found classes', async ({ client }) => {
     const login = await client
       .post(urlLogin)
       .basicAuth(basicCredentials.username, basicCredentials.password)
-      .json(mockSchoolEmptyCoursesCredentials)
+      .json(mockSchoolEmptyClassesCredentials)
 
     const sut = await client.get(url).bearerToken(login.response.body.content.accessToken.token)
 
     sut.assertStatus(404)
   })
+
   test('Should be choice numberlines per page', async ({ client }) => {
-    await CourseFactory.createMany(3)
     const login = await client
       .post(urlLogin)
       .basicAuth(basicCredentials.username, basicCredentials.password)
       .json(mockSchoolCredentials)
+
+    const schoolId = login.response.body.content.user.schoolData.id
+    const courseId = await (await CourseFactory.create()).id
+    await ClassFactory.merge({ schoolId, courseId }).createMany(3)
     const sut = await client
       .get(url)
       .qs({ numberlinesPerPage: 10 })

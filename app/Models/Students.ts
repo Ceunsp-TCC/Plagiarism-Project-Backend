@@ -1,7 +1,7 @@
 import { BaseModel, column, belongsTo, BelongsTo, scope } from '@ioc:Adonis/Lucid/Orm'
-
 import Users from 'App/Models/Users'
 import Schools from 'App/Models/Schools'
+import Classes from 'App/Models/Classes'
 export default class Students extends BaseModel {
   public static table = 'students'
   public static primaryKey = ''
@@ -11,6 +11,9 @@ export default class Students extends BaseModel {
 
   @column({ columnName: 'schoolId', serializeAs: null })
   public schoolId: number
+
+  @column({ columnName: 'classId', serializeAs: null })
+  public classId: number
 
   @column({
     columnName: 'CPF',
@@ -37,6 +40,12 @@ export default class Students extends BaseModel {
     foreignKey: 'userId',
   })
   public school: BelongsTo<typeof Schools>
+
+  @belongsTo(() => Classes, {
+    localKey: 'classId',
+    foreignKey: 'id',
+  })
+  public class: BelongsTo<typeof Classes>
 
   public static byUser = scope((query, schoolId: number) => {
     query.where('schoolId', schoolId)

@@ -5,14 +5,25 @@ export default class extends BaseSchema {
 
   public async up() {
     this.schema.createTable(this.tableName, (table) => {
-      table.bigInteger('userId').notNullable()
-      table.bigInteger('schoolId').notNullable()
+      table.increments('id')
+      table
+        .integer('userId')
+        .unsigned()
+        .notNullable()
+        .references('id')
+        .inTable('users')
+        .onDelete('CASCADE')
+      table
+        .integer('schoolId')
+        .unsigned()
+        .notNullable()
+        .references('id')
+        .inTable('schools')
+        .onDelete('CASCADE')
       table.string('CPF', 20).notNullable()
       table.string('CND').notNullable()
       table.boolean('randomPassword').defaultTo(true)
       table.enum('status', ['ACTIVE', 'INACTIVE']).defaultTo('ACTIVE')
-      table.foreign('schoolId').references('users.id').onDelete('CASCADE')
-      table.foreign('userId').references('users.id').onDelete('CASCADE')
     })
   }
 

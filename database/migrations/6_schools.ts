@@ -5,7 +5,14 @@ export default class extends BaseSchema {
 
   public async up() {
     this.schema.createTable(this.tableName, (table) => {
-      table.bigInteger('userId').notNullable()
+      table.increments('id')
+      table
+        .integer('userId')
+        .unsigned()
+        .notNullable()
+        .references('id')
+        .inTable('users')
+        .onDelete('CASCADE')
       table.string('CNPJ', 16).notNullable().unique()
       table.string('CEP', 50).notNullable()
       table.string('street', 255).notNullable()
@@ -15,7 +22,6 @@ export default class extends BaseSchema {
       table.string('complement', 100).nullable()
       table.integer('number').nullable()
       table.enum('status', ['INREVIEW', 'CANCELED', 'COMPLETED']).defaultTo('INREVIEW')
-      table.foreign('userId').references('users.id').onDelete('CASCADE')
     })
   }
 

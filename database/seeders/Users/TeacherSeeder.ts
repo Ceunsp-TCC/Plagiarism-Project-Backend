@@ -20,7 +20,7 @@ export default class TeacherSeeder extends BaseSeeder {
     await createTeacher.related('teacher').create({
       CND: 'cnd-test',
       CPF: 'cpf-teacher-test',
-      schoolId: school?.userId,
+      schoolId: school?.id,
     })
     const createTeacherInactive = await Users.create({
       name: 'teacher-inactive',
@@ -35,7 +35,7 @@ export default class TeacherSeeder extends BaseSeeder {
       CND: 'cnd-test',
       CPF: 'cpf-teacher-test',
       status: 'INACTIVE',
-      schoolId: school?.userId,
+      schoolId: school?.id,
     })
   }
 }

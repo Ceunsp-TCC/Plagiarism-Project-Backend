@@ -67,8 +67,9 @@ export default class RepositoriesProvider {
       const ClassLucidRepository =
         require('App/Repositories/ClassRepository/ClassLucidRepository').default
       const classModel = require('App/Models/Classes').default
+      const lessonModel = require('App/Models/ClassSemestersLessons').default
 
-      return new ClassLucidRepository(classModel)
+      return new ClassLucidRepository(classModel, lessonModel)
     })
   }
 

@@ -88,5 +88,46 @@ export default class SchoolSeeder extends BaseSeeder {
       state: 'test',
       status: 'COMPLETED',
     })
+    const createSchoolEmptyCourses = await Users.create({
+      name: 'Schoolemptycourses',
+      password: 'schoolemptycourses@school',
+      email: 'schoolemptycourses@gmail.com',
+      phoneNumber: '112333333',
+      roleId: roleSchool?.id,
+      roleName: 'SCHOOL',
+    })
+
+    await createSchoolEmptyCourses.related('school').create({
+      CEP: 'test',
+      city: 'test',
+      CNPJ: faker.string.numeric(14),
+      street: 'test',
+      complement: 'test',
+      number: 102,
+      district: 'test',
+      state: 'test',
+      status: 'COMPLETED',
+    })
+
+    const createSchoolEmptyClasses = await Users.create({
+      name: 'Schoolemptyclasses',
+      password: 'schoolemptyclasses@school',
+      email: 'schoolemptyclasses@gmail.com',
+      phoneNumber: '112333333',
+      roleId: roleSchool?.id,
+      roleName: 'SCHOOL',
+    })
+
+    await createSchoolEmptyClasses.related('school').create({
+      CEP: 'test',
+      city: 'test',
+      CNPJ: faker.string.numeric(14),
+      street: 'test',
+      complement: 'test',
+      number: 102,
+      district: 'test',
+      state: 'test',
+      status: 'COMPLETED',
+    })
   }
 }

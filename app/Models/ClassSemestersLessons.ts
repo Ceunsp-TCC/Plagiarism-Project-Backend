@@ -6,22 +6,22 @@ import {
   beforeFetch,
   belongsTo,
   BelongsTo,
-  scope,
-  hasMany,
-  HasMany,
 } from '@ioc:Adonis/Lucid/Orm'
-import Schools from 'App/Models/Schools'
-import Semesters from 'App/Models/Semesters'
+import ClassSemesters from 'App/Models/ClassSemesters'
+import Teachers from 'App/Models/Teachers'
 import type { ModelQueryBuilderContract } from '@ioc:Adonis/Lucid/Orm'
 
-export default class Courses extends BaseModel {
-  public static table = 'courses'
+export default class ClassSemestersLessons extends BaseModel {
+  public static table = 'classSemestersLessons'
 
   @column({ isPrimary: true })
   public id: number
 
-  @column({ columnName: 'schoolId', serializeAs: null })
-  public schoolId: number
+  @column({ columnName: 'classSemesterId', serializeAs: null })
+  public classSemesterId: number
+
+  @column({ columnName: 'teacherId', serializeAs: null })
+  public teacherId: number
 
   @column()
   public name: string
@@ -30,16 +30,7 @@ export default class Courses extends BaseModel {
   public description: string
 
   @column()
-  public modality: 'HYBRID' | 'INPERSON' | 'ONLINE'
-
-  @column()
-  public category: string
-
-  @column()
-  public price: number
-
-  @column()
-  public image: string
+  public place: string
 
   @column.dateTime({
     autoCreate: true,
@@ -61,11 +52,11 @@ export default class Courses extends BaseModel {
   public deletedAt: DateTime
 
   @beforeFind()
-  public static async ignoreDeletedFind(query: ModelQueryBuilderContract<typeof Courses>) {
+  public static async ignoreDeletedFind(query: ModelQueryBuilderContract<typeof ClassSemesters>) {
     query.whereNull('deletedAt')
   }
   @beforeFetch()
-  public static async ignoreDeletedFetch(query: ModelQueryBuilderContract<typeof Courses>) {
+  public static async ignoreDeletedFetch(query: ModelQueryBuilderContract<typeof ClassSemesters>) {
     query.whereNull('deletedAt')
   }
 
@@ -74,19 +65,15 @@ export default class Courses extends BaseModel {
     await this.save()
   }
 
-  @belongsTo(() => Schools, {
-    localKey: 'schoolId',
+  @belongsTo(() => Teachers, {
+    localKey: 'id',
+    foreignKey: 'teacherId',
+  })
+  public teacher: BelongsTo<typeof Teachers>
+
+  @belongsTo(() => ClassSemesters, {
+    localKey: 'courseId',
     foreignKey: 'id',
   })
-  public school: BelongsTo<typeof Schools>
-
-  @hasMany(() => Semesters, {
-    localKey: 'id',
-    foreignKey: 'courseId',
-  })
-  public semesters: HasMany<typeof Semesters>
-
-  public static byUser = scope((query, schoolId: number) => {
-    query.where('schoolId', schoolId)
-  })
+  public semester: BelongsTo<typeof ClassSemesters>
 }

@@ -6,7 +6,13 @@ export default class extends BaseSchema {
   public async up() {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id')
-      table.bigInteger('schoolId').notNullable()
+      table
+        .integer('schoolId')
+        .unsigned()
+        .notNullable()
+        .references('id')
+        .inTable('schools')
+        .onDelete('CASCADE')
       table.string('name', 150).unique().notNullable()
       table.string('description', 255)
       table.enum('modality', ['HYBRID', 'INPERSON', 'ONLINE']).defaultTo('HYBRID')
@@ -16,7 +22,6 @@ export default class extends BaseSchema {
       table.timestamp('createdAt', { useTz: true }).defaultTo(this.now())
       table.timestamp('updatedAt', { useTz: true }).defaultTo(this.now())
       table.timestamp('deletedAt', { useTz: true }).nullable()
-      table.foreign('schoolId').references('users.id').onDelete('CASCADE')
     })
   }
 

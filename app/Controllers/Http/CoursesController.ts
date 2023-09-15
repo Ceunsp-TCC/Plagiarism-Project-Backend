@@ -18,13 +18,14 @@ export default class CoursesController {
 
   public async store({ request, auth }: HttpContextContract) {
     const payload = await request.validate(CreateUpdateCourseValidator)
-    const schoolId = await auth.user?.id!
+    const schoolId = await (await auth.user?.related('school').query().first())?.id
 
     return await this.createCourseService.create({ ...payload, schoolId } as CourseServiceDto)
   }
 
   public async index({ auth, request }: HttpContextContract) {
-    const schoolId = await auth.user?.id!
+    const schoolId = await (await auth.user?.related('school').query().first())?.id!
+
     const numberlinesPerPage = await request.input('numberlinesPerPage')
     const currentPage = await request.input('currentPage')
     const name = await request.input('name')

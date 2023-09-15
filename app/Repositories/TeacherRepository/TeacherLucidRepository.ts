@@ -1,9 +1,9 @@
 import Teachers from 'App/Models/Teachers'
-import type TeacherRepositoryInterface from 'App/Interfaces/Repositories/TeacherRepositoryInterface'
 import Database from '@ioc:Adonis/Lucid/Database'
-import type { TeacherDtoResponse } from 'App/Dtos/Teachers/TeacherDto'
 import DefaultPaginate from '@ioc:Utils/DefaultPaginate'
 import FormatDate from '@ioc:Utils/FormatDate'
+import type { TeacherDtoResponse } from 'App/Dtos/Teachers/TeacherDto'
+import type TeacherRepositoryInterface from 'App/Interfaces/Repositories/TeacherRepositoryInterface'
 
 export default class TeacherLucidRepository implements TeacherRepositoryInterface {
   //@ts-ignore
@@ -23,6 +23,7 @@ export default class TeacherLucidRepository implements TeacherRepositoryInterfac
         'users.email',
         'teachers.CPF as cpf',
         'teachers.status',
+        'teachers.id as teacherId',
         'users.createdAt'
       )
 
@@ -45,6 +46,7 @@ export default class TeacherLucidRepository implements TeacherRepositoryInterfac
       email: teacher.email,
       cpf: teacher.cpf,
       status: teacher.status,
+      teacherId: teacher.teacherId,
       createdAt: FormatDate.formatFromIso(teacher.createdAt),
     }))
 
@@ -59,5 +61,24 @@ export default class TeacherLucidRepository implements TeacherRepositoryInterfac
       .update({ randomPassword: false })
 
     return updateTeacher
+  }
+
+  public async getById(teacherId: number) {
+    const teacher = await Database.from('teachers')
+      .select(
+        'users.id',
+        'users.name',
+        'users.phoneNumber',
+        'users.email',
+        'teachers.CPF as cpf',
+        'teachers.status',
+        'users.createdAt'
+      )
+
+      .join('users', 'users.id', '=', 'teachers.userId')
+      .where('teachers.id', teacherId)
+      .first()
+
+    return teacher
   }
 }

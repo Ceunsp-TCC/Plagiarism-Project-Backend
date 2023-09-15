@@ -10,4 +10,10 @@ export default class LessonLucidRepository implements LessonRepositoryInterface 
 
     return lesson
   }
+
+  public async findBySemesterId(semesterId: number): Promise<Lessons[]> {
+    const lessons = await this.model.query().where('semesterId', semesterId)
+
+    return lessons
+  }
 }
