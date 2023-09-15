@@ -11,5 +11,6 @@ export interface TeacherDtoResponse {
   email: string
   cpf: string
   status: 'ACTIVE' | 'INACTIVE'
+  teacherId: number
   createdAt: string
 }

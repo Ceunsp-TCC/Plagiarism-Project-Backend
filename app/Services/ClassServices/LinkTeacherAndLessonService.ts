@@ -6,7 +6,7 @@ export default class LinkTeacherAndLessonService {
     await ClassRepository.updateTeacherInLesson(lessonId, teacherId)
 
     return await DefaultResponse.success(
-      'Teacher connection with the class successfully established',
+      'Teacher connection with the lesson successfully established',
       200
     )
   }

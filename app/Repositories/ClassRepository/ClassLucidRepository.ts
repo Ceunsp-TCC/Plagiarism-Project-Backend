@@ -81,7 +81,7 @@ export default class ClassLucidRepository implements ClassRepositoryInterface {
       .where('id', classId)
       .preload('semesters', (semesterBuilder) =>
         semesterBuilder.preload('lessons', (lessonBuilder) => {
-          lessonBuilder.preload('teacher')
+          lessonBuilder.preload('teacher', (teacherBuilder) => teacherBuilder.preload('user'))
         })
       )
       .first()
@@ -91,8 +91,13 @@ export default class ClassLucidRepository implements ClassRepositoryInterface {
 
   public async updateTeacherInLesson(lessonId: number, teacherId: number): Promise<boolean> {
     const lesson = await this.modelLessons.findBy('id', lessonId)
-    const isUpdated = await lesson?.merge({ teacherId }).save()
 
-    return !!isUpdated
+    if (lesson) {
+      lesson.teacherId = teacherId
+      await lesson.save()
+      return true
+    }
+
+    return true
   }
 }

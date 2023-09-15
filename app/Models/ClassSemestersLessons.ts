@@ -6,8 +6,6 @@ import {
   beforeFetch,
   belongsTo,
   BelongsTo,
-  hasOne,
-  HasOne,
 } from '@ioc:Adonis/Lucid/Orm'
 import ClassSemesters from 'App/Models/ClassSemesters'
 import Teachers from 'App/Models/Teachers'
@@ -23,7 +21,7 @@ export default class ClassSemestersLessons extends BaseModel {
   public classSemesterId: number
 
   @column({ columnName: 'teacherId', serializeAs: null })
-  public teacherId?: number
+  public teacherId: number
 
   @column()
   public name: string
@@ -67,11 +65,11 @@ export default class ClassSemestersLessons extends BaseModel {
     await this.save()
   }
 
-  @hasOne(() => Teachers, {
-    localKey: 'teacherId',
-    foreignKey: 'id',
+  @belongsTo(() => Teachers, {
+    localKey: 'id',
+    foreignKey: 'teacherId',
   })
-  public teacher: HasOne<typeof Teachers>
+  public teacher: BelongsTo<typeof Teachers>
 
   @belongsTo(() => ClassSemesters, {
     localKey: 'courseId',

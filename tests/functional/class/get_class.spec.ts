@@ -1,52 +1,54 @@
 import { test } from '@japa/runner'
 import Database from '@ioc:Adonis/Lucid/Database'
-import CourseFactory from 'Database/factories/CourseFactory'
 import { basicCredentials, mockSchoolCredentials, mockAdminCredentials } from '../../helpers'
+import ClassFactory from 'Database/factories/ClassFactory'
+import CourseFactory from 'Database/factories/CourseFactory'
 
-const url = '/v1/classes/link-teacher-and-lesson'
+const url = '/v1/classes/get-by-id'
 const urlLogin = '/v1/auth/login'
 
-test.group('Link teacher and lesson in class', (group) => {
+test.group('Get class', (group) => {
   group.each.setup(async () => {
     await Database.beginGlobalTransaction()
     return () => Database.rollbackGlobalTransaction()
   })
-  test('Should be link teacher and lesson', async ({ client }) => {
-    const course = await CourseFactory.create()
-    const semester = await course.related('semesters').create({ name: 'test' })
-    await semester.related('lessons').create({ name: 'test', place: 'campus test' })
+
+  test('Should be get classe', async ({ client }) => {
+    const login = await client
+      .post(urlLogin)
+      .basicAuth(basicCredentials.username, basicCredentials.password)
+      .json(mockSchoolCredentials)
+    const schoolId = login.response.body.content.user.schoolData.id
+    const courseId = await (await CourseFactory.create()).id
+    const classe = await ClassFactory.merge({ schoolId, courseId }).create()
+    const sut = await client
+      .get(`${url}/${classe.id}`)
+      .bearerToken(login.response.body.content.accessToken.token)
+
+    sut.assertStatus(200)
+  })
+  test('Should be not found class', async ({ client }) => {
     const login = await client
       .post(urlLogin)
       .basicAuth(basicCredentials.username, basicCredentials.password)
       .json(mockSchoolCredentials)
 
     const sut = await client
-      .put(url)
-      .json({
-        lessonId: 1,
-        teacherId: 1,
-      })
+      .get(`${url}/5`)
       .bearerToken(login.response.body.content.accessToken.token)
 
-    sut.assertStatus(200)
+    sut.assertStatus(404)
   })
-  test('Should be empty fields', async ({ client }) => {
-    const login = await client
-      .post(urlLogin)
-      .basicAuth(basicCredentials.username, basicCredentials.password)
-      .json(mockSchoolCredentials)
 
-    const sut = await client.put(url).bearerToken(login.response.body.content.accessToken.token)
-
-    sut.assertStatus(422)
-  })
   test('Should be resource denied', async ({ client }) => {
     const login = await client
       .post(urlLogin)
       .basicAuth(basicCredentials.username, basicCredentials.password)
       .json(mockAdminCredentials)
 
-    const sut = await client.put(url).bearerToken(login.response.body.content.accessToken.token)
+    const sut = await client
+      .get(`${url}/5`)
+      .bearerToken(login.response.body.content.accessToken.token)
 
     sut.assertStatus(403)
   })

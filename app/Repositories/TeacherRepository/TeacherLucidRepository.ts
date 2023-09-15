@@ -23,6 +23,7 @@ export default class TeacherLucidRepository implements TeacherRepositoryInterfac
         'users.email',
         'teachers.CPF as cpf',
         'teachers.status',
+        'teachers.id as teacherId',
         'users.createdAt'
       )
 
@@ -45,6 +46,7 @@ export default class TeacherLucidRepository implements TeacherRepositoryInterfac
       email: teacher.email,
       cpf: teacher.cpf,
       status: teacher.status,
+      teacherId: teacher.teacherId,
       createdAt: FormatDate.formatFromIso(teacher.createdAt),
     }))
 

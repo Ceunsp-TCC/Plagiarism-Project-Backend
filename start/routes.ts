@@ -72,7 +72,7 @@ Route.group(() => {
       Route.get('/get-students/:classId', 'ClassesController.getStudents').middleware(
         'permission:getStudentsByClass'
       )
-      Route.patch('/link-teacher-and-lesson', 'ClassesController.linkTeacherWithLesson').middleware(
+      Route.put('/link-teacher-and-lesson', 'ClassesController.linkTeacherWithLesson').middleware(
         'permission:linkTeacherAndLessonInClass'
       )
     }).prefix('classes')
