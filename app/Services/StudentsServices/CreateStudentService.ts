@@ -5,7 +5,7 @@ import type { CreateStudentDto } from 'App/Dtos/Services/StudentServices/CreateS
 import { faker } from '@faker-js/faker'
 
 export default class CreateStudentService {
-  public async create({ name, email, phoneNumber, CPF, schoolId }: CreateStudentDto) {
+  public async create({ name, email, phoneNumber, CPF, schoolId, classId }: CreateStudentDto) {
     const roleTeacher = await RoleRepository.findByName('STUDENT')
 
     const user = {
@@ -19,6 +19,7 @@ export default class CreateStudentService {
     const student = {
       CPF: CPF.replace(/\D/g, ''),
       schoolId,
+      classId,
     }
 
     await UserRepository.createStudent(user, student)

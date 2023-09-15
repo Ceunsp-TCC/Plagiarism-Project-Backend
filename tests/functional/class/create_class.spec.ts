@@ -12,6 +12,8 @@ test.group('Create class', (group) => {
   })
   test('Should be create class', async ({ client }) => {
     const course = await CourseFactory.create()
+    const semester = await course.related('semesters').create({ name: 'test' })
+    await semester.related('lessons').create({ name: 'test', place: 'campus test' })
     const login = await client
       .post(urlLogin)
       .basicAuth(basicCredentials.username, basicCredentials.password)
@@ -41,6 +43,41 @@ test.group('Create class', (group) => {
     sut.assertBodyContains({
       statusCode: 404,
       message: 'Course not found',
+    })
+  })
+  test('Should be not has semester for this course', async ({ client }) => {
+    const course = await CourseFactory.create()
+    const login = await client
+      .post(urlLogin)
+      .basicAuth(basicCredentials.username, basicCredentials.password)
+      .json(mockSchoolCredentials)
+
+    const sut = await client
+      .post(`${url}/${course.id}`)
+      .bearerToken(login.response.body.content.accessToken.token)
+
+    sut.assertStatus(400)
+    sut.assertBodyContains({
+      statusCode: 400,
+      message: 'Not has semesters registered for this course',
+    })
+  })
+  test('Should be not has lesson  for some semester', async ({ client }) => {
+    const course = await CourseFactory.create()
+    await course.related('semesters').create({ name: 'test' })
+    const login = await client
+      .post(urlLogin)
+      .basicAuth(basicCredentials.username, basicCredentials.password)
+      .json(mockSchoolCredentials)
+
+    const sut = await client
+      .post(`${url}/${course.id}`)
+      .bearerToken(login.response.body.content.accessToken.token)
+
+    sut.assertStatus(400)
+    sut.assertBodyContains({
+      statusCode: 400,
+      message: 'Not has lessons registered for some semester',
     })
   })
   test('Should be not has permission', async ({ client }) => {

@@ -1,6 +1,8 @@
 import { test } from '@japa/runner'
 import Database from '@ioc:Adonis/Lucid/Database'
 import { faker } from '@faker-js/faker'
+import CourseFactory from 'Database/factories/CourseFactory'
+import ClassFactory from 'Database/factories/ClassFactory'
 import {
   basicCredentials,
   mockSchoolCredentials,
@@ -18,6 +20,9 @@ test.group('Create student', (group) => {
   })
 
   test('Should create student success', async ({ client }) => {
+    const course = await CourseFactory.create()
+    const classe = (await ClassFactory.create()).merge({ courseId: course.id })
+
     const login = await client
       .post(urlLogin)
       .basicAuth(basicCredentials.username, basicCredentials.password)
@@ -25,7 +30,7 @@ test.group('Create student', (group) => {
     const sut = await client
       .post(url)
       .bearerToken(login.response.body.content.accessToken.token)
-      .json(mockStudentObject)
+      .json({ ...mockStudentObject, classId: classe.id })
 
     sut.assertStatus(201)
     sut.assertBodyContains({

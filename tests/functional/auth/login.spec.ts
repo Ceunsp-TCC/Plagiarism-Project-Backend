@@ -54,6 +54,8 @@ test.group('Login', (group) => {
             'createClass',
             'getClasses',
             'getClass',
+            'getStudentsByClass',
+            'linkTeacherAndLessonInClass',
           ],
         },
       },

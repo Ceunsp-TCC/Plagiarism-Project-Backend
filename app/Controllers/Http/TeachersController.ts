@@ -14,13 +14,12 @@ export default class TeachersController {
 
   public async store({ auth, request }: HttpContextContract) {
     const payload = await request.validate(CreateUpdateTeacherValidator)
-    const schoolId = await auth.user?.id!
-
+    const schoolId = await (await auth.user?.related('school').query().first())?.id!
     return await this.createTeacherService.create({ ...payload, schoolId })
   }
 
   public async index({ auth, request }: HttpContextContract) {
-    const schoolId = await auth.user?.id!
+    const schoolId = await (await auth.user?.related('school').query().first())?.id!
 
     const numberlinesPerPage = await request.input('numberlinesPerPage')
     const currentPage = await request.input('currentPage')

@@ -1,25 +1,23 @@
 import BaseSchema from '@ioc:Adonis/Lucid/Schema'
 
 export default class extends BaseSchema {
-  protected tableName = 'rolesPermissions'
+  protected tableName = 'semesters'
 
   public async up() {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id')
       table
-        .integer('idRole')
+        .integer('courseId')
         .unsigned()
         .notNullable()
         .references('id')
-        .inTable('roles')
+        .inTable('courses')
         .onDelete('CASCADE')
-      table
-        .integer('idPermission')
-        .unsigned()
-        .notNullable()
-        .references('id')
-        .inTable('permissions')
-        .onDelete('CASCADE')
+      table.string('name', 150).notNullable()
+      table.string('description', 255)
+      table.timestamp('createdAt', { useTz: true }).defaultTo(this.now())
+      table.timestamp('updatedAt', { useTz: true }).defaultTo(this.now())
+      table.timestamp('deletedAt', { useTz: true }).nullable()
     })
   }
 

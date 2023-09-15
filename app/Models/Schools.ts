@@ -6,7 +6,9 @@ import { BaseModel, column, belongsTo, BelongsTo, HasMany, hasMany } from '@ioc:
 
 export default class Schools extends BaseModel {
   public static table = 'schools'
-  public static primaryKey = ''
+
+  @column({ isPrimary: true })
+  public id: number
 
   @column({ columnName: 'userId', serializeAs: null })
   public userId: number
