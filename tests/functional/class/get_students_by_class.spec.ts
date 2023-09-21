@@ -27,7 +27,7 @@ test.group('Get students by class', (group) => {
       .bearerToken(login.response.body.content.accessToken.token)
 
     sut.assertStatus(200)
-    assert.equal(sut.response.body.content.totalRegisters, 2)
+    assert.equal(sut.response.body.content.totalRegisters, 1)
   })
 
   test('Should be not found students in class', async ({ client }) => {

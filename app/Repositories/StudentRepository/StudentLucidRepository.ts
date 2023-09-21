@@ -2,12 +2,20 @@ import Students from 'App/Models/Students'
 import Database from '@ioc:Adonis/Lucid/Database'
 import DefaultPaginate from '@ioc:Utils/DefaultPaginate'
 import FormatDate from '@ioc:Utils/FormatDate'
+import ClassSemesters from 'App/Models/ClassSemesters'
+import ClassSemestersLessons from 'App/Models/ClassSemestersLessons'
+import { DefaultPaginateDtoResponse } from 'App/Dtos/Utils/DefaultPaginateDto'
 import type { StudentDtoResponse } from 'App/Dtos/Students/StudentDto'
 import type StudentRepositoryInterface from 'App/Interfaces/Repositories/StudentRepositoryInterface'
+import type { SimplePaginatorContract } from '@ioc:Adonis/Lucid/Database'
+import type { LessonByStudentDto } from 'App/Dtos/Lessons/LessonByStudentDto'
 
 export default class StudentLucidRepository implements StudentRepositoryInterface {
-  //@ts-ignore
-  constructor(private readonly model: typeof Students) {}
+  constructor(
+    private readonly model: typeof Students,
+    private readonly modelSemesters: typeof ClassSemesters,
+    private readonly modelLessons: typeof ClassSemestersLessons
+  ) {}
 
   public async getAll(
     schoolId: number,
@@ -103,5 +111,27 @@ export default class StudentLucidRepository implements StudentRepositoryInterfac
       .update({ randomPassword: false })
 
     return updateStudent
+  }
+  public async getLessons(
+    studentId: number,
+    currentPage?: number | undefined,
+    numberlinesPerPage?: number | undefined
+  ): Promise<DefaultPaginateDtoResponse<LessonByStudentDto>> {
+    const student = await this.model.query().where('id', studentId).first()
+
+    const semesters = await this.modelSemesters.query().where('classId', student?.classId!)
+
+    const semestersIds = semesters.map((semester) => semester.id)
+
+    const lessons = await this.modelLessons
+      .query()
+      .whereIn('classSemesterId', semestersIds)
+      .orderBy('createdAt', 'desc')
+      .paginate(currentPage!, numberlinesPerPage)
+
+    return await DefaultPaginate.formatToDefaultPaginate<LessonByStudentDto>({
+      items: lessons.all() as unknown as LessonByStudentDto[],
+      paginateProperties: lessons as unknown as SimplePaginatorContract<LessonByStudentDto>,
+    })
   }
 }

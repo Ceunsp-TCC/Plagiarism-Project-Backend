@@ -2,41 +2,37 @@ import { test } from '@japa/runner'
 import Database from '@ioc:Adonis/Lucid/Database'
 import {
   basicCredentials,
-  mockSchoolCredentials,
   mockAdminCredentials,
-  mockSchoolEmptyClassesCredentials,
+  mockTeacherCredentials,
+  mockTeacherEmptyLessonsCredentials,
 } from '../../helpers'
-import ClassFactory from 'Database/factories/ClassFactory'
-import CourseFactory from 'Database/factories/CourseFactory'
 
-const url = '/v1/classes/get-all'
+const url = '/v1/lessons/get-lessons-by-teacher'
 const urlLogin = '/v1/auth/login'
 
-test.group('Get classes', (group) => {
+test.group('Get lessons by teacher', (group) => {
   group.each.setup(async () => {
     await Database.beginGlobalTransaction()
     return () => Database.rollbackGlobalTransaction()
   })
 
-  test('Should be get classes', async ({ client, assert }) => {
+  test('Should be get lessons', async ({ client, assert }) => {
     const login = await client
       .post(urlLogin)
       .basicAuth(basicCredentials.username, basicCredentials.password)
-      .json(mockSchoolCredentials)
-    const schoolId = login.response.body.content.user.schoolData.id
-    const courseId = await (await CourseFactory.create()).id
-    await ClassFactory.merge({ schoolId, courseId }).createMany(3)
+      .json(mockTeacherCredentials)
+
     const sut = await client.get(url).bearerToken(login.response.body.content.accessToken.token)
 
     sut.assertStatus(200)
-    assert.equal(sut.response.body.content.totalRegisters, 5)
+    assert.equal(sut.response.body.content.totalRegisters, 1)
   })
 
-  test('Should be not found classes', async ({ client }) => {
+  test('Should be not found lessons', async ({ client }) => {
     const login = await client
       .post(urlLogin)
       .basicAuth(basicCredentials.username, basicCredentials.password)
-      .json(mockSchoolEmptyClassesCredentials)
+      .json(mockTeacherEmptyLessonsCredentials)
 
     const sut = await client.get(url).bearerToken(login.response.body.content.accessToken.token)
 
@@ -47,11 +43,8 @@ test.group('Get classes', (group) => {
     const login = await client
       .post(urlLogin)
       .basicAuth(basicCredentials.username, basicCredentials.password)
-      .json(mockSchoolCredentials)
+      .json(mockTeacherCredentials)
 
-    const schoolId = login.response.body.content.user.schoolData.id
-    const courseId = await (await CourseFactory.create()).id
-    await ClassFactory.merge({ schoolId, courseId }).createMany(3)
     const sut = await client
       .get(url)
       .qs({ numberlinesPerPage: 10 })
@@ -68,6 +61,7 @@ test.group('Get classes', (group) => {
       .post(urlLogin)
       .basicAuth(basicCredentials.username, basicCredentials.password)
       .json(mockAdminCredentials)
+
     const sut = await client.get(url).bearerToken(login.response.body.content.accessToken.token)
 
     sut.assertStatus(403)
