@@ -4,7 +4,9 @@ import Schools from 'App/Models/Schools'
 import Classes from 'App/Models/Classes'
 export default class Students extends BaseModel {
   public static table = 'students'
-  public static primaryKey = ''
+
+  @column({ isPrimary: true })
+  public id: number
 
   @column({ columnName: 'userId', serializeAs: null })
   public userId: number

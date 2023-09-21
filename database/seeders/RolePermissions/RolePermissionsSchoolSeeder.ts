@@ -28,8 +28,8 @@ export default class RolePermissionsSchoolSeeder extends BaseSeeder {
     const schoolPermissionsIds = (await Permissions.query().whereIn('name', permissionsSchool)).map(
       (permission) => permission.id
     )
-    const roleAdmin = await Roles.query().where('name', 'SCHOOL').first()
+    const roleSchool = await Roles.query().where('name', 'SCHOOL').first()
 
-    await roleAdmin?.related('permissions').attach(schoolPermissionsIds)
+    await roleSchool?.related('permissions').attach(schoolPermissionsIds)
   }
 }
