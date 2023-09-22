@@ -72,6 +72,14 @@ export default class RepositoriesProvider {
 
       return new ClassLucidRepository(classModel, lessonModel)
     })
+
+    this.app.container.bind('Repositories/ActivityRepository', () => {
+      const ActivityLucidRepository =
+        require('App/Repositories/ActivityRepository/ActivityLucidRepository').default
+      const activityModel = require('App/Models/Activities').default
+
+      return new ActivityLucidRepository(activityModel)
+    })
   }
 
   public async boot() {}

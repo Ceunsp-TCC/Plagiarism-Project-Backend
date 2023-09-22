@@ -84,6 +84,12 @@ Route.group(() => {
     }).prefix('classes')
 
     Route.group(() => {
+      Route.post('/create/:lessonId', 'ActivitiesController.store').middleware(
+        'permission:createActivity'
+      )
+    }).prefix('activities')
+
+    Route.group(() => {
       Route.get('/me', 'AuthController.me')
       Route.post('/logout', 'AuthController.logout')
     }).prefix('auth')

@@ -13,4 +13,5 @@ export default interface ClassRepositoryInterface {
 
   getById(classId: number): Promise<Classes | null>
   updateTeacherInLesson(lessonId: number, teacherId: number): Promise<boolean>
+  getLessonById(lessonId: number)
 }

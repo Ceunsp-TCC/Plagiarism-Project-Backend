@@ -100,4 +100,10 @@ export default class ClassLucidRepository implements ClassRepositoryInterface {
 
     return true
   }
+
+  public async getLessonById(lessonId: number) {
+    const lesson = await this.modelLessons.query().where('id', lessonId).first()
+
+    return lesson
+  }
 }
