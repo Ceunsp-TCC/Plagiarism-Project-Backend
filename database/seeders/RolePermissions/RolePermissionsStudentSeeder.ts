@@ -4,7 +4,7 @@ import Roles from 'App/Models/Roles'
 
 export default class extends BaseSeeder {
   public async run() {
-    const permissionsStudent = ['getLessonsByStudent']
+    const permissionsStudent = ['getLessonsByStudent', 'activities', 'getActivities']
 
     const studentPermissionsIds = (
       await Permissions.query().whereIn('name', permissionsStudent)

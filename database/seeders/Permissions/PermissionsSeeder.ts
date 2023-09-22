@@ -93,6 +93,15 @@ export default class PermissionsSeeder extends BaseSeeder {
       {
         name: 'linkTeacherAndLessonInClass',
       },
+      {
+        name: 'activities',
+      },
+      {
+        name: 'createActivity',
+      },
+      {
+        name: 'getActivities',
+      },
     ])
   }
 }
