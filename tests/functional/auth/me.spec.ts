@@ -65,7 +65,13 @@ test.group('Me', (group) => {
     sut.assertBodyContains({ message: 'User information successfully returned' })
     sut.assertBodyContains({
       content: {
-        permissions: ['getLessonsByTeacher', 'activities', 'createActivity', 'getActivities'],
+        permissions: [
+          'lessons',
+          'getLessonsByTeacher',
+          'activities',
+          'createActivity',
+          'getActivities',
+        ],
       },
     })
     sut.assertBodyContains({
@@ -85,7 +91,7 @@ test.group('Me', (group) => {
     sut.assertBodyContains({ message: 'User information successfully returned' })
     sut.assertBodyContains({
       content: {
-        permissions: ['getLessonsByStudent', 'activities', 'getActivities'],
+        permissions: ['lessons', 'getLessonsByStudent', 'activities', 'getActivities'],
       },
     })
     sut.assertBodyContains({

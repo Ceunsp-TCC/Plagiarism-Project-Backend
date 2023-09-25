@@ -5,6 +5,7 @@ import Roles from 'App/Models/Roles'
 export default class RolePermissionsTeacherSeeder extends BaseSeeder {
   public async run() {
     const permissionsTeacher = [
+      'lessons',
       'getLessonsByTeacher',
       'activities',
       'createActivity',
