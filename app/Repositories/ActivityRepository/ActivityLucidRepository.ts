@@ -10,4 +10,10 @@ export default class ActivityLucidRepository implements ActivityRepositoryInterf
 
     return activity
   }
+
+  public async getAll(lessonId: number): Promise<Activities[]> {
+    const activities = await this.model.query().where('lessonId', lessonId)
+
+    return activities
+  }
 }

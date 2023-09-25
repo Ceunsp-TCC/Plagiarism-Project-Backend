@@ -87,6 +87,9 @@ Route.group(() => {
       Route.post('/create/:lessonId', 'ActivitiesController.store').middleware(
         'permission:createActivity'
       )
+      Route.get('/get-all/:lessonId', 'ActivitiesController.index').middleware(
+        'permission:getActivities'
+      )
     }).prefix('activities')
 
     Route.group(() => {
