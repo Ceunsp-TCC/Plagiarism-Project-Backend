@@ -2,9 +2,9 @@ import BaseSeeder from '@ioc:Adonis/Lucid/Seeder'
 import Permissions from 'App/Models/Permissions'
 import Roles from 'App/Models/Roles'
 
-export default class extends BaseSeeder {
+export default class RolePermissionsStudentSeeder extends BaseSeeder {
   public async run() {
-    const permissionsStudent = ['getLessonsByStudent', 'activities', 'getActivities']
+    const permissionsStudent = ['lessons', 'getLessonsByStudent', 'activities', 'getActivities']
 
     const studentPermissionsIds = (
       await Permissions.query().whereIn('name', permissionsStudent)
