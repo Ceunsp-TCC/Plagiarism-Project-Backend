@@ -4,4 +4,5 @@ import Activities from 'App/Models/Activities'
 export default interface ActivityRepositoryInterface {
   create(ActivityRepositoryDto: ActivityRepositoryDto)
   getAll(lessonId: number): Promise<Activities[]>
+  findById(activityId: number): Promise<Activities | null>
 }

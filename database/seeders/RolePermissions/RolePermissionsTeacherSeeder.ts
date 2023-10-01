@@ -9,6 +9,7 @@ export default class RolePermissionsTeacherSeeder extends BaseSeeder {
       'getLessonsByTeacher',
       'activities',
       'createActivity',
+      'getActivity',
       'getActivities',
     ]
 

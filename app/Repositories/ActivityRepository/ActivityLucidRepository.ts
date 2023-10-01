@@ -19,4 +19,10 @@ export default class ActivityLucidRepository implements ActivityRepositoryInterf
 
     return activities
   }
+
+  public async findById(activityId: number) {
+    const activity = await this.model.query().where('id', activityId).first()
+
+    return activity
+  }
 }
