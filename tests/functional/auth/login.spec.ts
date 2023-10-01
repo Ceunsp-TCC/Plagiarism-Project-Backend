@@ -90,6 +90,7 @@ test.group('Login', (group) => {
             'getLessonsByTeacher',
             'activities',
             'createActivity',
+            'getActivity',
             'getActivities',
           ],
         },
@@ -120,7 +121,13 @@ test.group('Login', (group) => {
     sut.assertBodyContains({
       content: {
         user: {
-          permissions: ['lessons', 'getLessonsByStudent', 'activities', 'getActivities'],
+          permissions: [
+            'lessons',
+            'getLessonsByStudent',
+            'activities',
+            'getActivity',
+            'getActivities',
+          ],
         },
       },
     })

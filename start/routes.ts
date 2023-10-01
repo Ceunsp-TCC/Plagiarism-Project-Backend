@@ -90,6 +90,10 @@ Route.group(() => {
       Route.get('/get-all/:lessonId', 'ActivitiesController.index').middleware(
         'permission:getActivities'
       )
+
+      Route.get('/get-by-id/:activityId', 'ActivitiesController.show').middleware(
+        'permission:getActivity'
+      )
     }).prefix('activities')
 
     Route.group(() => {

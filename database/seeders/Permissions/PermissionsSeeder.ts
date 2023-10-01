@@ -103,6 +103,9 @@ export default class PermissionsSeeder extends BaseSeeder {
         name: 'createActivity',
       },
       {
+        name: 'getActivity',
+      },
+      {
         name: 'getActivities',
       },
     ])
