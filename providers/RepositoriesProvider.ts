@@ -28,16 +28,17 @@ export default class RepositoriesProvider {
     this.app.container.bind('Repositories/TeacherRepository', () => {
       const TeacherLucidRepository =
         require('App/Repositories/TeacherRepository/TeacherLucidRepository').default
-      const teacherModel = require('App/Models/Teachers').default
-
-      return new TeacherLucidRepository(teacherModel)
+      const lessonModel = require('App/Models/ClassSemestersLessons').default
+      return new TeacherLucidRepository(lessonModel)
     })
     this.app.container.bind('Repositories/StudentRepository', () => {
       const StudentLucidRepository =
         require('App/Repositories/StudentRepository/StudentLucidRepository').default
       const studentModel = require('App/Models/Students').default
+      const modelSemesters = require('App/Models/ClassSemesters').default
+      const modelLessons = require('App/Models/ClassSemestersLessons').default
 
-      return new StudentLucidRepository(studentModel)
+      return new StudentLucidRepository(studentModel, modelSemesters, modelLessons)
     })
     this.app.container.bind('Repositories/CourseRepository', () => {
       const CourseLucidRepository =
@@ -70,6 +71,14 @@ export default class RepositoriesProvider {
       const lessonModel = require('App/Models/ClassSemestersLessons').default
 
       return new ClassLucidRepository(classModel, lessonModel)
+    })
+
+    this.app.container.bind('Repositories/ActivityRepository', () => {
+      const ActivityLucidRepository =
+        require('App/Repositories/ActivityRepository/ActivityLucidRepository').default
+      const activityModel = require('App/Models/Activities').default
+
+      return new ActivityLucidRepository(activityModel)
     })
   }
 

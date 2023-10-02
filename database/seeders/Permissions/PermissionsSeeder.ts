@@ -67,7 +67,16 @@ export default class PermissionsSeeder extends BaseSeeder {
         name: 'createSemester',
       },
       {
+        name: 'lessons',
+      },
+      {
         name: 'createLesson',
+      },
+      {
+        name: 'getLessonsByTeacher',
+      },
+      {
+        name: 'getLessonsByStudent',
       },
       {
         name: 'classes',
@@ -86,6 +95,18 @@ export default class PermissionsSeeder extends BaseSeeder {
       },
       {
         name: 'linkTeacherAndLessonInClass',
+      },
+      {
+        name: 'activities',
+      },
+      {
+        name: 'createActivity',
+      },
+      {
+        name: 'getActivity',
+      },
+      {
+        name: 'getActivities',
       },
     ])
   }

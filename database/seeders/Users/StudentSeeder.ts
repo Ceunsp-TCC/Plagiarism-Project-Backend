@@ -35,7 +35,22 @@ export default class Student extends BaseSeeder {
       CPF: 'cpf-student-test',
       status: 'INACTIVE',
       schoolId: school?.id,
-      classId: 300,
+      classId: 100,
+    })
+    const createStudentEmptyLessons = await Users.create({
+      name: 'student-empty-lessons',
+      password: 'student-empty-lessons@student',
+      email: 'student-empty-lessons@gmail.com',
+      phoneNumber: '112333333',
+      roleId: roleStudent?.id,
+      roleName: 'STUDENT',
+    })
+
+    await createStudentEmptyLessons.related('student').create({
+      CPF: 'cpf-student-test',
+      status: 'ACTIVE',
+      schoolId: school?.id,
+      classId: 100,
     })
   }
 }

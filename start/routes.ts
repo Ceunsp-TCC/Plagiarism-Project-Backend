@@ -61,6 +61,12 @@ Route.group(() => {
       Route.post('/create/:semesterId', 'LessonsController.store').middleware(
         'permission:createLesson'
       )
+      Route.get('/get-lessons-by-teacher', 'LessonsController.getLessonsByTeacher').middleware(
+        'permission:getLessonsByTeacher'
+      )
+      Route.get('/get-lessons-by-student', 'LessonsController.getLessonsByStudent').middleware(
+        'permission:getLessonsByStudent'
+      )
     }).prefix('lessons')
 
     Route.group(() => {
@@ -76,6 +82,19 @@ Route.group(() => {
         'permission:linkTeacherAndLessonInClass'
       )
     }).prefix('classes')
+
+    Route.group(() => {
+      Route.post('/create/:lessonId', 'ActivitiesController.store').middleware(
+        'permission:createActivity'
+      )
+      Route.get('/get-all/:lessonId', 'ActivitiesController.index').middleware(
+        'permission:getActivities'
+      )
+
+      Route.get('/get-by-id/:activityId', 'ActivitiesController.show').middleware(
+        'permission:getActivity'
+      )
+    }).prefix('activities')
 
     Route.group(() => {
       Route.get('/me', 'AuthController.me')

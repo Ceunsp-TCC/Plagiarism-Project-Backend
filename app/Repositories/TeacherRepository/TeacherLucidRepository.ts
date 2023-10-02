@@ -1,13 +1,14 @@
-import Teachers from 'App/Models/Teachers'
 import Database from '@ioc:Adonis/Lucid/Database'
 import DefaultPaginate from '@ioc:Utils/DefaultPaginate'
 import FormatDate from '@ioc:Utils/FormatDate'
+import ClassSemestersLessons from 'App/Models/ClassSemestersLessons'
+import { DefaultPaginateDtoResponse } from 'App/Dtos/Utils/DefaultPaginateDto'
 import type { TeacherDtoResponse } from 'App/Dtos/Teachers/TeacherDto'
+import type { LessonByTeacherDto } from 'App/Dtos/Lessons/LessonByTeacherDto'
 import type TeacherRepositoryInterface from 'App/Interfaces/Repositories/TeacherRepositoryInterface'
-
+import type { SimplePaginatorContract } from '@ioc:Adonis/Lucid/Database'
 export default class TeacherLucidRepository implements TeacherRepositoryInterface {
-  //@ts-ignore
-  constructor(private readonly model: typeof Teachers) {}
+  constructor(private readonly modelLessons: typeof ClassSemestersLessons) {}
 
   public async getAll(
     schoolId: number,
@@ -80,5 +81,21 @@ export default class TeacherLucidRepository implements TeacherRepositoryInterfac
       .first()
 
     return teacher
+  }
+  public async getLessons(
+    teacherId: number,
+    currentPage: number = 1,
+    numberlinesPerPage: number = 5
+  ): Promise<DefaultPaginateDtoResponse<LessonByTeacherDto>> {
+    const lessons = await this.modelLessons
+      .query()
+      .where('teacherId', teacherId)
+      .orderBy('createdAt', 'desc')
+      .paginate(currentPage!, numberlinesPerPage)
+
+    return await DefaultPaginate.formatToDefaultPaginate<LessonByTeacherDto>({
+      items: lessons.all() as unknown as LessonByTeacherDto[],
+      paginateProperties: lessons as unknown as SimplePaginatorContract<LessonByTeacherDto>,
+    })
   }
 }
