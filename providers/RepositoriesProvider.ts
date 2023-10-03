@@ -80,6 +80,13 @@ export default class RepositoriesProvider {
 
       return new ActivityLucidRepository(activityModel)
     })
+    this.app.container.bind('Repositories/AcademicPaperRepository', () => {
+      const AcademicPaperLucidRepository =
+        require('App/Repositories/AcademicPapersRepository/AcademicPapersLucidRepository').default
+      const academicPapersModel = require('App/Models/AcademicPapers').default
+
+      return new AcademicPaperLucidRepository(academicPapersModel)
+    })
   }
 
   public async boot() {}

@@ -55,3 +55,8 @@ declare module '@ioc:Repositories/ActivityRepository' {
   const ActivityRepository: ActivityRepositoryInterface
   export default ActivityRepository
 }
+declare module '@ioc:Repositories/AcademicPaperRepository' {
+  import type AcademicPapersRepositoryInterface from 'App/Interfaces/Repositories/AcademicPapersRepositoryInterface'
+  const AcademicPaperRepository: AcademicPapersRepositoryInterface
+  export default AcademicPaperRepository
+}
