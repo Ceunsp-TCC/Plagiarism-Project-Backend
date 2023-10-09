@@ -9,6 +9,13 @@ import PDF from '@ioc:Libraries/PDF'
 import type { SendAcademicPaperServiceDto } from 'App/Dtos/Services/AcademicPaperServices/SendAcademicPaperServiceDto'
 
 export default class SendAcademicPaperService {
+  private maxWordsUltrapassed(countWords: number) {
+    const maxNumberWords = 100
+    const maxWordsUltrapassed = countWords > maxNumberWords
+
+    return maxWordsUltrapassed
+  }
+
   public async create({
     activityId = 0,
     studentId = 0,
@@ -29,10 +36,7 @@ export default class SendAcademicPaperService {
     const urlPaper = `${Env.get('APP_URL')}/uploads/academic-papers/${namePaper}`
     const numberWordsFromAcademicPaper = await PDF.countWords(urlPaper)
 
-    const maxNumberWords = 100
-    const maxWordsUltrapassed = numberWordsFromAcademicPaper > maxNumberWords
-
-    if (maxWordsUltrapassed) {
+    if (this.maxWordsUltrapassed(numberWordsFromAcademicPaper)) {
       throw new CustomException(
         'The number of words in the PDF exceeds the limit of 100 words',
         400
