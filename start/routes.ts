@@ -97,6 +97,12 @@ Route.group(() => {
     }).prefix('activities')
 
     Route.group(() => {
+      Route.post('/send/:activityId', 'AcademicPapersController.store').middleware(
+        'permission:sendAcademicPaper'
+      )
+    }).prefix('academic-paper')
+
+    Route.group(() => {
       Route.get('/me', 'AuthController.me')
       Route.post('/logout', 'AuthController.logout')
     }).prefix('auth')
