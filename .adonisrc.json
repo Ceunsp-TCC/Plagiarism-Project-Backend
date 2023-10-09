@@ -23,7 +23,8 @@
     "@adonisjs/auth",
     "./providers/RepositoriesProvider",
     "./providers/UtilsProvider",
-    "./providers/ExternalApisProvider"
+    "./providers/ExternalApisProvider",
+    "./providers/LibraryProvider"
   ],
   "metaFiles": [
     {

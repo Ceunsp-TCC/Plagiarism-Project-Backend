@@ -108,6 +108,15 @@ export default class PermissionsSeeder extends BaseSeeder {
       {
         name: 'getActivities',
       },
+      {
+        name: 'academicPapers',
+      },
+      {
+        name: 'sendAcademicPaper',
+      },
+      {
+        name: 'getAcademicPapers',
+      },
     ])
   }
 }
