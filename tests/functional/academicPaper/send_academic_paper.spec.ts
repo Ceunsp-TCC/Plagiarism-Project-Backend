@@ -18,6 +18,7 @@ test.group('Send academic paper', (group) => {
     await Drive.fake()
     const activity = await ActivityFactory.create()
     const fakePaper = await file.generatePdf('1mb')
+
     const login = await client
       .post(urlLogin)
       .basicAuth(basicCredentials.username, basicCredentials.password)
