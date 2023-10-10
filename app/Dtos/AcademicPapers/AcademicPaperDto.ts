@@ -4,3 +4,8 @@ export interface AcademicPaperDto {
   paper: string
   comments?: string
 }
+export interface AcademicPaperDtoResponse {
+  paper: string
+  comments?: string
+  createdAt: string
+}

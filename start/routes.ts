@@ -100,6 +100,9 @@ Route.group(() => {
       Route.post('/send/:activityId', 'AcademicPapersController.store').middleware(
         'permission:sendAcademicPaper'
       )
+      Route.get('/get-all/:activityId', 'AcademicPapersController.index').middleware(
+        'permission:getAcademicPapers'
+      )
     }).prefix('academic-paper')
 
     Route.group(() => {
