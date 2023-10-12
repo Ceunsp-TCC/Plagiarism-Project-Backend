@@ -24,6 +24,9 @@ export default class AcademicPapersLucidRepository implements AcademicPapersRepo
     const academicPapers = await this.model
       .query()
       .where('activityId', activityId)
+      .preload('student', (studentBuilder) => {
+        studentBuilder.preload('user')
+      })
       .orderBy('createdAt', 'desc')
       .paginate(currentPage!, numberlinesPerPage)
 
