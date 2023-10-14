@@ -21,10 +21,12 @@ export default class ActivitiesController {
     return await this.createActivityService.create({ ...payload, lessonId })
   }
 
-  public async index({ params }: HttpContextContract) {
+  public async index({ params, auth }: HttpContextContract) {
     const lessonId = Number(params.lessonId)
+    const studentId = await (await auth.user?.related('student').query().first())?.id!
+    const roleName = await auth.user?.roleName!
 
-    return await this.getAllActivitiesService.getAll(lessonId)
+    return await this.getAllActivitiesService.getAll(lessonId, roleName, studentId)
   }
 
   public async show({ params }: HttpContextContract) {
