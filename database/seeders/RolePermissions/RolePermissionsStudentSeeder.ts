@@ -10,6 +10,7 @@ export default class RolePermissionsStudentSeeder extends BaseSeeder {
       'activities',
       'getActivity',
       'getActivities',
+      'sendAcademicPaper',
     ]
 
     const studentPermissionsIds = (

@@ -1,0 +1,17 @@
+import type {
+  AcademicPaperDto,
+  AcademicPaperDtoResponse,
+} from 'App/Dtos/AcademicPapers/AcademicPaperDto'
+import AcademicPapers from 'App/Models/AcademicPapers'
+import type { DefaultPaginateDtoResponse } from 'App/Dtos/Utils/DefaultPaginateDto'
+
+export default interface AcademicPapersRepositoryInterface {
+  create(AcademicPaperRepositoryDto: AcademicPaperDto)
+  getAll(
+    activityId: number,
+    currentPage: number,
+    numberlinesPerPage: number
+  ): Promise<DefaultPaginateDtoResponse<AcademicPaperDtoResponse>>
+
+  getByStudentIdAndActivityId(studentId: number, activityId: number): Promise<AcademicPapers | null>
+}

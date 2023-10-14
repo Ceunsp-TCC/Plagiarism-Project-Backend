@@ -8,3 +8,12 @@ export interface ActivityRepositoryDto {
   comments?: string
   type: ActivityType
 }
+
+export interface ActivityDataDto {
+  id: number
+  title: string
+  comments?: string
+  type: string
+  createdAt: string
+  sent?: boolean
+}
