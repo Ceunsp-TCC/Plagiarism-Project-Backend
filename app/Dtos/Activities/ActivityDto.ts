@@ -1,5 +1,3 @@
-import { DateTime } from 'luxon'
-
 export enum ActivityType {
   NOTICE = 'NOTICE',
   ACADEMICPAPER = 'ACADEMICPAPER',
