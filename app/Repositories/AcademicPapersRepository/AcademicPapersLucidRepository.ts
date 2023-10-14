@@ -36,4 +36,15 @@ export default class AcademicPapersLucidRepository implements AcademicPapersRepo
         academicPapers as unknown as SimplePaginatorContract<AcademicPaperDtoResponse>,
     })
   }
+
+  public async getByStudentIdAndActivityId(
+    studentId: number,
+    activityId: number
+  ): Promise<AcademicPapers | null> {
+    return await this.model
+      .query()
+      .where('studentId', studentId)
+      .where('activityId', activityId)
+      .first()
+  }
 }
