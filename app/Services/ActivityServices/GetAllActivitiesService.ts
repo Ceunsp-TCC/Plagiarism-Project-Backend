@@ -2,6 +2,7 @@ import DefaultResponse from '@ioc:Utils/DefaultResponse'
 import ActivityRepository from '@ioc:Repositories/ActivityRepository'
 import AcademicPaperRepository from '@ioc:Repositories/AcademicPaperRepository'
 import CustomException from 'App/Exceptions/CustomException'
+import FormatDate from '@ioc:Utils/FormatDate'
 import type { ActivityDataDto } from 'App/Dtos/Activities/ActivityDto'
 
 export default class GetAllActivitiesService {
@@ -20,7 +21,7 @@ export default class GetAllActivitiesService {
           title: activity.title,
           comments: activity.comments,
           type: activity.type,
-          createdAt: activity.createdAt,
+          createdAt: FormatDate.formatFromIso(activity.createdAt.toString()),
         }
         const isStudent = roleName === 'STUDENT'
 

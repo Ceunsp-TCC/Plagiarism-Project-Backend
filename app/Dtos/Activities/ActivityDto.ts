@@ -16,6 +16,6 @@ export interface ActivityDataDto {
   title: string
   comments?: string
   type: string
-  createdAt: DateTime
+  createdAt: string
   sent?: boolean
 }
