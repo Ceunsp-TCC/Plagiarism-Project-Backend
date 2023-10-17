@@ -92,6 +92,7 @@ test.group('Login', (group) => {
             'createActivity',
             'getActivity',
             'getActivities',
+            'getAcademicPaper',
           ],
         },
       },
