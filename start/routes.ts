@@ -103,6 +103,9 @@ Route.group(() => {
       Route.get('/get-all/:activityId', 'AcademicPapersController.index').middleware(
         'permission:getAcademicPapers'
       )
+      Route.get('/get-by-id/:academicPaperId', 'AcademicPapersController.show').middleware(
+        'permission:getAcademicPaper'
+      )
     }).prefix('academic-paper')
 
     Route.group(() => {

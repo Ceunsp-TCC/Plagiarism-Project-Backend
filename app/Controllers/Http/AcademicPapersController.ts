@@ -1,14 +1,17 @@
 import SendAcademicPaperService from 'App/Services/AcademicPaperServices/SendAcademicPaperService'
 import SendAcademicPaperValidator from 'App/Validators/SendAcademicPaperValidator'
 import GetAllAcademicPapersByActivityService from 'App/Services/AcademicPaperServices/GetAllAcademicPapersByActivityService'
+import GetAcademicPaperByIdService from 'App/Services/AcademicPaperServices/GetAcademicPaperByIdService'
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 export default class AcademicPapersController {
   private sendAcademicPaperService: SendAcademicPaperService
   private getAllAcademicPapersByActivityService: GetAllAcademicPapersByActivityService
+  private getAcademicPaperByIdService: GetAcademicPaperByIdService
 
   constructor() {
     this.sendAcademicPaperService = new SendAcademicPaperService()
     this.getAllAcademicPapersByActivityService = new GetAllAcademicPapersByActivityService()
+    this.getAcademicPaperByIdService = new GetAcademicPaperByIdService()
   }
   public async store({ request, params, auth }: HttpContextContract) {
     const payload = await request.validate(SendAcademicPaperValidator)
@@ -29,5 +32,11 @@ export default class AcademicPapersController {
       currentPage,
       numberlinesPerPage
     )
+  }
+
+  public async show({ params }: HttpContextContract) {
+    const academicPaperId = Number(params.academicPaperId)
+
+    return await this.getAcademicPaperByIdService.getById(academicPaperId)
   }
 }

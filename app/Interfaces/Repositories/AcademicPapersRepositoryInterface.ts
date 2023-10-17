@@ -14,4 +14,5 @@ export default interface AcademicPapersRepositoryInterface {
   ): Promise<DefaultPaginateDtoResponse<AcademicPaperDtoResponse>>
 
   getByStudentIdAndActivityId(studentId: number, activityId: number): Promise<AcademicPapers | null>
+  getById(academicPaperId: number): Promise<AcademicPapers | null>
 }

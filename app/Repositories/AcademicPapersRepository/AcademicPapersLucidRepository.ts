@@ -47,4 +47,8 @@ export default class AcademicPapersLucidRepository implements AcademicPapersRepo
       .where('activityId', activityId)
       .first()
   }
+
+  public async getById(academicPaperId: number): Promise<AcademicPapers | null> {
+    return await this.model.query().where('id', academicPaperId).first()
+  }
 }

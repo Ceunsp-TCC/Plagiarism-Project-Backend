@@ -72,6 +72,7 @@ test.group('Me', (group) => {
           'createActivity',
           'getActivity',
           'getActivities',
+          'getAcademicPaper',
         ],
       },
     })
