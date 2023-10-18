@@ -2,7 +2,12 @@ import SendAcademicPaperService from 'App/Services/AcademicPaperServices/SendAca
 import SendAcademicPaperValidator from 'App/Validators/SendAcademicPaperValidator'
 import GetAllAcademicPapersByActivityService from 'App/Services/AcademicPaperServices/GetAllAcademicPapersByActivityService'
 import GetAcademicPaperByIdService from 'App/Services/AcademicPaperServices/GetAcademicPaperByIdService'
+import BullMQ from '@ioc:Adonis/Addons/BullMQ'
+import Ace from '@ioc:Adonis/Core/Ace'
+import { QueueNamesEnum } from 'Contracts/queue'
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+
+const queue = BullMQ.queue<any, any>(QueueNamesEnum.ANALYSE_ACADEMIC_PAPER)
 export default class AcademicPapersController {
   private sendAcademicPaperService: SendAcademicPaperService
   private getAllAcademicPapersByActivityService: GetAllAcademicPapersByActivityService
@@ -38,5 +43,15 @@ export default class AcademicPapersController {
     const academicPaperId = Number(params.academicPaperId)
 
     return await this.getAcademicPaperByIdService.getById(academicPaperId)
+  }
+
+  public async sendToPlagiarismAnalyse() {
+    try {
+      await queue.add('mytestJob', { name: 'ddddd' })
+      // const count = await queue.count()
+      // console.log(count)
+    } catch (error) {
+      console.log(error)
+    }
   }
 }

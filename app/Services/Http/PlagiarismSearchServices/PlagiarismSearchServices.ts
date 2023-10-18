@@ -1,14 +1,14 @@
 import { plagiarismSearchApi } from 'App/Services/Apis/PlagiarismSearchApi'
-import type { CreateReportDto } from 'App/Dtos/Services/Http/PlagiarismSearchServicesDto'
+import type { CreateReportServiceDto } from 'App/Dtos/Services/Http/PlagiarismSearchServicesDto'
 import type { CreateReportResponse } from 'App/Services/types/Http/PlagiarismSearchServices/CreateReportResponse'
 import type { GetReportsResponse } from 'App/Services/types/Http/PlagiarismSearchServices/GetReportsResponse'
 import type { GetReportByIdResponse } from 'App/Services/types/Http/PlagiarismSearchServices/GetReportByIdResponse'
 import FormData from 'form-data'
 
-class PlagiarismSearchServices {
-  public async createReport(body: CreateReportDto): Promise<CreateReportResponse> {
+export default class PlagiarismSearchServices {
+  public async createReport(body: CreateReportServiceDto): Promise<CreateReportResponse> {
     const formData = new FormData()
-
+    // is_search_ai
     for (const key in body) {
       formData.append(key, (body as any)[key])
     }
@@ -24,17 +24,15 @@ class PlagiarismSearchServices {
 
     return response.data
   }
-  public async getReports(): Promise<GetReportsResponse> {
-    const response = await plagiarismSearchApi.get<GetReportsResponse>('/reports')
+  // public async getReports(): Promise<GetReportsResponse> {
+  //   const response = await plagiarismSearchApi.get<GetReportsResponse>('/reports')
 
-    return response.data
-  }
+  //   return response.data
+  // }
 
-  public async getReportById(id: number): Promise<GetReportByIdResponse> {
-    const response = await plagiarismSearchApi.get<GetReportByIdResponse>(`/reports/${id}`)
+  // public async getReportById(id: number): Promise<GetReportByIdResponse> {
+  //   const response = await plagiarismSearchApi.get<GetReportByIdResponse>(`/reports/${id}`)
 
-    return response.data
-  }
+  //   return response.data
+  // }
 }
-
-export default new PlagiarismSearchServices()

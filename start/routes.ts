@@ -106,6 +106,10 @@ Route.group(() => {
       Route.get('/get-by-id/:academicPaperId', 'AcademicPapersController.show').middleware(
         'permission:getAcademicPaper'
       )
+      Route.post(
+        '/send-to-plagiarism-analyse/:academicPaperId',
+        'AcademicPapersController.sendToPlagiarismAnalyse'
+      )
     }).prefix('academic-paper')
 
     Route.group(() => {

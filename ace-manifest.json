@@ -1,5 +1,17 @@
 {
   "commands": {
+    "queue:listener": {
+      "settings": {
+        "loadApp": true,
+        "stayAlive": true
+      },
+      "commandPath": "./commands/QueueListener",
+      "commandName": "queue:listener",
+      "description": "",
+      "args": [],
+      "aliases": [],
+      "flags": []
+    },
     "dump:rcfile": {
       "settings": {},
       "commandPath": "@adonisjs/core/build/commands/DumpRc",
@@ -556,7 +568,39 @@
           "description": "Disable locks acquired to run migrations safely"
         }
       ]
+    },
+    "inspire": {
+      "settings": {
+        "loadApp": false,
+        "stayAlive": false
+      },
+      "commandPath": "adonisjs-scheduler/build/commands/InspireCommand",
+      "commandName": "inspire",
+      "description": "",
+      "args": [],
+      "aliases": [],
+      "flags": []
+    },
+    "scheduler:run": {
+      "settings": {
+        "loadApp": true,
+        "stayAlive": true
+      },
+      "commandPath": "adonisjs-scheduler/build/commands/SchedulerCommand",
+      "commandName": "scheduler:run",
+      "description": "",
+      "args": [],
+      "aliases": [
+        "scheduler:work",
+        "schedule:work",
+        "schedule:run"
+      ],
+      "flags": []
     }
   },
-  "aliases": {}
+  "aliases": {
+    "scheduler:work": "scheduler:run",
+    "schedule:work": "scheduler:run",
+    "schedule:run": "scheduler:run"
+  }
 }

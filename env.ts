@@ -17,4 +17,7 @@ export default Env.rules({
   VIACEP_API: Env.schema.string(),
   NTFY_API: Env.schema.string(),
   NTFY_TOPIC_NEW_SCHOOL: Env.schema.string(),
+  BULLMQ_REDIS_HOST: Env.schema.string(),
+  BULLMQ_REDIS_PORT: Env.schema.number(),
+  BULLMQ_REDIS_PASSWORD: Env.schema.string(),
 })
