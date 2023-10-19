@@ -5,9 +5,7 @@ export default class AppProvider {
 
   public register() {}
 
-  public async boot() {
-    console.log('boot')
-  }
+  public async boot() {}
 
   public async ready() {}
 

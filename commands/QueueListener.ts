@@ -1,7 +1,6 @@
 import BullMQ from '@ioc:Adonis/Addons/BullMQ'
 import { BaseCommand } from '@adonisjs/core/build/standalone'
 import { QueueNamesEnum } from 'Contracts/queue'
-import Logger from '@ioc:Adonis/Core/Logger'
 
 export default class QueueListener extends BaseCommand {
   public static commandName = 'queue:listener'
@@ -18,5 +17,7 @@ export default class QueueListener extends BaseCommand {
 
       return job
     })
+
+    await this.exit()
   }
 }
