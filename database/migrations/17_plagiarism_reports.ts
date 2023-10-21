@@ -1,30 +1,25 @@
 import BaseSchema from '@ioc:Adonis/Lucid/Schema'
 
 export default class extends BaseSchema {
-  protected tableName = 'academicPapers'
+  protected tableName = 'plagiarismReports'
 
   public async up() {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id')
+      table.integer('requesterId')
       table
-        .integer('activityId')
+        .integer('academicPaperId')
         .unsigned()
         .notNullable()
         .references('id')
-        .inTable('activities')
+        .inTable('academicPapers')
         .onDelete('CASCADE')
-      table
-        .integer('studentId')
-        .unsigned()
-        .notNullable()
-        .references('id')
-        .inTable('students')
-        .onDelete('CASCADE')
-      table.string('paper').notNullable()
-      table.string('comments', 255).nullable()
-      table
-        .enum('analyseStatus', ['PENDING', 'PROCESSING', 'COMPLETED', 'FAILED'])
-        .defaultTo('PENDING')
+      table.bigInteger('externalId')
+      table.decimal('plagiarism', 10, 2).nullable()
+      table.decimal('originality', 10, 2).nullable()
+      table.decimal('aiProbability', 10, 2).nullable()
+      table.json('sources').nullable()
+      table.json('webhookJson').nullable()
       table.timestamp('createdAt', { useTz: true }).defaultTo(this.now())
       table.timestamp('updatedAt', { useTz: true }).defaultTo(this.now())
       table.timestamp('deletedAt', { useTz: true }).nullable()

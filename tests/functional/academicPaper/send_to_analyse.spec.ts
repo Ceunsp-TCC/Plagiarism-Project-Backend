@@ -4,53 +4,40 @@ import { basicCredentials, mockTeacherCredentials, mockAdminCredentials } from '
 import AcademicPaperFactory from 'Database/factories/AcademicPaperFactory'
 import ActivityFactory from 'Database/factories/ActivityFactory'
 
-const url = '/v1/academic-paper/get-all'
+const url = '/v1/academic-paper/plagiarism-analyse'
 const urlLogin = '/v1/auth/login'
 
-test.group('Get all academic papers by activity', (group) => {
+test.group('Send to  analyse', (group) => {
   group.each.setup(async () => {
     await Database.beginGlobalTransaction()
     return () => Database.rollbackGlobalTransaction()
   })
 
-  test('Should be get academic papers', async ({ client, assert }) => {
+  test('Send to analyse with success', async ({ client }) => {
     const activity = await ActivityFactory.create()
     const login = await client
       .post(urlLogin)
       .basicAuth(basicCredentials.username, basicCredentials.password)
       .json(mockTeacherCredentials)
 
-    await AcademicPaperFactory.merge({ activityId: activity.id }).createMany(5)
+    const academicPaper = await AcademicPaperFactory.merge({ activityId: activity.id }).create()
 
     const sut = await client
-      .get(`${url}/${activity.id}`)
+      .post(`${url}/${academicPaper.id}`)
       .bearerToken(login.response.body.content.accessToken.token)
 
     sut.assertStatus(200)
-    assert.equal(sut.response.body.content.totalRegisters, 5)
   })
-  test('Should be not found academic papers', async ({ client }) => {
-    const login = await client
-      .post(urlLogin)
-      .basicAuth(basicCredentials.username, basicCredentials.password)
-      .json(mockTeacherCredentials)
 
-    const activityId = 10
-    const sut = await client
-      .get(`${url}/${activityId}`)
-      .bearerToken(login.response.body.content.accessToken.token)
-
-    sut.assertStatus(404)
-  })
   test('Should be resource is denied access', async ({ client }) => {
     const login = await client
       .post(urlLogin)
       .basicAuth(basicCredentials.username, basicCredentials.password)
       .json(mockAdminCredentials)
 
-    const activityId = 1
+    const academicPaperId = 1
     const sut = await client
-      .get(`${url}/${activityId}`)
+      .post(`${url}/${academicPaperId}`)
       .bearerToken(login.response.body.content.accessToken.token)
 
     sut.assertStatus(403)

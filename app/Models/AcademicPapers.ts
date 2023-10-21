@@ -1,3 +1,4 @@
+import { AnalyseStatus } from 'App/Dtos/AcademicPapers/AcademicPaperDto'
 import { DateTime } from 'luxon'
 import {
   BaseModel,
@@ -29,6 +30,9 @@ export default class AcademicPapers extends BaseModel {
 
   @column()
   public comments?: string
+
+  @column({ columnName: 'analyseStatus', serializeAs: 'analyseStatus' })
+  public analyseStatus?: AnalyseStatus
 
   @column.dateTime({
     autoCreate: true,

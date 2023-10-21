@@ -13,6 +13,7 @@ services:
       - proxy-reverse-network
       - school-guardian-network
       - postgres-network
+      - redis-network
     volumes:
       - uploads-school-guardian-volume:/tmp/uploads
 networks:
@@ -24,6 +25,9 @@ networks:
     external: true
   postgres-network:
     name: postgres-network
+    external: true
+  redis-network:
+    name: redis-network
     external: true
 volumes:
   uploads-school-guardian-volume:

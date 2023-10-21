@@ -12,6 +12,11 @@ export default class ExternalApisProvider {
       const ViaCepServices = require('App/Services/Http/ViaCepServices/ViaCepServices').default
       return new ViaCepServices()
     })
+    this.app.container.singleton('ExternalApis/Plagiarism', () => {
+      const PlagiarismServices =
+        require('App/Services/Http/PlagiarismSearchServices/PlagiarismSearchServices').default
+      return new PlagiarismServices()
+    })
   }
 
   public async boot() {}

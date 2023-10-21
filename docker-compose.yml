@@ -12,6 +12,7 @@ services:
     networks:
       - school-guardian-backend-network
       - postgres-network
+      - redis-network
 volumes:
   node-modules-school-guardian-backend:
     name: node-modules-school-guardian-backend
@@ -21,4 +22,7 @@ networks:
     driver: bridge
   postgres-network:
     name: postgres-network
+    external: true
+  redis-network:
+    name: redis-network
     external: true

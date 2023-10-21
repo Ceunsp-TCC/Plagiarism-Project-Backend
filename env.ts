@@ -12,9 +12,11 @@ export default Env.rules({
   SCHOOL_GUARDIAN_AUTHENTICATOR_USERNAME: Env.schema.string(),
   SCHOOL_GUARDIAN_AUTHENTICATOR_PASSWORD: Env.schema.string(),
   PLAGIARISM_SEARCH_API_URL: Env.schema.string(),
-  PLAGIARISM_SEARCH_API_USER: Env.schema.string(),
-  PLAGIARISM_SEARCH_API_KEY: Env.schema.string(),
+  PLAGIARISM_SEARCH_API_TOKEN: Env.schema.string(),
   VIACEP_API: Env.schema.string(),
   NTFY_API: Env.schema.string(),
   NTFY_TOPIC_NEW_SCHOOL: Env.schema.string(),
+  BULLMQ_REDIS_HOST: Env.schema.string(),
+  BULLMQ_REDIS_PORT: Env.schema.number(),
+  BULLMQ_REDIS_PASSWORD: Env.schema.string(),
 })
