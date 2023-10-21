@@ -87,6 +87,13 @@ export default class RepositoriesProvider {
 
       return new AcademicPaperLucidRepository(academicPapersModel)
     })
+    this.app.container.bind('Repositories/PlagiarismReportRepository', () => {
+      const PlagiarismReportLucidRepository =
+        require('App/Repositories/PlagiarismReportRepository/PlagiarismReportLucidRepository').default
+      const plagiarismReportModel = require('App/Models/PlagiarismReport').default
+
+      return new PlagiarismReportLucidRepository(plagiarismReportModel)
+    })
   }
 
   public async boot() {}

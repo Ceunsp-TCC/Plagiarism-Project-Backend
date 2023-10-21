@@ -106,6 +106,10 @@ Route.group(() => {
       Route.get('/get-by-id/:academicPaperId', 'AcademicPapersController.show').middleware(
         'permission:getAcademicPaper'
       )
+      Route.post(
+        '/plagiarism-analyse/:academicPaperId',
+        'AcademicPapersController.plagiarismAnalyse'
+      ).middleware('permission:plagiarismAnalyse')
     }).prefix('academic-paper')
 
     Route.group(() => {
@@ -113,4 +117,8 @@ Route.group(() => {
       Route.post('/logout', 'AuthController.logout')
     }).prefix('auth')
   }).middleware('auth')
+
+  Route.group(() => {
+    Route.post('/plagiarism', 'WebhooksController.plagiarism')
+  }).prefix('webhooks')
 }).prefix('v1')

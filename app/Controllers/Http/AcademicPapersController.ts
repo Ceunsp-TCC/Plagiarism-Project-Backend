@@ -2,16 +2,20 @@ import SendAcademicPaperService from 'App/Services/AcademicPaperServices/SendAca
 import SendAcademicPaperValidator from 'App/Validators/SendAcademicPaperValidator'
 import GetAllAcademicPapersByActivityService from 'App/Services/AcademicPaperServices/GetAllAcademicPapersByActivityService'
 import GetAcademicPaperByIdService from 'App/Services/AcademicPaperServices/GetAcademicPaperByIdService'
+import PlagiarismAnalyseService from 'App/Services/AcademicPaperServices/AnalysePlagiarismService'
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+
 export default class AcademicPapersController {
   private sendAcademicPaperService: SendAcademicPaperService
   private getAllAcademicPapersByActivityService: GetAllAcademicPapersByActivityService
   private getAcademicPaperByIdService: GetAcademicPaperByIdService
+  private plagiarismAnalyseService: PlagiarismAnalyseService
 
   constructor() {
     this.sendAcademicPaperService = new SendAcademicPaperService()
     this.getAllAcademicPapersByActivityService = new GetAllAcademicPapersByActivityService()
     this.getAcademicPaperByIdService = new GetAcademicPaperByIdService()
+    this.plagiarismAnalyseService = new PlagiarismAnalyseService()
   }
   public async store({ request, params, auth }: HttpContextContract) {
     const payload = await request.validate(SendAcademicPaperValidator)
@@ -38,5 +42,12 @@ export default class AcademicPapersController {
     const academicPaperId = Number(params.academicPaperId)
 
     return await this.getAcademicPaperByIdService.getById(academicPaperId)
+  }
+
+  public async plagiarismAnalyse({ params, auth }: HttpContextContract) {
+    const academicPaperId = Number(params.academicPaperId)
+    const requesterId = await auth.user!.id
+
+    return await this.plagiarismAnalyseService.send(academicPaperId, requesterId)
   }
 }

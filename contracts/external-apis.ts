@@ -8,3 +8,8 @@ declare module '@ioc:ExternalApis/ViaCep' {
   const ViaCep: ViaCepServicesInterface
   export default ViaCep
 }
+declare module '@ioc:ExternalApis/Plagiarism' {
+  import type { PlagiarismServiceInterface } from 'App/Interfaces/Services/PlagiarismServiceInterface'
+  const Plagiarism: PlagiarismServiceInterface
+  export default Plagiarism
+}

@@ -60,3 +60,8 @@ declare module '@ioc:Repositories/AcademicPaperRepository' {
   const AcademicPaperRepository: AcademicPapersRepositoryInterface
   export default AcademicPaperRepository
 }
+declare module '@ioc:Repositories/PlagiarismReportRepository' {
+  import type PlagiarismReportRepositoryInterface from 'App/Interfaces/Repositories/PlagiarismReportRepositoryInterface'
+  const PlagiarismReportRepository: PlagiarismReportRepositoryInterface
+  export default PlagiarismReportRepository
+}
