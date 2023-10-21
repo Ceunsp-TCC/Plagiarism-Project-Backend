@@ -1,6 +1,7 @@
 import BullMQ from '@ioc:Adonis/Addons/BullMQ'
 import { BaseCommand } from '@adonisjs/core/build/standalone'
-import { QueueNamesEnum } from 'Contracts/queue'
+import { QueueNamesEnum, PlagiarismAnalyseAcademicPaperQueueProps } from 'Contracts/queue'
+import PlagiarismAnalyseAcademicPaperQueue from 'App/Queues/PlagiarismAnalyseAcademicPaperQueue'
 
 export default class QueueListener extends BaseCommand {
   public static commandName = 'queue:listener'
@@ -11,13 +12,17 @@ export default class QueueListener extends BaseCommand {
   }
 
   public async run() {
-    BullMQ.worker<any, any>(QueueNamesEnum.ANALYSE_ACADEMIC_PAPER, async (job) => {
-      const isStarted = job.isActive()
-      this.logger.info('Analyse plagiarism queue started')
+    BullMQ.worker<PlagiarismAnalyseAcademicPaperQueueProps, any>(
+      QueueNamesEnum.ANALYSE_ACADEMIC_PAPER,
+      async (job) => {
+        this.logger.info('Plagiarism analyse queue started')
+        const queue = new PlagiarismAnalyseAcademicPaperQueue()
 
-      return job
-    })
+        await queue.run(job.data.academicPaperId, job.data.requesterId)
 
-    await this.exit()
+        this.logger.success('Plagiarism analyse queue completed')
+        return job
+      }
+    )
   }
 }

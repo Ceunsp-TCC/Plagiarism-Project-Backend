@@ -2,21 +2,20 @@ import SendAcademicPaperService from 'App/Services/AcademicPaperServices/SendAca
 import SendAcademicPaperValidator from 'App/Validators/SendAcademicPaperValidator'
 import GetAllAcademicPapersByActivityService from 'App/Services/AcademicPaperServices/GetAllAcademicPapersByActivityService'
 import GetAcademicPaperByIdService from 'App/Services/AcademicPaperServices/GetAcademicPaperByIdService'
-import BullMQ from '@ioc:Adonis/Addons/BullMQ'
-import Ace from '@ioc:Adonis/Core/Ace'
-import { QueueNamesEnum } from 'Contracts/queue'
+import PlagiarismAnalyseService from 'App/Services/AcademicPaperServices/AnalysePlagiarismService'
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
-const queue = BullMQ.queue<any, any>(QueueNamesEnum.ANALYSE_ACADEMIC_PAPER)
 export default class AcademicPapersController {
   private sendAcademicPaperService: SendAcademicPaperService
   private getAllAcademicPapersByActivityService: GetAllAcademicPapersByActivityService
   private getAcademicPaperByIdService: GetAcademicPaperByIdService
+  private plagiarismAnalyseService: PlagiarismAnalyseService
 
   constructor() {
     this.sendAcademicPaperService = new SendAcademicPaperService()
     this.getAllAcademicPapersByActivityService = new GetAllAcademicPapersByActivityService()
     this.getAcademicPaperByIdService = new GetAcademicPaperByIdService()
+    this.plagiarismAnalyseService = new PlagiarismAnalyseService()
   }
   public async store({ request, params, auth }: HttpContextContract) {
     const payload = await request.validate(SendAcademicPaperValidator)
@@ -45,13 +44,10 @@ export default class AcademicPapersController {
     return await this.getAcademicPaperByIdService.getById(academicPaperId)
   }
 
-  public async sendToPlagiarismAnalyse() {
-    try {
-      await queue.add('mytestJob', { name: 'ddddd' })
-      // const count = await queue.count()
-      // console.log(count)
-    } catch (error) {
-      console.log(error)
-    }
+  public async plagiarismAnalyse({ params, auth }: HttpContextContract) {
+    const academicPaperId = Number(params.academicPaperId)
+    const requesterId = await auth.user!.id
+
+    return await this.plagiarismAnalyseService.send(academicPaperId, requesterId)
   }
 }

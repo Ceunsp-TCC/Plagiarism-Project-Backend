@@ -1,3 +1,10 @@
+export enum AnalyseStatus {
+  PENDING = 'PENDING',
+  PROCESSING = 'PROCESSING',
+  COMPLETED = 'COMPLETED',
+  FAILED = 'FAILED',
+}
+
 export interface AcademicPaperDto {
   activityId: number
   studentId: number
@@ -8,4 +15,5 @@ export interface AcademicPaperDtoResponse {
   paper: string
   comments?: string
   createdAt: string
+  analyseStatus: AnalyseStatus
 }
