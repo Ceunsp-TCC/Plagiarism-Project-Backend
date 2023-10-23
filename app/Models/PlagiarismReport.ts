@@ -2,6 +2,11 @@ import { DateTime } from 'luxon'
 import { BaseModel, column, beforeFind, beforeFetch } from '@ioc:Adonis/Lucid/Orm'
 import type { ModelQueryBuilderContract } from '@ioc:Adonis/Lucid/Orm'
 
+interface Source {
+  title: string
+  url: string
+  plagiarism: number
+}
 export default class PlagiarismReport extends BaseModel {
   public static table = 'plagiarismReports'
 
@@ -23,11 +28,8 @@ export default class PlagiarismReport extends BaseModel {
   @column()
   public originality?: number
 
-  @column({ columnName: 'aiProbability', serializeAs: null })
-  public aiProbability?: number
-
   @column()
-  public sources?: any
+  public sources?: Source[]
 
   @column({ columnName: 'webhookJson', serializeAs: null })
   public webhookJson?: any

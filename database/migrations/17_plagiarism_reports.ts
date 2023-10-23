@@ -17,7 +17,6 @@ export default class extends BaseSchema {
       table.bigInteger('externalId')
       table.decimal('plagiarism', 10, 2).nullable()
       table.decimal('originality', 10, 2).nullable()
-      table.decimal('aiProbability', 10, 2).nullable()
       table.json('sources').nullable()
       table.json('webhookJson').nullable()
       table.timestamp('createdAt', { useTz: true }).defaultTo(this.now())
