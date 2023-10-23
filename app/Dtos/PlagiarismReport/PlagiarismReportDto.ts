@@ -4,7 +4,6 @@ export interface PlagiarismReportDto {
   externalId?: number
   plagiarism?: number
   originality?: number
-  aiProbability?: number
   pdfReport?: string
   sources?: any
   webhookJson?: any
