@@ -3,7 +3,7 @@ import Factory from '@ioc:Adonis/Lucid/Factory'
 
 export default Factory.define(PlagiarismReport, () => {
   return {
-    externalId: 10000,
+    externalId: 7495625,
     academicPaperId: 1,
     requesterId: 1,
   }

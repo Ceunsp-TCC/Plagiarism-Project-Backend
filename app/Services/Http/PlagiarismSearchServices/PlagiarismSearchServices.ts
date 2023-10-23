@@ -3,6 +3,10 @@ import type {
   CreateReportReturn,
   CreateReportPlagiarismSearchResponse,
 } from 'App/Services/types/Http/PlagiarismSearchServices/CreateReportResponse'
+import {
+  GetSourcesData,
+  SourceFormatted,
+} from 'App/Services/types/Http/PlagiarismSearchServices/GetSourcesPlagiarismSearchResponse'
 import Env from '@ioc:Adonis/Core/Env'
 import type { PlagiarismServiceInterface } from 'App/Interfaces/Services/PlagiarismServiceInterface'
 import type { DefaultResponsePlagiarismSearch } from 'App/Services/types/Http/PlagiarismSearchServices/DefaultResponse'
@@ -16,7 +20,6 @@ export default class PlagiarismSearchServices implements PlagiarismServiceInterf
   public async createReport(text: string): Promise<CreateReportReturn> {
     const body = {
       text,
-      search_ai: 1,
       callback_url: this.webHookUrl,
     }
     const { data: reportResponse } = await plagiarismSearchApi.post<
@@ -28,5 +31,17 @@ export default class PlagiarismSearchServices implements PlagiarismServiceInterf
       words: reportResponse.data.words,
       checkedWords: reportResponse.data.checked_words,
     }
+  }
+
+  public async getSources(reportId: number): Promise<SourceFormatted[]> {
+    const { data: sourceResponse } = await plagiarismSearchApi.get<
+      DefaultResponsePlagiarismSearch<GetSourcesData>
+    >(`reports/sources/${reportId}`)
+
+    return sourceResponse.data.sources.map((source) => ({
+      title: source.title,
+      url: source.url,
+      plagiarism: source.plagiarism,
+    }))
   }
 }

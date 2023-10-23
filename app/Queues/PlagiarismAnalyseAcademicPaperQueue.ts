@@ -6,9 +6,9 @@ import Plagiarism from '@ioc:ExternalApis/Plagiarism'
 export default class PlagiarismAnalyseAcademicPaperQueue {
   private async sendToPartnerApi(text: string) {
     return await Plagiarism.createReport(text)
-    //comment for mock
+    //mock
     // return {
-    //   id: 10000,
+    //   id: 7495943,
     //   words: 10000,
     //   checkedWords: 10000,
     // }

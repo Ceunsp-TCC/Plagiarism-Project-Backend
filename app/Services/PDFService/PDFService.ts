@@ -1,6 +1,6 @@
-import type { PDFServiceInterface } from 'App/Interfaces/Services/PDFServiceInterface'
 import pdf from 'pdf-parse'
 import axios from 'axios'
+import type { PDFServiceInterface } from 'App/Interfaces/Services/PDFServiceInterface'
 
 export default class PDFService implements PDFServiceInterface {
   public async getText(PDFUrl: string): Promise<string> {

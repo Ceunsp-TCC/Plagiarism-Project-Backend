@@ -21,4 +21,8 @@ export default class PlagiarismReportLucidRepository
 
     return !!(await report?.merge(plagiarismReportDto).save())
   }
+
+  public async getAcademicPaperByExternalId(externalId: number) {
+    return await this.model.query().where('externalId', externalId).first()
+  }
 }
