@@ -1,4 +1,4 @@
-import { AnalyseStatus } from 'App/Dtos/AcademicPapers/AcademicPaperDto'
+import { AnalysisStatus } from 'App/Dtos/AcademicPapers/AcademicPaperDto'
 import { DateTime } from 'luxon'
 import {
   BaseModel,
@@ -12,6 +12,7 @@ import {
 } from '@ioc:Adonis/Lucid/Orm'
 import Students from 'App/Models/Students'
 import Activities from 'App/Models/Activities'
+import PlagiarismReport from 'App/Models/PlagiarismReport'
 import type { ModelQueryBuilderContract } from '@ioc:Adonis/Lucid/Orm'
 
 export default class AcademicPapers extends BaseModel {
@@ -31,8 +32,8 @@ export default class AcademicPapers extends BaseModel {
   @column()
   public comments?: string
 
-  @column({ columnName: 'analyseStatus', serializeAs: 'analyseStatus' })
-  public analyseStatus?: AnalyseStatus
+  @column({ columnName: 'analysisStatus', serializeAs: 'analysisStatus' })
+  public analysisStatus?: AnalysisStatus
 
   @column.dateTime({
     autoCreate: true,
@@ -78,4 +79,10 @@ export default class AcademicPapers extends BaseModel {
     foreignKey: 'id',
   })
   public student: HasOne<typeof Students>
+
+  @hasOne(() => PlagiarismReport, {
+    localKey: 'id',
+    foreignKey: 'academicPaperId',
+  })
+  public report: HasOne<typeof PlagiarismReport>
 }
