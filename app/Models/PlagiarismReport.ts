@@ -22,18 +22,14 @@ export default class PlagiarismReport extends BaseModel {
   @column({ columnName: 'externalId', serializeAs: null })
   public externalId: number
 
-  @column()
+  @column({ serialize: (value) => Number(value) })
   public plagiarism?: number
 
-  @column()
+  @column({ serialize: (value) => Number(value) })
   public originality?: number
 
   @column()
   public sources?: Source[]
-
-  @column({ columnName: 'webhookJson', serializeAs: null })
-  public webhookJson?: any
-
   @column.dateTime({
     autoCreate: true,
     columnName: 'createdAt',
@@ -41,6 +37,9 @@ export default class PlagiarismReport extends BaseModel {
     serialize: (value) => value.toFormat('dd/MM/yyyy HH:mm:ss'),
   })
   public createdAt: DateTime
+
+  @column({ columnName: 'webhookJson', serializeAs: null })
+  public webhookJson?: any
 
   @column.dateTime({
     autoCreate: true,

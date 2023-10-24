@@ -6,7 +6,7 @@ import type {
   AcademicPaperDto,
   AcademicPaperDtoResponse,
 } from 'App/Dtos/AcademicPapers/AcademicPaperDto'
-import { AnalyseStatus } from 'App/Dtos/AcademicPapers/AcademicPaperDto'
+import { AnalysisStatus } from 'App/Dtos/AcademicPapers/AcademicPaperDto'
 import type { SimplePaginatorContract } from '@ioc:Adonis/Lucid/Database'
 
 export default class AcademicPapersLucidRepository implements AcademicPapersRepositoryInterface {
@@ -51,15 +51,15 @@ export default class AcademicPapersLucidRepository implements AcademicPapersRepo
   }
 
   public async getById(academicPaperId: number): Promise<AcademicPapers | null> {
-    return await this.model.query().where('id', academicPaperId).first()
+    return await this.model.query().where('id', academicPaperId).preload('report').first()
   }
 
   public async updateAnalyseStatus(
     academicPaperId: number,
-    status: AnalyseStatus
+    status: AnalysisStatus
   ): Promise<boolean> {
     const academicPaper = await this.model.query().where('id', academicPaperId).first()
 
-    return !!(await academicPaper?.merge({ analyseStatus: status }))?.save()
+    return !!(await academicPaper?.merge({ analysisStatus: status }))?.save()
   }
 }

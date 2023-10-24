@@ -3,7 +3,7 @@ import type {
   AcademicPaperDtoResponse,
 } from 'App/Dtos/AcademicPapers/AcademicPaperDto'
 import AcademicPapers from 'App/Models/AcademicPapers'
-import { AnalyseStatus } from 'App/Dtos/AcademicPapers/AcademicPaperDto'
+import { AnalysisStatus } from 'App/Dtos/AcademicPapers/AcademicPaperDto'
 import type { DefaultPaginateDtoResponse } from 'App/Dtos/Utils/DefaultPaginateDto'
 
 export default interface AcademicPapersRepositoryInterface {
@@ -16,5 +16,5 @@ export default interface AcademicPapersRepositoryInterface {
 
   getByStudentIdAndActivityId(studentId: number, activityId: number): Promise<AcademicPapers | null>
   getById(academicPaperId: number): Promise<AcademicPapers | null>
-  updateAnalyseStatus(academicPaperId: number, status: AnalyseStatus): Promise<boolean>
+  updateAnalyseStatus(academicPaperId: number, status: AnalysisStatus): Promise<boolean>
 }

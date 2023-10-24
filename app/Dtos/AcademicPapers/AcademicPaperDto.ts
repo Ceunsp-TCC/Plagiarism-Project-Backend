@@ -1,4 +1,4 @@
-export enum AnalyseStatus {
+export enum AnalysisStatus {
   PENDING = 'PENDING',
   PROCESSING = 'PROCESSING',
   COMPLETED = 'COMPLETED',
@@ -15,5 +15,5 @@ export interface AcademicPaperDtoResponse {
   paper: string
   comments?: string
   createdAt: string
-  analyseStatus: AnalyseStatus
+  analysisStatus: AnalysisStatus
 }

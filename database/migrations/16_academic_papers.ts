@@ -23,7 +23,7 @@ export default class extends BaseSchema {
       table.string('paper').notNullable()
       table.string('comments', 255).nullable()
       table
-        .enum('analyseStatus', ['PENDING', 'PROCESSING', 'COMPLETED', 'FAILED'])
+        .enum('analysisStatus', ['PENDING', 'PROCESSING', 'COMPLETED', 'FAILED'])
         .defaultTo('PENDING')
       table.timestamp('createdAt', { useTz: true }).defaultTo(this.now())
       table.timestamp('updatedAt', { useTz: true }).defaultTo(this.now())
