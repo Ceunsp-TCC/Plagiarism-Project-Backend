@@ -3,6 +3,7 @@ import PlagiarismReportRepository from '@ioc:Repositories/PlagiarismReportReposi
 import Plagiarism from '@ioc:ExternalApis/Plagiarism'
 import AcademicPaperRepository from '@ioc:Repositories/AcademicPaperRepository'
 import { AnalysisStatus } from 'App/Dtos/AcademicPapers/AcademicPaperDto'
+import NotificationsRepository from '@ioc:Repositories/NotificationsRepository'
 import type { PlagiarismWebhookDto } from 'App/Dtos/Webhooks/PlagiarismWebhookDto'
 
 export default class PlagiarismWebhookService {
@@ -15,9 +16,21 @@ export default class PlagiarismWebhookService {
     return total - plagiarism
   }
 
-  private async getAcademicPaperId(externalId: number) {
-    const academicPaper = await PlagiarismReportRepository.getAcademicPaperByExternalId(externalId)
-    return academicPaper?.id
+  private async getAcademicPaper(externalId: number) {
+    return await PlagiarismReportRepository.getAcademicPaperByExternalId(externalId)
+  }
+
+  private async createNotification(receiverId: number, academicPaperId: number) {
+    const screen = `/lessons/activity/academic-paper/${academicPaperId}`
+
+    const notificationData = {
+      message: `Boas notícias! A análise do trabalho ${academicPaperId} foi finalizada.`,
+      receiverId,
+      data: {
+        navigateTo: screen,
+      },
+    }
+    return await NotificationsRepository.create(notificationData)
   }
 
   public async handler(plagiarismWebhookDto: PlagiarismWebhookDto) {
@@ -36,9 +49,13 @@ export default class PlagiarismWebhookService {
 
     await PlagiarismReportRepository.update(data)
 
-    const academicPaperId = await this.getAcademicPaperId(externalId)
+    const academicPaper = await this.getAcademicPaper(externalId)
+    const academicPaperId = academicPaper?.id
+    const requesterId = academicPaper?.requesterId
 
     await AcademicPaperRepository.updateAnalyseStatus(academicPaperId!, AnalysisStatus.COMPLETED)
+
+    await this.createNotification(requesterId!, academicPaperId!)
 
     return await DefaultResponse.success('Webhook received and processed successfully', 200)
   }
