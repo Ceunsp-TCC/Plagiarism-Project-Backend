@@ -65,3 +65,8 @@ declare module '@ioc:Repositories/PlagiarismReportRepository' {
   const PlagiarismReportRepository: PlagiarismReportRepositoryInterface
   export default PlagiarismReportRepository
 }
+declare module '@ioc:Repositories/NotificationsRepository' {
+  import type NotificationsRepositoryInterface from 'App/Interfaces/Repositories/NotificationsRepositoryInterface'
+  const NotificationsRepository: NotificationsRepositoryInterface
+  export default NotificationsRepository
+}

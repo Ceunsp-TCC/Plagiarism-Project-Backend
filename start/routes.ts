@@ -113,6 +113,9 @@ Route.group(() => {
     }).prefix('academic-paper')
 
     Route.group(() => {
+      Route.get('/get-current', 'NotificationsController.show')
+    }).prefix('notifications')
+    Route.group(() => {
       Route.get('/me', 'AuthController.me')
       Route.post('/logout', 'AuthController.logout')
     }).prefix('auth')
