@@ -2,7 +2,7 @@ import DefaultResponse from '@ioc:Utils/DefaultResponse'
 import PlagiarismReportRepository from '@ioc:Repositories/PlagiarismReportRepository'
 import Plagiarism from '@ioc:ExternalApis/Plagiarism'
 import AcademicPaperRepository from '@ioc:Repositories/AcademicPaperRepository'
-import { AnalyseStatus } from 'App/Dtos/AcademicPapers/AcademicPaperDto'
+import { AnalysisStatus } from 'App/Dtos/AcademicPapers/AcademicPaperDto'
 import type { PlagiarismWebhookDto } from 'App/Dtos/Webhooks/PlagiarismWebhookDto'
 
 export default class PlagiarismWebhookService {
@@ -38,7 +38,7 @@ export default class PlagiarismWebhookService {
 
     const academicPaperId = await this.getAcademicPaperId(externalId)
 
-    await AcademicPaperRepository.updateAnalyseStatus(academicPaperId!, AnalyseStatus.COMPLETED)
+    await AcademicPaperRepository.updateAnalyseStatus(academicPaperId!, AnalysisStatus.COMPLETED)
 
     return await DefaultResponse.success('Webhook received and processed successfully', 200)
   }
