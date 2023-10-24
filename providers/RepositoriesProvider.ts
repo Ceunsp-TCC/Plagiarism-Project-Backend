@@ -94,6 +94,14 @@ export default class RepositoriesProvider {
 
       return new PlagiarismReportLucidRepository(plagiarismReportModel)
     })
+
+    this.app.container.bind('Repositories/NotificationsRepository', () => {
+      const NotificationsLucidRepository =
+        require('App/Repositories/NotificationsRepository/NotificationsLucidRepository').default
+      const notificationsModel = require('App/Models/Notifications').default
+
+      return new NotificationsLucidRepository(notificationsModel)
+    })
   }
 
   public async boot() {}
