@@ -1,5 +1,16 @@
 {
   "commands": {
+    "plagiarism-search-invoice:cron-job": {
+      "settings": {
+        "loadApp": true
+      },
+      "commandPath": "./commands/PlagiarismSearchInvoiceCronJob",
+      "commandName": "plagiarism-search-invoice:cron-job",
+      "description": "",
+      "args": [],
+      "aliases": [],
+      "flags": []
+    },
     "queue:listener": {
       "settings": {
         "loadApp": true,
