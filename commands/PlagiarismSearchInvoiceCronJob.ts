@@ -1,5 +1,7 @@
 import { BaseCommand } from '@adonisjs/core/build/standalone'
 import puppeteer from 'puppeteer'
+import Ntfy from '@ioc:ExternalApis/Ntfy'
+import Env from '@ioc:Adonis/Core/Env'
 
 export default class PlagiarismSearchInvoiceCronJob extends BaseCommand {
   public static commandName = 'plagiarism-search-invoice:cron-job'
@@ -9,9 +11,15 @@ export default class PlagiarismSearchInvoiceCronJob extends BaseCommand {
   }
 
   public async run() {
-    const userName = 'gsm2015@outlook.com.br'
-    const password = '08081972Ga@'
-    const browser = await puppeteer.launch({ headless: true })
+    this.logger.info('PlagiarismSearchInvoiceCronJob - Started')
+
+    const userName = Env.get('PLAGIARISM_SEARCH_USER')
+    const password = Env.get('PLAGIARISM_SEARCH_PASSWORD')
+    const browser = await puppeteer.launch({
+      headless: true,
+      executablePath: '/usr/bin/chromium-browser',
+      args: [],
+    })
 
     const page = await browser.newPage()
 
@@ -29,10 +37,30 @@ export default class PlagiarismSearchInvoiceCronJob extends BaseCommand {
 
     await page.goto('https://plagiarismsearch.com/account/settings')
 
-    const content = await page.content()
+    const strongElements = await page.$$('strong')
 
-    this.logger.success(content)
+    const strongContents: string[] = []
+
+    for (const strong of strongElements) {
+      const textContent = await page.evaluate((element) => String(element.textContent), strong)
+
+      strongContents.push(textContent)
+    }
+
+    const remainingWordsIndex = 0
+
+    const remainingWords = strongContents[remainingWordsIndex]
+
+    const notificationBody = {
+      topic: Env.get('NTFY_TOPIC_NOTIFICATIONS'),
+      title: 'Plagiarism Search API Status',
+      message: `You have ${remainingWords} remaining words`,
+    }
+
+    await Ntfy.sendNotification(notificationBody)
 
     await browser.close()
+
+    this.logger.success('PlagiarismSearchInvoiceCronJob - COMPLETED')
   }
 }
