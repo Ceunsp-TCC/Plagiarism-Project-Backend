@@ -29,6 +29,9 @@ networks:
   redis-network:
     name: redis-network
     external: true
+  browserless-network:
+    name: browserless-network
+    external: true
 volumes:
   uploads-school-guardian-volume:
     external: true

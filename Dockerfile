@@ -1,6 +1,5 @@
 FROM node:16.19-alpine
 
-
 WORKDIR /app/school-guardian-backend
 
 
