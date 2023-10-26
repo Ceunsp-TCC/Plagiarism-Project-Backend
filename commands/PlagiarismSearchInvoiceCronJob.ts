@@ -15,10 +15,8 @@ export default class PlagiarismSearchInvoiceCronJob extends BaseCommand {
 
     const userName = Env.get('PLAGIARISM_SEARCH_USER')
     const password = Env.get('PLAGIARISM_SEARCH_PASSWORD')
-    const browser = await puppeteer.launch({
-      headless: true,
-      executablePath: '/usr/bin/chromium-browser',
-      args: [],
+    const browser = await puppeteer.connect({
+      browserWSEndpoint: 'wss://chrome.browserless.io?token=6e3b8ffb-fa5c-458d-b06b-762e401a2675',
     })
 
     const page = await browser.newPage()
@@ -59,8 +57,8 @@ export default class PlagiarismSearchInvoiceCronJob extends BaseCommand {
 
     await Ntfy.sendNotification(notificationBody)
 
+    await page.close()
     await browser.close()
-
     this.logger.success('PlagiarismSearchInvoiceCronJob - COMPLETED')
   }
 }
