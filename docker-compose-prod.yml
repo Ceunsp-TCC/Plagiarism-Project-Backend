@@ -16,7 +16,7 @@ services:
       - redis-network
       - browserless-network
     volumes:
-      - uploads-school-guardian-volume:/tmp/uploads
+      - uploads-school-guardian-volume:/app/school-guardian-backend/tmp/uploads
 networks:
   school-guardian-network:
     name: school-guardian-network
