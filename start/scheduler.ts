@@ -1,3 +1,3 @@
 import Scheduler from '@ioc:Adonis/Addons/Scheduler'
 
-Scheduler.call(() => console.log('test')).everySeconds(5)
+Scheduler.command('plagiarism-search-invoice:cron-job').everyThreeHours()
