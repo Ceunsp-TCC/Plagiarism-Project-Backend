@@ -22,4 +22,6 @@ export default Env.rules({
   BULLMQ_REDIS_HOST: Env.schema.string(),
   BULLMQ_REDIS_PORT: Env.schema.number(),
   BULLMQ_REDIS_PASSWORD: Env.schema.string(),
+  BROWSERLESS_URL: Env.schema.string(),
+  BROWSERLESS_TOKEN: Env.schema.string(),
 })

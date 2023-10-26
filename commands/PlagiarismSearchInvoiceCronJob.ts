@@ -15,50 +15,58 @@ export default class PlagiarismSearchInvoiceCronJob extends BaseCommand {
 
     const userName = Env.get('PLAGIARISM_SEARCH_USER')
     const password = Env.get('PLAGIARISM_SEARCH_PASSWORD')
-    const browser = await puppeteer.connect({
-      browserWSEndpoint: 'wss://chrome.browserless.io?token=6e3b8ffb-fa5c-458d-b06b-762e401a2675',
-    })
 
-    const page = await browser.newPage()
+    const browserlessUrl = Env.get('BROWSERLESS_URL')
+    const browserlessToken = Env.get('BROWSERLESS_TOKEN')
 
-    await page.goto('https://plagiarismsearch.com/account/login')
+    try {
+      const browser = await puppeteer.connect({
+        browserWSEndpoint: `${browserlessUrl}?token=${browserlessToken}`,
+      })
 
-    const emailInput = await page.$('[name="login"]')
-    const passwordInput = await page.$('[name="password"]')
-    const button = await page.$('.account-submit')
+      const page = await browser.newPage()
 
-    await emailInput!.type(userName)
-    await passwordInput?.type(password)
-    await button?.click()
+      await page.goto('https://plagiarismsearch.com/account/login')
 
-    await page.waitForNavigation()
+      const emailInput = await page.$('[name="login"]')
+      const passwordInput = await page.$('[name="password"]')
+      const button = await page.$('.account-submit')
 
-    await page.goto('https://plagiarismsearch.com/account/settings')
+      await emailInput!.type(userName)
+      await passwordInput?.type(password)
+      await button?.click()
 
-    const strongElements = await page.$$('strong')
+      await page.waitForNavigation()
 
-    const strongContents: string[] = []
+      await page.goto('https://plagiarismsearch.com/account/settings')
 
-    for (const strong of strongElements) {
-      const textContent = await page.evaluate((element) => String(element.textContent), strong)
+      const strongElements = await page.$$('strong')
 
-      strongContents.push(textContent)
+      const strongContents: string[] = []
+
+      for (const strong of strongElements) {
+        const textContent = await page.evaluate((element) => String(element.textContent), strong)
+
+        strongContents.push(textContent)
+      }
+
+      const remainingWordsIndex = 0
+
+      const remainingWords = strongContents[remainingWordsIndex]
+
+      const notificationBody = {
+        topic: Env.get('NTFY_TOPIC_NOTIFICATIONS'),
+        title: 'Plagiarism Search API Status',
+        message: `You have ${remainingWords} remaining words`,
+      }
+
+      await Ntfy.sendNotification(notificationBody)
+
+      await page.close()
+      await browser.close()
+      this.logger.success('PlagiarismSearchInvoiceCronJob - COMPLETED')
+    } catch (error) {
+      this.logger.error(error)
     }
-
-    const remainingWordsIndex = 0
-
-    const remainingWords = strongContents[remainingWordsIndex]
-
-    const notificationBody = {
-      topic: Env.get('NTFY_TOPIC_NOTIFICATIONS'),
-      title: 'Plagiarism Search API Status',
-      message: `You have ${remainingWords} remaining words`,
-    }
-
-    await Ntfy.sendNotification(notificationBody)
-
-    await page.close()
-    await browser.close()
-    this.logger.success('PlagiarismSearchInvoiceCronJob - COMPLETED')
   }
 }
