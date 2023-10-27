@@ -71,13 +71,11 @@ export default class PlagiarismSearchInvoiceCronJob extends BaseCommand {
       this.logger.info('Sending notification...')
       await Ntfy.sendNotification(notificationBody)
 
-      this.logger.info('Closing the browser browser...')
-
-      await browser.close()
       this.logger.success('PlagiarismSearchInvoiceCronJob - COMPLETED')
     } catch (error) {
       this.logger.error(error)
     } finally {
+      this.logger.info('Closing the browser browser...')
       if (browser) {
         browser.close()
       }
