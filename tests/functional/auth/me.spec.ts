@@ -100,6 +100,9 @@ test.group('Me', (group) => {
           'activities',
           'getActivity',
           'getActivities',
+          'ortographyCorrections',
+          'createNewOrtographyCorrection',
+          'viewOrtographyCorrections',
         ],
       },
     })

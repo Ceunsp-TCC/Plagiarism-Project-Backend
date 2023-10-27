@@ -15,6 +15,7 @@ export default class PlagiarismSearchInvoiceCronJob extends BaseCommand {
     const nowDate = DateTime.now().toFormat('dd/MM/yyyy HH:mm:ss')
     this.logger.info(`PlagiarismSearchInvoiceCronJob - STARTED - ${nowDate}`)
 
+    const TIMEOUT_GOTO = 60000 // sixty seconds
     const userName = Env.get('PLAGIARISM_SEARCH_USER')
     const password = Env.get('PLAGIARISM_SEARCH_PASSWORD')
 
@@ -32,7 +33,7 @@ export default class PlagiarismSearchInvoiceCronJob extends BaseCommand {
       const page = await browser.newPage()
 
       this.logger.info('Opening the login page...')
-      await page.goto('https://plagiarismsearch.com/account/login')
+      await page.goto('https://plagiarismsearch.com/account/login', { timeout: TIMEOUT_GOTO })
 
       const emailInput = await page.$('[name="login"]')
       const passwordInput = await page.$('[name="password"]')
@@ -47,7 +48,7 @@ export default class PlagiarismSearchInvoiceCronJob extends BaseCommand {
       await page.waitForNavigation()
 
       this.logger.info('Opening the settings page...')
-      await page.goto('https://plagiarismsearch.com/account/settings')
+      await page.goto('https://plagiarismsearch.com/account/settings', { timeout: TIMEOUT_GOTO })
 
       this.logger.info('Getting strong elements...')
       const strongElements = await page.$$('strong')

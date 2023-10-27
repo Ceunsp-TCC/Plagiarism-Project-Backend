@@ -123,6 +123,15 @@ export default class PermissionsSeeder extends BaseSeeder {
       {
         name: 'plagiarismAnalyse',
       },
+      {
+        name: 'ortographyCorrections',
+      },
+      {
+        name: 'createNewOrtographyCorrection',
+      },
+      {
+        name: 'viewOrtographyCorrections',
+      },
     ])
   }
 }
