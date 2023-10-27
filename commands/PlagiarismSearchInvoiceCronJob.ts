@@ -11,6 +11,7 @@ export default class PlagiarismSearchInvoiceCronJob extends BaseCommand {
   }
 
   public async run() {
+    let browser: any
     this.logger.info('PlagiarismSearchInvoiceCronJob - Started')
 
     const userName = Env.get('PLAGIARISM_SEARCH_USER')
@@ -20,26 +21,33 @@ export default class PlagiarismSearchInvoiceCronJob extends BaseCommand {
     const browserlessToken = Env.get('BROWSERLESS_TOKEN')
 
     try {
-      const browser = await puppeteer.connect({
+      this.logger.info('Opening the browser...')
+      browser = await puppeteer.connect({
         browserWSEndpoint: `${browserlessUrl}?token=${browserlessToken}`,
       })
 
+      this.logger.info('Opening the new page...')
       const page = await browser.newPage()
 
+      this.logger.info('Opening the login page...')
       await page.goto('https://plagiarismsearch.com/account/login')
 
       const emailInput = await page.$('[name="login"]')
       const passwordInput = await page.$('[name="password"]')
       const button = await page.$('.account-submit')
 
+      this.logger.info('Submiting the login form...')
       await emailInput!.type(userName)
       await passwordInput?.type(password)
       await button?.click()
 
+      this.logger.info('Waiting the navigation...')
       await page.waitForNavigation()
 
+      this.logger.info('Opening the settings page...')
       await page.goto('https://plagiarismsearch.com/account/settings')
 
+      this.logger.info('Getting strong elements...')
       const strongElements = await page.$$('strong')
 
       const strongContents: string[] = []
@@ -53,20 +61,24 @@ export default class PlagiarismSearchInvoiceCronJob extends BaseCommand {
       const remainingWordsIndex = 0
 
       const remainingWords = strongContents[remainingWordsIndex]
+      this.logger.info(`Get remaining words:${remainingWords}`)
 
       const notificationBody = {
         topic: Env.get('NTFY_TOPIC_NOTIFICATIONS'),
         title: 'Plagiarism Search API Status',
         message: `You have ${remainingWords} remaining words`,
       }
-
+      this.logger.info('Sending notification...')
       await Ntfy.sendNotification(notificationBody)
 
-      await page.close()
-      await browser.close()
       this.logger.success('PlagiarismSearchInvoiceCronJob - COMPLETED')
     } catch (error) {
       this.logger.error(error)
+    } finally {
+      this.logger.info('Closing the browser browser...')
+      if (browser) {
+        browser.close()
+      }
     }
   }
 }
