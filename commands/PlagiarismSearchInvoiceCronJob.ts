@@ -2,7 +2,7 @@ import { BaseCommand } from '@adonisjs/core/build/standalone'
 import puppeteer from 'puppeteer'
 import Ntfy from '@ioc:ExternalApis/Ntfy'
 import Env from '@ioc:Adonis/Core/Env'
-
+import { DateTime } from 'luxon'
 export default class PlagiarismSearchInvoiceCronJob extends BaseCommand {
   public static commandName = 'plagiarism-search-invoice:cron-job'
 
@@ -12,7 +12,8 @@ export default class PlagiarismSearchInvoiceCronJob extends BaseCommand {
 
   public async run() {
     let browser: any
-    this.logger.info('PlagiarismSearchInvoiceCronJob - Started')
+    const nowDate = DateTime.now().toFormat('dd/MM/yyyy HH:mm:ss')
+    this.logger.info(`PlagiarismSearchInvoiceCronJob - STARTED - ${nowDate}`)
 
     const userName = Env.get('PLAGIARISM_SEARCH_USER')
     const password = Env.get('PLAGIARISM_SEARCH_PASSWORD')
@@ -22,6 +23,7 @@ export default class PlagiarismSearchInvoiceCronJob extends BaseCommand {
 
     try {
       this.logger.info('Opening the browser...')
+
       browser = await puppeteer.connect({
         browserWSEndpoint: `${browserlessUrl}?token=${browserlessToken}`,
       })
@@ -71,11 +73,11 @@ export default class PlagiarismSearchInvoiceCronJob extends BaseCommand {
       this.logger.info('Sending notification...')
       await Ntfy.sendNotification(notificationBody)
 
-      this.logger.success('PlagiarismSearchInvoiceCronJob - COMPLETED')
+      this.logger.success(`PlagiarismSearchInvoiceCronJob - COMPLETED - ${nowDate}`)
     } catch (error) {
       this.logger.error(error)
     } finally {
-      this.logger.info('Closing the browser browser...')
+      this.logger.info('Closing the browser...')
       if (browser) {
         browser.close()
       }
