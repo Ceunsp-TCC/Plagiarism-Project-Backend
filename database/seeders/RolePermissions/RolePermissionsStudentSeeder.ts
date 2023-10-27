@@ -11,6 +11,9 @@ export default class RolePermissionsStudentSeeder extends BaseSeeder {
       'getActivity',
       'getActivities',
       'sendAcademicPaper',
+      'ortographyCorrections',
+      'createNewOrtographyCorrection',
+      'viewOrtographyCorrections',
     ]
 
     const studentPermissionsIds = (

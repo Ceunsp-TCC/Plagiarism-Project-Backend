@@ -113,8 +113,15 @@ Route.group(() => {
     }).prefix('academic-paper')
 
     Route.group(() => {
+      Route.post('/create', 'OrtographyReportsController.store').middleware(
+        'permission:ortographyCorrections'
+      )
+    }).prefix('ortography-corrections')
+
+    Route.group(() => {
       Route.get('/get-current', 'NotificationsController.show')
     }).prefix('notifications')
+
     Route.group(() => {
       Route.get('/me', 'AuthController.me')
       Route.post('/logout', 'AuthController.logout')
