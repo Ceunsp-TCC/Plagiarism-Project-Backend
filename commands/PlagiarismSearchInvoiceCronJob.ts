@@ -1,5 +1,5 @@
 import { BaseCommand } from '@adonisjs/core/build/standalone'
-import puppeteer, { Browser, PuppeteerNode } from 'puppeteer'
+import puppeteer from 'puppeteer'
 import Ntfy from '@ioc:ExternalApis/Ntfy'
 import Env from '@ioc:Adonis/Core/Env'
 
