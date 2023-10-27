@@ -102,6 +102,14 @@ export default class RepositoriesProvider {
 
       return new NotificationsLucidRepository(notificationsModel)
     })
+
+    this.app.container.bind('Repositories/OrtographyCorrectionRepository', () => {
+      const OrtographyCorrectionsLucidRepository =
+        require('App/Repositories/OrtographyCorrectionsRepository/OrtographyCorrectionsLucidRepository').default
+      const ortographyCorrectionsModel = require('App/Models/OrtographyCorrections').default
+
+      return new OrtographyCorrectionsLucidRepository(ortographyCorrectionsModel)
+    })
   }
 
   public async boot() {}
