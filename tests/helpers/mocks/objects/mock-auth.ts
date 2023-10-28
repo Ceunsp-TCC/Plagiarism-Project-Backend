@@ -57,8 +57,15 @@ export const mockStudentInactiveCredentials = {
   password: 'student-inactive@student',
   deviceName: 'browser',
 }
+
 export const mockStudentEmptyLessonsCredentials = {
   email: 'student-empty-lessons@gmail.com',
   password: 'student-empty-lessons@student',
+  deviceName: 'browser',
+}
+
+export const mockStudentEmptyOrtographyCorrectionsCredentials = {
+  email: 'student-empty-corrections@gmail.com',
+  password: 'student-empty-corrections@student',
   deviceName: 'browser',
 }

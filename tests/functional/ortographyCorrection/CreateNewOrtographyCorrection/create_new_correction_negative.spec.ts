@@ -21,7 +21,7 @@ test.group('Create new correction - NEGATIVE', () => {
       .basicAuth(basicCredentials.username, basicCredentials.password)
       .json(mockStudentCredentials)
 
-    await OrtographyReportFactory.merge({
+    const ortographyMock = await OrtographyReportFactory.merge({
       requesterId: login.response.body.content.user.id,
     }).create()
 
@@ -30,7 +30,7 @@ test.group('Create new correction - NEGATIVE', () => {
       .bearerToken(login.response.body.content.accessToken.token)
       .file('original', fakeOriginal.contents, { filename: fakeOriginal.name })
       .fields({
-        userProvidedIdentifier: 'test',
+        userProvidedIdentifier: ortographyMock.userProvidedIdentifier,
       })
 
     sut.assertStatus(400)

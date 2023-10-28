@@ -31,6 +31,14 @@ export default class OrtographyCorrections extends BaseModel {
 
   @column.dateTime({
     autoCreate: true,
+    columnName: 'createdAt',
+    serializeAs: 'createdAt',
+    serialize: (value) => value.toFormat('dd/MM/yyyy HH:mm:ss'),
+  })
+  public createdAt: DateTime
+
+  @column.dateTime({
+    autoCreate: true,
     autoUpdate: true,
     serializeAs: null,
     columnName: 'updatedAt',
