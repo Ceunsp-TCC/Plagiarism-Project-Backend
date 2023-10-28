@@ -1,17 +1,12 @@
 import { test } from '@japa/runner'
-import Database from '@ioc:Adonis/Lucid/Database'
+
 import NotificationFactory from 'Database/factories/NotificationFactory'
 import { basicCredentials, mockTeacherCredentials } from '../../helpers'
 
 const url = '/v1/notifications/get-current'
 const urlLogin = '/v1/auth/login'
 
-test.group('Get current notification', (group) => {
-  group.each.setup(async () => {
-    await Database.beginGlobalTransaction()
-    return () => Database.rollbackGlobalTransaction()
-  })
-
+test.group('Get current notification', () => {
   test('Found notification', async ({ client }) => {
     const login = await client
       .post(urlLogin)
