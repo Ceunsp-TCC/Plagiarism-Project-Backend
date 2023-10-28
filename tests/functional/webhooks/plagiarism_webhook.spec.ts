@@ -1,5 +1,5 @@
 import { test } from '@japa/runner'
-import Database from '@ioc:Adonis/Lucid/Database'
+
 import PlagiarismReportFactory from 'Database/factories/PlagiarismReportFactory'
 import ActivityFactory from 'Database/factories/ActivityFactory'
 import AcademicPaperFactory from 'Database/factories/AcademicPaperFactory'
@@ -7,12 +7,7 @@ import { getSourcesMock } from '../../helpers/mocks'
 
 const url = '/v1/webhooks/plagiarism'
 
-test.group('Webhook plagiarism', (group) => {
-  group.each.setup(async () => {
-    await Database.beginGlobalTransaction()
-    return () => Database.rollbackGlobalTransaction()
-  })
-
+test.group('Webhook plagiarism', () => {
   test('Should be receive webhook with success', async ({ client }) => {
     getSourcesMock()
     const activity = await ActivityFactory.create()

@@ -1,7 +1,12 @@
 import OrtographyCorrections from 'App/Models/OrtographyCorrections'
 import { OrtographyCorrectionStatus } from 'App/Models/OrtographyCorrections'
+import DefaultPaginate from '@ioc:Utils/DefaultPaginate'
 import type OrtographyCorrectionsRepositoryInterface from 'App/Interfaces/Repositories/OrtographyCorrectionsRepositoryInterface'
-import type { OrtographyCorrectionDto } from 'App/Dtos/OrtographyCorrections/OrtographyCorrectionDto'
+import type { SimplePaginatorContract } from '@ioc:Adonis/Lucid/Database'
+import type {
+  OrtographyCorrectionDto,
+  OrtographyCorrectionDtoResponse,
+} from 'App/Dtos/OrtographyCorrections/OrtographyCorrectionDto'
 
 export default class OrtographyCorrectionsLucidRepository
   implements OrtographyCorrectionsRepositoryInterface
@@ -11,7 +16,29 @@ export default class OrtographyCorrectionsLucidRepository
   public async create(ortographyCorrectionDto: OrtographyCorrectionDto): Promise<boolean> {
     return !!(await this.model.create(ortographyCorrectionDto))
   }
+  public async getAll(
+    requesterId: number,
+    currentPage: number = 1,
+    numberlinesPerPage: number = 5,
+    identifier: string = ''
+  ) {
+    const ortographyCorrections = await this.model
+      .query()
+      .where('requesterId', requesterId)
+      .where((query) => {
+        if (identifier) {
+          query.whereILike('identifier', `%${identifier}%`)
+        }
+      })
+      .orderBy('createdAt', 'desc')
+      .paginate(currentPage!, numberlinesPerPage)
 
+    return DefaultPaginate.formatToDefaultPaginate<OrtographyCorrectionDtoResponse>({
+      items: (await ortographyCorrections.all()) as unknown as OrtographyCorrectionDtoResponse[],
+      paginateProperties:
+        ortographyCorrections as unknown as SimplePaginatorContract<OrtographyCorrectionDtoResponse>,
+    })
+  }
   public async findByUserProvidedIdentifier(
     userProvidedIdentifier: string
   ): Promise<OrtographyCorrections | null> {

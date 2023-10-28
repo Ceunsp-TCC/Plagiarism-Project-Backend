@@ -113,8 +113,11 @@ Route.group(() => {
     }).prefix('academic-paper')
 
     Route.group(() => {
-      Route.post('/create', 'OrtographyReportsController.store').middleware(
-        'permission:ortographyCorrections'
+      Route.post('/create', 'OrtographyCorrectionsController.store').middleware(
+        'permission:createNewOrtographyCorrection'
+      )
+      Route.get('/get-all', 'OrtographyCorrectionsController.index').middleware(
+        'permission:viewOrtographyCorrections'
       )
     }).prefix('ortography-corrections')
 

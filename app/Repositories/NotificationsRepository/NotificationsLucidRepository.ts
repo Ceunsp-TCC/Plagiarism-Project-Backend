@@ -10,7 +10,12 @@ export default class NotificationsLucidRepository implements NotificationsReposi
   }
 
   public async getCurrent(receiverId: number): Promise<Notifications | null> {
-    return await this.model.query().where('receiverId', receiverId).where('isRead', false).first()
+    return await this.model
+      .query()
+      .where('receiverId', receiverId)
+      .where('isRead', false)
+      .orderBy('createdAt', 'desc')
+      .first()
   }
 
   public async readNotification(receiverId: number) {
