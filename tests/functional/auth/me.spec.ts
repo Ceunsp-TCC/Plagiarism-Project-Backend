@@ -103,6 +103,7 @@ test.group('Me', (group) => {
           'ortographyCorrections',
           'createNewOrtographyCorrection',
           'viewOrtographyCorrections',
+          'viewOneOrtographyCorrection',
         ],
       },
     })

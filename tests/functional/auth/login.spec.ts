@@ -132,6 +132,7 @@ test.group('Login', (group) => {
             'ortographyCorrections',
             'createNewOrtographyCorrection',
             'viewOrtographyCorrections',
+            'viewOneOrtographyCorrection',
           ],
         },
       },

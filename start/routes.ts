@@ -116,9 +116,15 @@ Route.group(() => {
       Route.post('/create', 'OrtographyCorrectionsController.store').middleware(
         'permission:createNewOrtographyCorrection'
       )
+
       Route.get('/get-all', 'OrtographyCorrectionsController.index').middleware(
         'permission:viewOrtographyCorrections'
       )
+
+      Route.get(
+        '/get-by-id/:ortographyCorrectionId',
+        'OrtographyCorrectionsController.show'
+      ).middleware('permission:viewOneOrtographyCorrection')
     }).prefix('ortography-corrections')
 
     Route.group(() => {
