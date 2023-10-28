@@ -23,6 +23,17 @@
       "aliases": [],
       "flags": []
     },
+    "text-gears-invoice:cron-job": {
+      "settings": {
+        "loadApp": true
+      },
+      "commandPath": "./commands/TextGearsInvoiceCronJob",
+      "commandName": "text-gears-invoice:cron-job",
+      "description": "",
+      "args": [],
+      "aliases": [],
+      "flags": []
+    },
     "dump:rcfile": {
       "settings": {},
       "commandPath": "@adonisjs/core/build/commands/DumpRc",
