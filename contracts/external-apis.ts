@@ -13,3 +13,8 @@ declare module '@ioc:ExternalApis/Plagiarism' {
   const Plagiarism: PlagiarismServiceInterface
   export default Plagiarism
 }
+declare module '@ioc:ExternalApis/Ortography' {
+  import type { OrtographyServiceInterface } from 'App/Interfaces/Services/OrtographyServiceInterface'
+  const Ortography: OrtographyServiceInterface
+  export default Ortography
+}

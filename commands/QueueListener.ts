@@ -38,7 +38,7 @@ export default class QueueListener extends BaseCommand {
         this.logger.info(`Ortography correction queue - STARTED - ${nowDate}`)
         const queue = new OrtographyCorrectionQueue()
 
-        await queue.run(job.data.original)
+        await queue.run(job.data.original, job.data.identifier, job.data.requesterId)
 
         this.logger.success(`Ortography correction queue - COMPLETED - ${nowDate}`)
         return job

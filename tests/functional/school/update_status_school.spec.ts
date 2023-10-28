@@ -1,13 +1,8 @@
 import { test } from '@japa/runner'
 import Env from '@ioc:Adonis/Core/Env'
-import Database from '@ioc:Adonis/Lucid/Database'
 
 const url = '/v1/schools/update-status'
-test.group('Update status school', (group) => {
-  group.each.setup(async () => {
-    await Database.beginGlobalTransaction()
-    return () => Database.rollbackGlobalTransaction()
-  })
+test.group('Update status school', () => {
   test('Should update status School', async ({ client }) => {
     const sut = await client
       .put(`${url}/${2}`)

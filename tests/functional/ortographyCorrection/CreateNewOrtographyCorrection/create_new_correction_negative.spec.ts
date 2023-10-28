@@ -1,18 +1,61 @@
 import { test } from '@japa/runner'
-import Database from '@ioc:Adonis/Lucid/Database'
-import { basicCredentials, mockStudentCredentials, mockAdminCredentials } from '../../../helpers'
+import {
+  basicCredentials,
+  mockStudentCredentials,
+  mockAdminCredentials,
+  detectLanguageMockInvalid,
+} from '../../../helpers'
 import { file } from '@ioc:Adonis/Core/Helpers'
+import OrtographyReportFactory from 'Database/factories/OrtographyReportFactory'
 import Drive from '@ioc:Adonis/Core/Drive'
 
 const url = '/v1/ortography-corrections/create'
 const urlLogin = '/v1/auth/login'
 
-test.group('Create new correction - NEGATIVE', (group) => {
-  group.each.setup(async () => {
-    await Database.beginGlobalTransaction()
-    return () => Database.rollbackGlobalTransaction()
+test.group('Create new correction - NEGATIVE', () => {
+  test('Should be find with same identifier', async ({ client }) => {
+    await Drive.fake()
+    const fakeOriginal = await file.generatePdf('1mb')
+    const login = await client
+      .post(urlLogin)
+      .basicAuth(basicCredentials.username, basicCredentials.password)
+      .json(mockStudentCredentials)
+
+    await OrtographyReportFactory.merge({
+      requesterId: login.response.body.content.user.id,
+    }).create()
+
+    const sut = await client
+      .post(url)
+      .bearerToken(login.response.body.content.accessToken.token)
+      .file('original', fakeOriginal.contents, { filename: fakeOriginal.name })
+      .fields({
+        userProvidedIdentifier: 'test',
+      })
+
+    sut.assertStatus(400)
   })
 
+  test('Should be language invalid', async ({ client }) => {
+    detectLanguageMockInvalid()
+    await Drive.fake()
+    const fakeOriginal = await file.generatePdf('1mb')
+
+    const login = await client
+      .post(urlLogin)
+      .basicAuth(basicCredentials.username, basicCredentials.password)
+      .json(mockStudentCredentials)
+
+    const sut = await client
+      .post(url)
+      .bearerToken(login.response.body.content.accessToken.token)
+      .file('original', fakeOriginal.contents, { filename: fakeOriginal.name })
+      .fields({
+        userProvidedIdentifier: 'ortografia3',
+      })
+
+    sut.assertStatus(400)
+  })
   test('Should be is empty fields', async ({ client }) => {
     const login = await client
       .post(urlLogin)

@@ -5,6 +5,8 @@ export interface PlagiarismAnalyseAcademicPaperQueueProps {
 
 export interface OrtographyCorrectionQueueProps {
   original: string
+  identifier: string
+  requesterId: number
 }
 
 export enum QueueNamesEnum {

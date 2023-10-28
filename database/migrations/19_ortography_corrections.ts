@@ -7,7 +7,7 @@ export default class extends BaseSchema {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id')
       table.integer('requesterId').notNullable()
-      table.string('userProvidedIdentifier').notNullable()
+      table.string('userProvidedIdentifier').notNullable().unique()
       table.string('original').notNullable()
       table.string('result').nullable()
       table.enum('status', ['PROCESSING', 'COMPLETED', 'FAILED']).defaultTo('PROCESSING')
