@@ -2,6 +2,10 @@ import { textGearsApi } from 'App/Services/Apis/TextGearsApi'
 import { TextGearsCorrectResponse } from 'App/Services/types/Http/OrtographyServices/CorrectResponse'
 import { TextGearsDetectLanguageResponse } from 'App/Services/types/Http/OrtographyServices/DetectLanguageResponse'
 import Env from '@ioc:Adonis/Core/Env'
+import {
+  GetPlanResponse,
+  GetPlanOutput,
+} from 'App/Services/types/Http/OrtographyServices/GetPlanResponse'
 import { OrtographyServiceInterface } from 'App/Interfaces/Services/OrtographyServiceInterface'
 
 export default class OrtographyTextGearsServices implements OrtographyServiceInterface {
@@ -39,5 +43,24 @@ export default class OrtographyTextGearsServices implements OrtographyServiceInt
     )
 
     return detectResponse.response.language
+  }
+
+  public async getPlanData(): Promise<GetPlanOutput> {
+    const params = {
+      key: this.apiKey,
+    }
+
+    const { data: planResponse } = await textGearsApi.get<GetPlanResponse>(
+      '/account/resourcequota',
+      {
+        params,
+      }
+    )
+
+    return {
+      total: planResponse.response.api.total,
+      used: planResponse.response.api.used,
+      endPeriod: planResponse.response.api.period_end,
+    }
   }
 }
