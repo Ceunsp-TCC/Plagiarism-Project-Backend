@@ -132,6 +132,9 @@ export default class PermissionsSeeder extends BaseSeeder {
       {
         name: 'viewOrtographyCorrections',
       },
+      {
+        name: 'viewOneOrtographyCorrection',
+      },
     ])
   }
 }

@@ -14,6 +14,7 @@ export default class RolePermissionsStudentSeeder extends BaseSeeder {
       'ortographyCorrections',
       'createNewOrtographyCorrection',
       'viewOrtographyCorrections',
+      'viewOneOrtographyCorrection',
     ]
 
     const studentPermissionsIds = (

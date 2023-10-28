@@ -16,6 +16,7 @@ export default class OrtographyCorrectionsLucidRepository
   public async create(ortographyCorrectionDto: OrtographyCorrectionDto): Promise<boolean> {
     return !!(await this.model.create(ortographyCorrectionDto))
   }
+
   public async getAll(
     requesterId: number,
     currentPage: number = 1,
@@ -38,6 +39,10 @@ export default class OrtographyCorrectionsLucidRepository
       paginateProperties:
         ortographyCorrections as unknown as SimplePaginatorContract<OrtographyCorrectionDtoResponse>,
     })
+  }
+
+  public async getById(id: number): Promise<OrtographyCorrections | null> {
+    return await this.model.query().where('id', id).first()
   }
   public async findByUserProvidedIdentifier(
     userProvidedIdentifier: string
