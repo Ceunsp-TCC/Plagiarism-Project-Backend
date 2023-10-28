@@ -22,13 +22,14 @@ export default class TextGearsInvoiceCronJob extends BaseCommand {
     const total = plan.total
     const used = plan.used
     const remainingRequests = total - used
+    const endPeriod = DateTime.fromISO(plan.endPeriod).toFormat('dd/MM/yyyy HH:mm:ss')
 
-    this.logger.info(`You have ${remainingRequests} remaining requests`)
+    this.logger.info(`Remaining requests: ${remainingRequests}`)
 
     const notificationBody = {
       topic: Env.get('NTFY_TOPIC_NOTIFICATIONS'),
       title: 'Text Gears API Status',
-      message: `You have ${remainingRequests} remaining requests`,
+      message: `You have ${remainingRequests} remaining requests and your demo period end at ${endPeriod}`,
     }
 
     this.logger.info('Sending notification...')

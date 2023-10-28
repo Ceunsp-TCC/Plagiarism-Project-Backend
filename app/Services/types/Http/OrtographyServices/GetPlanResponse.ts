@@ -36,4 +36,5 @@ export interface GetPlanResponse {
 export interface GetPlanOutput {
   total: number
   used: number
+  endPeriod: string
 }

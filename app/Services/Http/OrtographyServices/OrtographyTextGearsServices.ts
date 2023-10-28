@@ -60,6 +60,7 @@ export default class OrtographyTextGearsServices implements OrtographyServiceInt
     return {
       total: planResponse.response.api.total,
       used: planResponse.response.api.used,
+      endPeriod: planResponse.response.api.period_end,
     }
   }
 }
