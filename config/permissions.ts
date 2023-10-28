@@ -38,3 +38,6 @@ export type Permissions =
   | 'getAcademicPapers'
   | 'getAcademicPaper'
   | 'sendToAcademicPaperAnalyse'
+  | 'ortographyCorrections'
+  | 'createNewOrtographyCorrection'
+  | 'viewOrtographyCorrections'
