@@ -18,7 +18,7 @@ export default class OrtographyCorrectionQueue {
 
   protected async getCorrectText(originalText: string) {
     return await Ortography.correct(originalText)
-    // return 'The misspeling of werds in the sentance were quite noticable. I had a greate time, altho it wuz dificult to find my wai. The buisness hirings and requirments semed confusing andsomtimes unneccessary, affecting the hole process'
+    //return 'The misspeling of werds in the sentance were quite noticable. I had a greate time, altho it wuz dificult to find my wai. The buisness hirings and requirments semed confusing andsomtimes unneccessary, affecting the hole process'
   }
 
   protected breakLines(text: string) {

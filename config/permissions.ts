@@ -41,3 +41,4 @@ export type Permissions =
   | 'ortographyCorrections'
   | 'createNewOrtographyCorrection'
   | 'viewOrtographyCorrections'
+  | 'viewOneOrtographyCorrection'

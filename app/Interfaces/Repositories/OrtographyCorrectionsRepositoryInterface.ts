@@ -14,6 +14,7 @@ export default interface OrtographyCorrectionsRepositoryInterface {
     numberlinesPerPage?: number,
     identifier?: string
   ): Promise<DefaultPaginateDtoResponse<OrtographyCorrectionDtoResponse>>
+  getById(id: number): Promise<OrtographyCorrections | null>
   updateStatus(userProvidedIdentifier: string, status: OrtographyCorrectionStatus): Promise<boolean>
   updateResultCorrection(userProvidedIdentifier: string, result: string): Promise<boolean>
   findByUserProvidedIdentifier(
