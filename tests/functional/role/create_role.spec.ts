@@ -1,17 +1,11 @@
 import { test } from '@japa/runner'
-import Database from '@ioc:Adonis/Lucid/Database'
 import RoleFactory from 'Database/factories/RoleFactory'
 import Env from '@ioc:Adonis/Core/Env'
 import { faker } from '@faker-js/faker'
 
 const url = '/v1/roles/create'
 const urlLogin = '/v1/auth/login'
-test.group('Create roles', (group) => {
-  group.each.setup(async () => {
-    await Database.beginGlobalTransaction()
-    return () => Database.rollbackGlobalTransaction()
-  })
-
+test.group('Create roles', () => {
   test('Should be create a role', async ({ client }) => {
     const login = await client
       .post(urlLogin)

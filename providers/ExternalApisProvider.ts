@@ -17,6 +17,12 @@ export default class ExternalApisProvider {
         require('App/Services/Http/PlagiarismSearchServices/PlagiarismSearchServices').default
       return new PlagiarismServices()
     })
+
+    this.app.container.singleton('ExternalApis/Ortography', () => {
+      const OrtographyServices =
+        require('App/Services/Http/OrtographyServices/OrtographyTextGearsServices').default
+      return new OrtographyServices()
+    })
   }
 
   public async boot() {}

@@ -24,4 +24,6 @@ export default Env.rules({
   BULLMQ_REDIS_PASSWORD: Env.schema.string(),
   BROWSERLESS_URL: Env.schema.string(),
   BROWSERLESS_TOKEN: Env.schema.string(),
+  TEXT_GEARS_URL: Env.schema.string(),
+  TEXT_GEARS_API_KEY: Env.schema.string(),
 })
