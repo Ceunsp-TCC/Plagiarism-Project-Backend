@@ -20,7 +20,7 @@ export default class OrtographyCorrectionsLucidRepository
   public async getAll(
     requesterId: number,
     currentPage: number = 1,
-    numberlinesPerPage: number = 5,
+    numberlinesPerPage: number = 10,
     identifier: string = ''
   ) {
     const ortographyCorrections = await this.model
