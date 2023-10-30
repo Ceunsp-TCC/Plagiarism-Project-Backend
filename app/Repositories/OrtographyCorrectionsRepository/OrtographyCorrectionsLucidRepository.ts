@@ -28,7 +28,7 @@ export default class OrtographyCorrectionsLucidRepository
       .where('requesterId', requesterId)
       .where((query) => {
         if (identifier) {
-          query.whereILike('identifier', `%${identifier}%`)
+          query.whereILike('userProvidedIdentifier', `%${identifier}%`)
         }
       })
       .orderBy('createdAt', 'desc')
