@@ -4,6 +4,7 @@ import type { ModelQueryBuilderContract } from '@ioc:Adonis/Lucid/Orm'
 
 export interface NotificationData {
   navigateTo: string
+  reactQueryKeys?: string[]
 }
 
 export default class Notifications extends BaseModel {

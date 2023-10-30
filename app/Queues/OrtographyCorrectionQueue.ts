@@ -79,6 +79,7 @@ export default class OrtographyCorrectionQueue {
       receiverId,
       data: {
         navigateTo: screen,
+        reactQueryKeys: ['ortography-corrections', 'single-ortography-correction'],
       },
     }
     return await NotificationsRepository.create(notificationData)
