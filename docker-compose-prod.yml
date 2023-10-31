@@ -3,7 +3,7 @@ version: '3.5'
 services:
   school-guardian-backend:
     container_name: school-guardian-backend
-    image: gabrielsoaresdev/school-guardian-backend:slim
+    image: gabrielsoaresdev/school-guardian-backend:latest
     restart: always
     env_file:
       - stack.env
