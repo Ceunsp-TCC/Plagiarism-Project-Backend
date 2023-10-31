@@ -27,8 +27,15 @@ jobs:
           file: Dockerfile.prod
           tags: gabrielsoaresdev/school-guardian-backend:latest
           no-cache: true
-          push: true
+          push: false
           github-token: ${{ secrets.TOKEN_GITHUB }}
+      - uses: kitabisa/docker-slim-action@v1
+        env:
+            DSLIM_HTTP_PROBE: false
+        with:
+            target: gabrielsoaresdev/school-guardian-backend:latest
+            tag: "slim"
+      - run: docker image push "${{ github.repository }}" --all-tags
       - name: Update image in stack
         uses: distributhor/workflow-webhook@v2
         env:
