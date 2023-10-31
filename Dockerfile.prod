@@ -34,9 +34,13 @@ RUN mkdir -p /app/school-guardian-backend/tmp/uploads/courses && \
 
 RUN mkdir -p /app/school-guardian-backend/tmp/uploads/academic-papers && \
     chown -R node:node /app/school-guardian-backend/tmp/uploads/academic-papers
- 
+
 RUN mkdir -p /app/school-guardian-backend/tmp/uploads/ortographic-correction/originals && \
     chown -R node:node /app/school-guardian-backend/tmp/uploads/ortographic-correction/originals
+
+
+RUN mkdir -p /app/school-guardian-backend/tmp/uploads/ortographic-correction/results && \
+    chown -R node:node /app/school-guardian-backend/tmp/uploads/ortographic-correction/results
 
 RUN npm ci --production
 COPY --chown=node:node --from=build /app/school-guardian-backend/build .
