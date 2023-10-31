@@ -100,16 +100,23 @@ Route.group(() => {
       Route.post('/send/:activityId', 'AcademicPapersController.store').middleware(
         'permission:sendAcademicPaper'
       )
+
       Route.get('/get-all/:activityId', 'AcademicPapersController.index').middleware(
         'permission:getAcademicPapers'
       )
+
       Route.get('/get-by-id/:academicPaperId', 'AcademicPapersController.show').middleware(
         'permission:getAcademicPaper'
       )
+
       Route.post(
         '/plagiarism-analyse/:academicPaperId',
         'AcademicPapersController.plagiarismAnalyse'
       ).middleware('permission:plagiarismAnalyse')
+
+      Route.patch('/send-note/:academicPaperId', 'AcademicPapersController.sendNote').middleware(
+        'permission:sendNoteForAcademicPaper'
+      )
     }).prefix('academic-paper')
 
     Route.group(() => {

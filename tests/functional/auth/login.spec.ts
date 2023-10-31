@@ -94,6 +94,7 @@ test.group('Login', (group) => {
             'getActivities',
             'getAcademicPaper',
             'plagiarismAnalyse',
+            'sendNoteForAcademicPaper',
           ],
         },
       },

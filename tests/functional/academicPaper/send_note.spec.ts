@@ -1,38 +1,58 @@
 import { test } from '@japa/runner'
 import { basicCredentials, mockTeacherCredentials, mockAdminCredentials } from '../../helpers'
-import AcademicPaperFactory from 'Database/factories/AcademicPaperFactory'
 import ActivityFactory from 'Database/factories/ActivityFactory'
+import AcademicPaperFactory from 'Database/factories/AcademicPaperFactory'
 
-const url = '/v1/academic-paper/get-by-id'
+const url = '/v1/academic-paper/send-note'
 const urlLogin = '/v1/auth/login'
 
-test.group('Get all academic papers by activity', () => {
-  test('Should be get academic paper', async ({ client }) => {
-    const activity = await ActivityFactory.create()
+test.group('Send note', () => {
+  test('Should be send note', async ({ client }) => {
     const login = await client
       .post(urlLogin)
       .basicAuth(basicCredentials.username, basicCredentials.password)
       .json(mockTeacherCredentials)
 
+    const activity = await ActivityFactory.create()
     const academicPaper = await AcademicPaperFactory.merge({ activityId: activity.id }).create()
 
     const sut = await client
-      .get(`${url}/${academicPaper.id}`)
+      .patch(`${url}/${academicPaper.id}`)
       .bearerToken(login.response.body.content.accessToken.token)
+      .json({ note: 10 })
 
     sut.assertStatus(200)
+    sut.assertBodyContains({
+      statusCode: 200,
+      message: 'Note sent successfully',
+    })
   })
-  test('Should be not found get academic paper', async ({ client }) => {
+  test('Should be not found academic paper', async ({ client }) => {
     const login = await client
       .post(urlLogin)
       .basicAuth(basicCredentials.username, basicCredentials.password)
       .json(mockTeacherCredentials)
 
+    const academicPaperId = 200
     const sut = await client
-      .get(`${url}/2`)
+      .patch(`${url}/${academicPaperId}`)
       .bearerToken(login.response.body.content.accessToken.token)
+      .json({ note: 10 })
 
     sut.assertStatus(404)
+  })
+  test('Should be is empty fields', async ({ client }) => {
+    const login = await client
+      .post(urlLogin)
+      .basicAuth(basicCredentials.username, basicCredentials.password)
+      .json(mockTeacherCredentials)
+
+    const academicPaperId = 200
+    const sut = await client
+      .patch(`${url}/${academicPaperId}`)
+      .bearerToken(login.response.body.content.accessToken.token)
+
+    sut.assertStatus(422)
   })
 
   test('Should be resource is denied access', async ({ client }) => {
@@ -41,9 +61,9 @@ test.group('Get all academic papers by activity', () => {
       .basicAuth(basicCredentials.username, basicCredentials.password)
       .json(mockAdminCredentials)
 
-    const activityId = 1
+    const academicPaperId = 1
     const sut = await client
-      .get(`${url}/${activityId}`)
+      .patch(`${url}/${academicPaperId}`)
       .bearerToken(login.response.body.content.accessToken.token)
 
     sut.assertStatus(403)
