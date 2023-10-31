@@ -121,6 +121,9 @@ export default class PermissionsSeeder extends BaseSeeder {
         name: 'getAcademicPaper',
       },
       {
+        name: 'sendNoteForAcademicPaper',
+      },
+      {
         name: 'plagiarismAnalyse',
       },
       {

@@ -32,6 +32,9 @@ export default class AcademicPapers extends BaseModel {
   @column()
   public comments?: string
 
+  @column()
+  public note?: number
+
   @column({ columnName: 'analysisStatus', serializeAs: 'analysisStatus' })
   public analysisStatus?: AnalysisStatus
 

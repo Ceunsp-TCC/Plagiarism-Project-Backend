@@ -1,5 +1,4 @@
 import { test } from '@japa/runner'
-import Database from '@ioc:Adonis/Lucid/Database'
 import { basicCredentials, mockStudentCredentials, mockAdminCredentials } from '../../helpers'
 import { file } from '@ioc:Adonis/Core/Helpers'
 import ActivityFactory from 'Database/factories/ActivityFactory'
@@ -8,12 +7,7 @@ import Drive from '@ioc:Adonis/Core/Drive'
 const url = '/v1/academic-paper/send'
 const urlLogin = '/v1/auth/login'
 
-test.group('Send academic paper', (group) => {
-  group.each.setup(async () => {
-    await Database.beginGlobalTransaction()
-    return () => Database.rollbackGlobalTransaction()
-  })
-
+test.group('Send academic paper', () => {
   test('Should be send academic paper', async ({ client }) => {
     await Drive.fake()
     const activity = await ActivityFactory.create()

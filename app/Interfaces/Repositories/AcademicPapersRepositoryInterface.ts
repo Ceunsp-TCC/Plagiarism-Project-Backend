@@ -17,4 +17,5 @@ export default interface AcademicPapersRepositoryInterface {
   getByStudentIdAndActivityId(studentId: number, activityId: number): Promise<AcademicPapers | null>
   getById(academicPaperId: number): Promise<AcademicPapers | null>
   updateAnalyseStatus(academicPaperId: number, status: AnalysisStatus): Promise<boolean>
+  updateNote(academicPaperId: number, note: number): Promise<boolean>
 }
