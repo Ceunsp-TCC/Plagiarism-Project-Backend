@@ -29,13 +29,14 @@ jobs:
           no-cache: true
           push: false
           github-token: ${{ secrets.TOKEN_GITHUB }}
-      - uses: kitabisa/docker-slim-action@v1
+      - name: optimize image
+        uses: kitabisa/docker-slim-action@v1
         env:
-            DSLIM_HTTP_PROBE: false
+          DSLIM_HTTP_PROBE: false
         with:
-            target: gabrielsoaresdev/school-guardian-backend:latest
-            tag: "slim"
-      - run: docker image push "${{ github.repository }}" --all-tags
+          target: gabrielsoaresdev/school-guardian-backend:latest
+          tag: "slim"
+      - run: docker image push "gabrielsoaresdev/school-guardian-backend" --all-tags
       - name: Update image in stack
         uses: distributhor/workflow-webhook@v2
         env:
