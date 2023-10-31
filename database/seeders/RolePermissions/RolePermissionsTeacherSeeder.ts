@@ -15,6 +15,7 @@ export default class RolePermissionsTeacherSeeder extends BaseSeeder {
       'getAcademicPapers',
       'getAcademicPaper',
       'plagiarismAnalyse',
+      'sendNoteForAcademicPaper',
     ]
 
     const teacherPermissionsIds = (

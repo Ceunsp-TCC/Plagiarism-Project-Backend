@@ -62,4 +62,10 @@ export default class AcademicPapersLucidRepository implements AcademicPapersRepo
 
     return !!(await academicPaper?.merge({ analysisStatus: status }))?.save()
   }
+
+  public async updateNote(academicPaperId: number, note: number): Promise<boolean> {
+    const academicPaper = await this.model.query().where('id', academicPaperId).first()
+
+    return !!(await academicPaper?.merge({ note }))?.save()
+  }
 }
