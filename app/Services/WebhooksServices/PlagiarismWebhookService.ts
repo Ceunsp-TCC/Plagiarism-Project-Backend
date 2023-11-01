@@ -16,7 +16,7 @@ export default class PlagiarismWebhookService {
     return total - plagiarism
   }
 
-  private async getAcademicPaper(externalId: number) {
+  private async getReport(externalId: number) {
     return await PlagiarismReportRepository.getAcademicPaperByExternalId(externalId)
   }
 
@@ -50,9 +50,10 @@ export default class PlagiarismWebhookService {
 
     await PlagiarismReportRepository.update(data)
 
-    const academicPaper = await this.getAcademicPaper(externalId)
-    const academicPaperId = academicPaper?.id
-    const requesterId = academicPaper?.requesterId
+    const plagiarismReport = await this.getReport(externalId)
+
+    const academicPaperId = plagiarismReport?.academicPaperId
+    const requesterId = plagiarismReport?.requesterId
 
     await AcademicPaperRepository.updateAnalyseStatus(academicPaperId!, AnalysisStatus.COMPLETED)
 
