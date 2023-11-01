@@ -28,6 +28,7 @@ export default class PlagiarismWebhookService {
       receiverId,
       data: {
         navigateTo: screen,
+        reactQueryKeys: ['academic-paper'],
       },
     }
     return await NotificationsRepository.create(notificationData)
