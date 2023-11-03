@@ -16,4 +16,5 @@ export interface ActivityDataDto {
   type: string
   createdAt: string
   sent?: boolean
+  note?: number
 }
