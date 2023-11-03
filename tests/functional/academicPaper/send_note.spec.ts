@@ -17,7 +17,7 @@ test.group('Send note', () => {
     const academicPaper = await AcademicPaperFactory.merge({ activityId: activity.id }).create()
 
     const sut = await client
-      .patch(`${url}/${academicPaper.id}`)
+      .put(`${url}/${academicPaper.id}`)
       .bearerToken(login.response.body.content.accessToken.token)
       .json({ note: 10 })
 
@@ -35,7 +35,7 @@ test.group('Send note', () => {
 
     const academicPaperId = 200
     const sut = await client
-      .patch(`${url}/${academicPaperId}`)
+      .put(`${url}/${academicPaperId}`)
       .bearerToken(login.response.body.content.accessToken.token)
       .json({ note: 10 })
 
@@ -49,7 +49,7 @@ test.group('Send note', () => {
 
     const academicPaperId = 200
     const sut = await client
-      .patch(`${url}/${academicPaperId}`)
+      .put(`${url}/${academicPaperId}`)
       .bearerToken(login.response.body.content.accessToken.token)
 
     sut.assertStatus(422)
@@ -63,7 +63,7 @@ test.group('Send note', () => {
 
     const academicPaperId = 1
     const sut = await client
-      .patch(`${url}/${academicPaperId}`)
+      .put(`${url}/${academicPaperId}`)
       .bearerToken(login.response.body.content.accessToken.token)
 
     sut.assertStatus(403)
