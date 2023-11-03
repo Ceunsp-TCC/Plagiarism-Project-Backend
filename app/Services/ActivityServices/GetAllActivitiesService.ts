@@ -26,10 +26,15 @@ export default class GetAllActivitiesService {
         const isStudent = roleName === 'STUDENT'
 
         if (isStudent) {
-          const sent = Boolean(
-            await AcademicPaperRepository.getByStudentIdAndActivityId(studentId!, activity.id)
+          const getAcademicPaperData = await AcademicPaperRepository.getByStudentIdAndActivityId(
+            studentId!,
+            activity.id
           )
+          const sent = Boolean(getAcademicPaperData)
+          const note = Number(getAcademicPaperData?.note)
+
           activityData.sent = sent
+          activityData.note = note
         }
 
         return activityData
