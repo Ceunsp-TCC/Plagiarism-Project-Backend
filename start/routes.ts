@@ -114,7 +114,7 @@ Route.group(() => {
         'AcademicPapersController.plagiarismAnalyse'
       ).middleware('permission:plagiarismAnalyse')
 
-      Route.patch('/send-note/:academicPaperId', 'AcademicPapersController.sendNote').middleware(
+      Route.put('/send-note/:academicPaperId', 'AcademicPapersController.sendNote').middleware(
         'permission:sendNoteForAcademicPaper'
       )
     }).prefix('academic-paper')
