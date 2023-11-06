@@ -32,7 +32,7 @@ export default class AcademicPapers extends BaseModel {
   @column()
   public comments?: string
 
-  @column({ serialize: (value) => (value !== null ? Number(value) : null) })
+  @column()
   public note?: number
 
   @column({ columnName: 'analysisStatus', serializeAs: 'analysisStatus' })
