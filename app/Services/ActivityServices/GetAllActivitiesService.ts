@@ -31,10 +31,11 @@ export default class GetAllActivitiesService {
             activity.id
           )
           const sent = Boolean(getAcademicPaperData)
-          const note = Number(getAcademicPaperData?.note)
+          const note =
+            getAcademicPaperData?.note === null ? null : Number(getAcademicPaperData?.note)
 
           activityData.sent = sent
-          activityData.note = note
+          activityData.note = note!
         }
 
         return activityData
