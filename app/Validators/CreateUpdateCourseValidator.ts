@@ -5,13 +5,7 @@ export default class CreateUpdateCourseValidator {
   constructor(protected ctx: HttpContextContract) {}
 
   public schema = schema.create({
-    name: schema.string({}, [
-      rules.maxLength(255),
-      rules.unique({
-        table: 'courses',
-        column: 'name',
-      }),
-    ]),
+    name: schema.string({}, [rules.maxLength(255)]),
     description: schema.string.optional(),
     modality: schema.enum(['HYBRID', 'INPERSON', 'ONLINE']),
     category: schema.string(),

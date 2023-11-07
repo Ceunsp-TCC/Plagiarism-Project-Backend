@@ -13,7 +13,7 @@ export default class extends BaseSchema {
         .references('id')
         .inTable('schools')
         .onDelete('CASCADE')
-      table.string('name', 150).unique().notNullable()
+      table.string('name', 150).notNullable()
       table.string('description', 255)
       table.enum('modality', ['HYBRID', 'INPERSON', 'ONLINE']).defaultTo('HYBRID')
       table.string('category').notNullable()
