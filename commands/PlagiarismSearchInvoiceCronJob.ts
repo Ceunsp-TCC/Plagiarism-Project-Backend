@@ -61,15 +61,15 @@ export default class PlagiarismSearchInvoiceCronJob extends BaseCommand {
         strongContents.push(textContent)
       }
 
-      const remainingWordsIndex = 0
+      const remainingWordsOrRequestsIndex = 0
 
-      const remainingWords = strongContents[remainingWordsIndex]
-      this.logger.info(`Get remaining words:${remainingWords}`)
+      const remainingWordsOrRequests = strongContents[remainingWordsOrRequestsIndex]
+      this.logger.info(`Get remaining words or requests:${remainingWordsOrRequests}`)
 
       const notificationBody = {
         topic: Env.get('NTFY_TOPIC_NOTIFICATIONS'),
         title: 'Plagiarism Search API Status',
-        message: `You have ${remainingWords} remaining words`,
+        message: `You have ${remainingWordsOrRequests} remaining words`,
       }
       this.logger.info('Sending notification...')
       await Ntfy.sendNotification(notificationBody)
