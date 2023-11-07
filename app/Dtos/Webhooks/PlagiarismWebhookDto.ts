@@ -1,4 +1,4 @@
-enum PlagiarismStatus {
+export enum PlagiarismStatus {
   PROCESSING = -10,
   COMPLETED = 2,
 }
