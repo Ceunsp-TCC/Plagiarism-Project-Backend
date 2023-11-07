@@ -36,7 +36,7 @@ export default class PlagiarismWebhookService {
   }
 
   public async handler(plagiarismWebhookDto: PlagiarismWebhookDto) {
-    const receiveFinalizedEvent = plagiarismWebhookDto.status === PlagiarismStatus.COMPLETED
+    const receiveFinalizedEvent = Number(plagiarismWebhookDto.status) === PlagiarismStatus.COMPLETED
     if (receiveFinalizedEvent) {
       const externalId = plagiarismWebhookDto.id
       const sources = await this.getSources(externalId)
