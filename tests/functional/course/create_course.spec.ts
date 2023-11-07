@@ -61,7 +61,7 @@ test.group('Create course', (group) => {
         price: 1.2,
       })
 
-    sut.assertStatus(422)
+    sut.assertStatus(400)
   })
   test('Should be fields is empty', async ({ client }) => {
     const login = await client

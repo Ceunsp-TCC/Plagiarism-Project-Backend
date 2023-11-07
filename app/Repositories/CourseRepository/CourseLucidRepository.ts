@@ -45,4 +45,9 @@ export default class CourseLucidRepository implements CourseRepositoryInterface 
 
     return course
   }
+  public async findByNameAndSchoolId(name: string, schoolId: number): Promise<Courses | null> {
+    const course = await this.model.query().where('name', name).where('schoolId', schoolId).first()
+
+    return course
+  }
 }

@@ -3,6 +3,7 @@ import CourseRepository from '@ioc:Repositories/CourseRepository'
 import Env from '@ioc:Adonis/Core/Env'
 import Application from '@ioc:Adonis/Core/Application'
 import { cuid } from '@ioc:Adonis/Core/Helpers'
+import CustomException from 'App/Exceptions/CustomException'
 import type { CourseServiceDto } from 'App/Dtos/Courses/CourseDto'
 
 export default class CreateCourseService {
@@ -15,6 +16,11 @@ export default class CreateCourseService {
     category,
     image,
   }: CourseServiceDto) {
+    const findBySameName = await CourseRepository.findByNameAndSchoolId(name, schoolId)
+
+    if (findBySameName) {
+      throw new CustomException('Your school have a course with same name', 400)
+    }
     const nameImage = `${name.replace(/\s/g, '')}${cuid()}.${image.extname}`
 
     await image.move(Application.tmpPath('/uploads/courses'), {
