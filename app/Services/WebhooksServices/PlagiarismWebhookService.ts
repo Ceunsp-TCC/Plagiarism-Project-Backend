@@ -4,6 +4,7 @@ import Plagiarism from '@ioc:ExternalApis/Plagiarism'
 import AcademicPaperRepository from '@ioc:Repositories/AcademicPaperRepository'
 import { AnalysisStatus } from 'App/Dtos/AcademicPapers/AcademicPaperDto'
 import NotificationsRepository from '@ioc:Repositories/NotificationsRepository'
+import { PlagiarismStatus } from 'App/Dtos/Webhooks/PlagiarismWebhookDto'
 import type { PlagiarismWebhookDto } from 'App/Dtos/Webhooks/PlagiarismWebhookDto'
 
 export default class PlagiarismWebhookService {
@@ -35,29 +36,32 @@ export default class PlagiarismWebhookService {
   }
 
   public async handler(plagiarismWebhookDto: PlagiarismWebhookDto) {
-    const externalId = plagiarismWebhookDto.id
-    const sources = await this.getSources(externalId)
-    const plagiarism = plagiarismWebhookDto.plagiarism
-    const originality = this.getOriginality(plagiarism)
+    const receiveFinalizedEvent = plagiarismWebhookDto.status === PlagiarismStatus.COMPLETED
+    if (receiveFinalizedEvent) {
+      const externalId = plagiarismWebhookDto.id
+      const sources = await this.getSources(externalId)
+      const plagiarism = plagiarismWebhookDto.plagiarism
+      const originality = this.getOriginality(plagiarism)
 
-    const data = {
-      externalId,
-      plagiarism,
-      originality: originality,
-      sources: JSON.stringify(sources),
-      webhookJson: plagiarismWebhookDto,
+      const data = {
+        externalId,
+        plagiarism,
+        originality: originality,
+        sources: JSON.stringify(sources),
+        webhookJson: plagiarismWebhookDto,
+      }
+
+      await PlagiarismReportRepository.update(data)
+
+      const plagiarismReport = await this.getReport(externalId)
+
+      const academicPaperId = plagiarismReport?.academicPaperId
+      const requesterId = plagiarismReport?.requesterId
+
+      await AcademicPaperRepository.updateAnalyseStatus(academicPaperId!, AnalysisStatus.COMPLETED)
+
+      await this.createNotification(requesterId!, academicPaperId!)
     }
-
-    await PlagiarismReportRepository.update(data)
-
-    const plagiarismReport = await this.getReport(externalId)
-
-    const academicPaperId = plagiarismReport?.academicPaperId
-    const requesterId = plagiarismReport?.requesterId
-
-    await AcademicPaperRepository.updateAnalyseStatus(academicPaperId!, AnalysisStatus.COMPLETED)
-
-    await this.createNotification(requesterId!, academicPaperId!)
 
     return await DefaultResponse.success('Webhook received and processed successfully', 200)
   }

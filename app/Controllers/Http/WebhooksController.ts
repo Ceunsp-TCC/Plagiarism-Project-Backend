@@ -12,6 +12,8 @@ export default class WebhooksController {
   public async plagiarism({ request }: HttpContextContract) {
     const payload = await request.body()
 
+    console.log(`Plagiarism Webhook payload: ${JSON.stringify(payload)}`)
+
     return await this.plagiarismWebhookService.handler(payload as PlagiarismWebhookDto)
   }
 }
