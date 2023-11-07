@@ -10,7 +10,7 @@ import type { SendAcademicPaperServiceDto } from 'App/Dtos/Services/AcademicPape
 
 export default class SendAcademicPaperService {
   private maxWordsUltrapassed(countWords: number) {
-    const maxNumberWords = 100
+    const maxNumberWords = 1000
     const maxWordsUltrapassed = countWords > maxNumberWords
 
     return maxWordsUltrapassed
@@ -37,10 +37,7 @@ export default class SendAcademicPaperService {
     const numberWordsFromAcademicPaper = await PDF.countWords(urlPaper)
 
     if (this.maxWordsUltrapassed(numberWordsFromAcademicPaper)) {
-      throw new CustomException(
-        'The number of words in the PDF exceeds the limit of 100 words',
-        400
-      )
+      throw new CustomException('The number of words in the PDF exceeds the limit of words', 400)
     }
 
     const academicPaper = {
