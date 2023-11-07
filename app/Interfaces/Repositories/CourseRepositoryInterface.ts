@@ -11,4 +11,5 @@ export default interface CourseRepositoryInterface {
     name?: string
   ): Promise<DefaultPaginateDtoResponse<CourseDtoResponse>>
   findById(courseId: number): Promise<Courses | null>
+  findByNameAndSchoolId(name: string, schoolId: number): Promise<Courses | null>
 }
