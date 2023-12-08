@@ -71,7 +71,6 @@
     "pg": "^8.11.0",
     "phc-bcrypt": "^1.0.8",
     "proxy-addr": "^2.0.7",
-    "puppeteer": "^21.4.1",
     "reflect-metadata": "^0.1.13",
     "sinon": "^15.1.0",
     "source-map-support": "^0.5.21"
