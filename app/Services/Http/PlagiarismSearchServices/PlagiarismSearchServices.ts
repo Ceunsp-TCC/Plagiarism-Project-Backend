@@ -22,10 +22,11 @@ export default class PlagiarismSearchServices implements PlagiarismServiceInterf
       text,
       callback_url: this.webHookUrl,
     }
+    console.log('body', body)
     const { data: reportResponse } = await plagiarismSearchApi.post<
       DefaultResponsePlagiarismSearch<CreateReportPlagiarismSearchResponse>
     >('/reports/create', body)
-
+    console.log('create-report', reportResponse.data)
     return {
       id: reportResponse.data.id,
       words: reportResponse.data.words,
