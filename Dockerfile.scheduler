@@ -46,6 +46,6 @@ RUN npm ci --production
 COPY --chown=node:node --from=build /app/school-guardian-backend/build .
 
 
-RUN node ace scheduler:run
+RUN node ace scheduler:run &
 
 
