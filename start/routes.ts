@@ -147,4 +147,8 @@ Route.group(() => {
   Route.group(() => {
     Route.post('/plagiarism', 'WebhooksController.plagiarism')
   }).prefix('webhooks')
+
+  Route.get('/test', async (ctx) => {
+    console.log(ctx)
+  })
 }).prefix('v1')
