@@ -21,12 +21,21 @@ jobs:
         with:
           username: ${{secrets.DOCKER_HUB_USERNAME}}
           password: ${{secrets.DOCKER_HUB_ACCESS_TOKEN}}
-      - name: Build and push Docker images
+      - name: Build and push Docker images http image
         uses: docker/build-push-action@v2.3.0
         with:
           context: .
           file: Dockerfile.prod
           tags: gabrielsoaresdev/school-guardian-backend:latest
+          no-cache: true
+          push: true
+          github-token: ${{ secrets.TOKEN_GITHUB }}
+      - name: Build and push Docker images scheduler-image
+        uses: docker/build-push-action@v2.3.0
+        with:
+          context: .
+          file: Dockerfile.scheduler
+          tags: gabrielsoaresdev/school-guardian-backend-scheduler:latest
           no-cache: true
           push: true
           github-token: ${{ secrets.TOKEN_GITHUB }}
