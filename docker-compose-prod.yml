@@ -17,6 +17,21 @@ services:
       - browserless-network
     volumes:
       - uploads-school-guardian-volume:/app/school-guardian-backend/tmp/uploads
+  school-guardian-backend-scheduler:
+    container_name: school-guardian-backend-scheduler
+    image: gabrielsoaresdev/school-guardian-backend-scheduler:latest
+    restart: always
+    env_file:
+      - stack.env
+    networks:
+      - proxy-reverse-network
+      - school-guardian-network
+      - postgres-network
+      - redis-network
+      - browserless-network
+    volumes:
+      - uploads-school-guardian-volume:/app/school-guardian-backend/tmp/uploads
+
 networks:
   school-guardian-network:
     name: school-guardian-network
