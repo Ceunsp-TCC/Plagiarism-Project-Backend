@@ -1,5 +1,16 @@
 {
   "commands": {
+    "plagiarism-search-checked:cron-job": {
+      "settings": {
+        "loadApp": true
+      },
+      "commandPath": "./commands/PlagiarismCheckedCronJob",
+      "commandName": "plagiarism-search-checked:cron-job",
+      "description": "Cron job para redundancia de status de plagio",
+      "args": [],
+      "aliases": [],
+      "flags": []
+    },
     "plagiarism-search-invoice:cron-job": {
       "settings": {
         "loadApp": true
