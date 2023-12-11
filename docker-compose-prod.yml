@@ -29,7 +29,7 @@ services:
       - postgres-network
       - redis-network
       - browserless-network
-    command: node ace scheduler:run &
+    command: sh -c "node ace scheduler:run"
     volumes:
       - uploads-school-guardian-volume:/app/school-guardian-backend/tmp/uploads
 
