@@ -5,4 +5,5 @@ export default interface PlagiarismReportRepositoryInterface {
   create(CreatePlagiarismReportDto: PlagiarismReportDto)
   update(plagiarismReportDto: PlagiarismReportDto)
   getAcademicPaperByExternalId(externalId: number): Promise<PlagiarismReport | null>
+  getPlagiarismReportWhenReviewIsNotCompleted(): Promise<PlagiarismReport | null>
 }
