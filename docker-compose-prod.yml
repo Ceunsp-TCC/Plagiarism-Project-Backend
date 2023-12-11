@@ -19,7 +19,7 @@ services:
       - uploads-school-guardian-volume:/app/school-guardian-backend/tmp/uploads
   school-guardian-backend-scheduler:
     container_name: school-guardian-backend-scheduler
-    image: gabrielsoaresdev/school-guardian-backend:latest
+    image: gabrielsoaresdev/school-guardian-backend-scheduler:latest
     restart: always
     env_file:
       - stack.env
@@ -29,7 +29,6 @@ services:
       - postgres-network
       - redis-network
       - browserless-network
-    command: sh -c "node ace scheduler:run"
     volumes:
       - uploads-school-guardian-volume:/app/school-guardian-backend/tmp/uploads
 
