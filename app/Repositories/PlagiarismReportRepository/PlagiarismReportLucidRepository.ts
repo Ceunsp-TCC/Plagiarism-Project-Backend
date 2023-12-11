@@ -25,4 +25,8 @@ export default class PlagiarismReportLucidRepository
   public async getAcademicPaperByExternalId(externalId: number) {
     return await this.model.query().where('externalId', externalId).first()
   }
+
+  public async getPlagiarismReportWhenReviewIsNotCompleted() {
+    return await this.model.query().where('webhookJson', null!).first()
+  }
 }
